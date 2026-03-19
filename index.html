@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCAA Survivor 2026 — Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#080d13;--surface:#0d1520;--card:#111c28;--border:#1a2a3a;--border-lite:#14202c;
+--text:#d0dae4;--text-muted:#6080a0;--text-dim:#3a5570;--accent:#2a9df4;--accent-dim:#164a72;
+--green:#2dd4a0;--green-dim:#14443a;--red:#f06060;--red-dim:#441818;--amber:#f0b040;--amber-dim:#443810;
+--font-mono:'IBM Plex Mono',monospace;--font-body:'DM Sans',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;overflow-x:hidden}
+.grain{position:fixed;inset:0;pointer-events:none;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")}
+.wrap{max-width:1100px;margin:0 auto;padding:20px 24px}
+header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border-lite)}
+.logo-tag{font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:4px}
+h1{font-size:24px;font-weight:700;color:#eef2f6;letter-spacing:-.5px}
+.date-info{text-align:right;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);line-height:1.8}
+.date-info .day{color:var(--accent);font-weight:600;font-size:12px}
+
+/* Tabs */
+.tabs{display:flex;gap:2px;background:var(--surface);border-radius:8px;padding:3px;margin-bottom:20px}
+.tab{flex:1;padding:9px 0;text-align:center;font-size:12px;font-weight:500;border:none;border-radius:6px;cursor:pointer;background:transparent;color:var(--text-dim);font-family:var(--font-body);letter-spacing:.3px;transition:all .2s}
+.tab.active{background:var(--accent-dim);color:var(--accent)}
+.tab:hover:not(.active){color:var(--text-muted)}
+
+/* Metric cards */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:20px}
+.metric{background:var(--card);border-radius:8px;padding:14px 16px;border:1px solid var(--border-lite)}
+.metric.accent{background:linear-gradient(135deg,#0d1f30,#132840);border-color:var(--accent-dim)}
+.metric-label{font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.2px}
+.metric-value{font-size:22px;font-weight:700;color:#eef2f6;margin-top:4px;font-family:var(--font-mono)}
+.metric.accent .metric-value{color:var(--accent)}
+.metric-sub{font-size:11px;color:var(--text-dim);margin-top:2px}
+
+/* Contest panel */
+.panel{background:var(--surface);border-radius:10px;border:1px solid var(--border-lite);margin-bottom:16px;overflow:hidden}
+.panel-header{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:var(--card);border-bottom:1px solid var(--border-lite)}
+.panel-header:hover{background:#13222f}
+.panel-title{font-size:16px;font-weight:600;color:#eef2f6}
+.panel-meta{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);margin-left:12px}
+.panel-badge{font-family:var(--font-mono);font-size:12px;font-weight:600;padding:2px 10px;border-radius:4px}
+.badge-green{background:var(--green-dim);color:var(--green)}
+.badge-amber{background:var(--amber-dim);color:var(--amber)}
+.panel-body{padding:16px 18px}
+.chevron{color:var(--text-dim);font-size:18px;transition:transform .2s}
+.chevron.open{transform:rotate(90deg)}
+
+/* Pick bars */
+.pick-section-title{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.pick-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border-lite)}
+.pick-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-green{background:var(--green)}.dot-red{background:var(--red)}.dot-amber{background:var(--amber)}.dot-gray{background:var(--text-dim)}
+.pick-name{width:110px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pick-name.ours{color:var(--accent);font-weight:600}
+.pick-bar-bg{flex:1;background:#141e2a;border-radius:3px;height:16px;position:relative;overflow:hidden}
+.pick-bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.fill-ours{background:linear-gradient(90deg,#164a72,#2a8ad0)}
+.fill-field{background:linear-gradient(90deg,#1e2a38,#2a3a50)}
+.fill-winning{background:linear-gradient(90deg,#14443a,#1a6a50)}
+.fill-losing{background:linear-gradient(90deg,#441818,#6a2020)}
+.pick-bar-label{position:absolute;left:6px;top:1px;font-family:var(--font-mono);font-size:10px;color:var(--text-muted);font-weight:500}
+.pick-stat{width:50px;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);text-align:right}
+.pick-stat.highlight{color:var(--green);font-weight:600}
+
+/* Saved teams */
+.saved-box{margin-top:14px;padding:10px 12px;background:var(--card);border-radius:6px;border:1px solid var(--border-lite)}
+.saved-label{font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.saved-tags{display:flex;flex-wrap:wrap;gap:6px}
+.saved-tag{font-family:var(--font-mono);font-size:11px;padding:3px 9px;background:#12222f;border-radius:4px;color:var(--accent);border:1px solid var(--accent-dim)}
+
+/* Info boxes */
+.info-box{margin-top:10px;padding:10px 12px;border-radius:6px;font-size:13px}
+.info-box .info-label{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.info-dead{background:var(--amber-dim);border:1px solid #4a3a10}.info-dead .info-label{color:var(--amber)}.info-dead .info-text{color:#d0b050}
+.info-green{background:var(--green-dim);border:1px solid #1a4a30}.info-green .info-label{color:var(--green)}.info-green .info-text{color:#70d080}
+
+/* Scores */
+.scores-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:16px}
+.score-card{background:var(--card);border-radius:8px;padding:10px 12px;border:1px solid var(--border-lite)}
+.score-card.live{border-color:#443810;animation:pulse-border 2s ease-in-out infinite}
+@keyframes pulse-border{0%,100%{border-color:#443810}50%{border-color:#6a5a20}}
+.score-card.final-win{border-left:3px solid var(--green)}
+.score-card.final-loss{border-left:3px solid var(--red)}
+.score-status{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.status-live{color:var(--amber)}.status-final{color:var(--text-dim)}.status-upcoming{color:var(--accent)}
+.score-teams{display:flex;justify-content:space-between;align-items:center}
+.score-team{font-size:13px;font-weight:500}
+.score-team.winner{color:var(--green)}.score-team.loser{color:var(--text-dim);text-decoration:line-through}
+.score-num{font-family:var(--font-mono);font-size:15px;font-weight:700}
+.score-seed{font-family:var(--font-mono);font-size:10px;color:var(--text-dim);margin-right:4px}
+.our-pick-badge{display:inline-block;font-family:var(--font-mono);font-size:9px;padding:1px 5px;background:var(--accent-dim);color:var(--accent);border-radius:3px;margin-left:4px}
+
+/* Field analysis */
+.field-bar{display:flex;align-items:center;gap:8px;padding:3px 0}
+.field-name{width:100px;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.field-name.ours{color:var(--accent);font-weight:600}
+.field-fill-bg{flex:1;background:#141e2a;border-radius:2px;height:14px;overflow:hidden}
+.field-fill{height:100%;border-radius:2px}
+.field-num{width:40px;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);text-align:right}
+.field-pct{width:45px;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);text-align:right}
+.field-grade{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+
+/* Strategy panel */
+.strategy-principle{font-size:13px;color:var(--text-muted);padding:5px 0 5px 12px;border-left:2px solid var(--accent-dim)}
+.strategy-milestone{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-lite)}
+.milestone-when{width:80px;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);flex-shrink:0}
+.milestone-what{font-size:12px;color:var(--text-muted)}
+
+/* Player analysis */
+.player-row{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--border-lite)}
+.player-name{width:140px;font-size:12px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.player-name.is-us{color:var(--accent);font-weight:700}
+.player-count{font-family:var(--font-mono);font-size:12px;color:var(--text-muted);width:40px;text-align:right}
+.player-bar{flex:1;background:#141e2a;border-radius:2px;height:10px;overflow:hidden}
+.player-fill{height:100%;background:var(--accent-dim);border-radius:2px}
+.player-fill.is-us{background:var(--accent)}
+
+footer{margin-top:24px;padding:12px 14px;border-top:1px solid var(--border-lite);font-family:var(--font-mono);font-size:10px;color:var(--text-dim);display:flex;justify-content:space-between}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="wrap">
+
+<header>
+<div>
+<div class="logo-tag">NCAA Survivor 2026</div>
+<h1>Tournament Command Center</h1>
+</div>
+<div class="date-info">
+<div class="day">Day 1 — Round of 64</div>
+<div>Thursday, March 19</div>
+<div id="clock"></div>
+</div>
+</header>
+
+<div class="tabs">
+<button class="tab active" onclick="showTab('overview')">Overview</button>
+<button class="tab" onclick="showTab('scores')">Live scores</button>
+<button class="tab" onclick="showTab('splash')">Splash</button>
+<button class="tab" onclick="showTab('sweat')">Sweat</button>
+<button class="tab" onclick="showTab('players')">Players</button>
+<button class="tab" onclick="showTab('strategy')">Strategy</button>
+</div>
+
+<div id="tab-overview">
+<div class="metrics" id="overview-metrics"></div>
+<div id="overview-contests"></div>
+</div>
+
+<div id="tab-scores" class="hidden"></div>
+<div id="tab-splash" class="hidden"></div>
+<div id="tab-sweat" class="hidden"></div>
+<div id="tab-players" class="hidden"></div>
+<div id="tab-strategy" class="hidden"></div>
+
+<footer>
+<span>Data: Splash Sports API, Survivor Sweat, Dr. Bob Simulations</span>
+<span id="last-updated">Last updated: —</span>
+</footer>
+</div>
+
+<script>
+// ============================================================
+// DATA STORE — update this object to refresh the dashboard
+// ============================================================
+const DATA = {
+  day: 1,
+  round: "Round of 64",
+  dateLabel: "Thursday, March 19",
+  
+  splash: {
+    name: "Splash Sports — Walker's Madness",
+    field_size: 6503,
+    our_entries: 100,
+    our_alive: 100,
+    buy_in: 25,
+    prize_pool: 142335,
+    vig: 10,
+    picks: {
+      day1: [
+        {team:"Illinois",seed:3,entries:21,win_pct:99.3,field_pct:null,status:"pending"},
+        {team:"Gonzaga",seed:3,entries:21,win_pct:99.1,field_pct:null,status:"pending"},
+        {team:"Michigan St",seed:3,entries:20,win_pct:93.9,field_pct:null,status:"pending"},
+        {team:"Arkansas",seed:4,entries:20,win_pct:93.4,field_pct:null,status:"pending"},
+        {team:"Wisconsin",seed:5,entries:18,win_pct:90.9,field_pct:11.1,status:"pending"},
+      ],
+      day2: [
+        {team:"Virginia",seed:3,entries:21,win_pct:94.6,field_pct:null,status:"upcoming"},
+        {team:"Kansas",seed:4,entries:21,win_pct:88.5,field_pct:null,status:"upcoming"},
+        {team:"Alabama",seed:4,entries:20,win_pct:77.1,field_pct:null,status:"upcoming"},
+        {team:"St Johns",seed:5,entries:19,win_pct:77.5,field_pct:null,status:"upcoming"},
+        {team:"Texas Tech",seed:5,entries:19,win_pct:79.5,field_pct:null,status:"upcoming"},
+      ],
+    },
+    saved: ["Duke","Michigan","Houston"],
+    field_picks: [
+      {team:"Nebraska",picks:1122,pct:17.3,grade:"winning"},
+      {team:"Wisconsin",picks:722,pct:11.1,grade:"winning"},
+      {team:"Louisville",picks:194,pct:3.0,grade:"winning"},
+      {team:"Ohio State",picks:189,pct:2.9,grade:"winning"},
+      {team:"South Florida",picks:103,pct:1.6,grade:"losing"},
+      {team:"TCU",picks:56,pct:0.9,grade:"losing"},
+      {team:"Troy",picks:7,pct:0.1,grade:"losing"},
+      {team:"High Point",picks:7,pct:0.1,grade:"losing"},
+    ],
+    portfolio_players: [
+      {name:"ASTRO1227",entries:100,is_us:true},
+      {name:"princehal",entries:100},
+      {name:"poopbutt2",entries:100},
+      {name:"MattyCollins",entries:100},
+      {name:"daviesloveiii",entries:100},
+      {name:"steaktacos",entries:100},
+      {name:"Astrong0609",entries:50},
+      {name:"andype",entries:50},
+    ],
+    entry_dist: [
+      {range:"1 entry",players:1447,entries:1447},
+      {range:"2 entries",players:680,entries:1360},
+      {range:"3-9",players:533,entries:2322},
+      {range:"10-49",players:45,entries:774},
+      {range:"50-100",players:8,entries:600},
+    ],
+  },
+  
+  sweat: {
+    name: "Survivor Sweat",
+    field_size: 867,
+    our_entries: 10,
+    our_alive: 10,
+    buy_in: 100,
+    prize_pool: 73170,
+    vig: 0,
+    picks: {
+      day1: [
+        {team:"Illinois",seed:3,entries:4,win_pct:99.3,field_pct:7.96,status:"pending"},
+        {team:"Gonzaga",seed:3,entries:3,win_pct:99.1,field_pct:15.11,status:"pending"},
+        {team:"Michigan St",seed:3,entries:3,win_pct:93.9,field_pct:5.77,status:"pending"},
+      ],
+      day2: [
+        {team:"Virginia",seed:3,entries:4,win_pct:94.6,field_pct:null,status:"upcoming"},
+        {team:"Kansas",seed:4,entries:3,win_pct:88.5,field_pct:null,status:"upcoming"},
+        {team:"Alabama",seed:4,entries:3,win_pct:77.1,field_pct:null,status:"upcoming"},
+      ],
+    },
+    saved: ["Duke","Michigan","Houston","Arizona","Florida","UConn","Iowa State","Purdue"],
+    field_picks: [
+      {team:"Nebraska",picks:195,pct:22.49},{team:"Gonzaga",picks:131,pct:15.11},
+      {team:"Wisconsin",picks:90,pct:10.38},{team:"Arkansas",picks:83,pct:9.57},
+      {team:"Vanderbilt",picks:74,pct:8.54},{team:"Illinois",picks:69,pct:7.96},
+      {team:"Michigan St",picks:50,pct:5.77},{team:"Saint Mary's",picks:34,pct:3.92},
+      {team:"Louisville",picks:16,pct:1.85},{team:"Georgia",picks:16,pct:1.85},
+      {team:"UNC",picks:14,pct:1.61},{team:"Duke",picks:14,pct:1.61},
+      {team:"BYU",picks:12,pct:1.38},{team:"Ohio State",picks:12,pct:1.38},
+      {team:"Houston",picks:11,pct:1.27},{team:"Michigan",picks:11,pct:1.27},
+      {team:"South Florida",picks:10,pct:1.15},{team:"TCU",picks:8,pct:0.92},
+      {team:"Texas",picks:6,pct:0.69},{team:"VCU",picks:6,pct:0.69},
+      {team:"Saint Louis",picks:2,pct:0.23},{team:"Texas A&M",picks:2,pct:0.23},
+      {team:"High Point",picks:1,pct:0.12},
+    ],
+    dead_money: {no_submit:54,pct:6.2},
+    seeds_burned: {one_seeds:25,two_seeds:11,pct:4.2},
+  },
+
+  // Games - update these as scores come in
+  games: [
+    {away:"TCU",away_seed:9,home:"Ohio State",home_seed:8,status:"live",away_score:0,home_score:0,time:"1H",our_pick:null},
+    {away:"Troy",away_seed:13,home:"Nebraska",home_seed:4,status:"live",away_score:0,home_score:0,time:"1H",our_pick:null},
+    {away:"South Florida",away_seed:11,home:"Louisville",home_seed:6,status:"upcoming",away_score:0,home_score:0,time:"2:00 ET",our_pick:null},
+    {away:"High Point",away_seed:12,home:"Wisconsin",home_seed:5,status:"upcoming",away_score:0,home_score:0,time:"2:30 ET",our_pick:"Wisconsin"},
+    {away:"Siena",away_seed:16,home:"Duke",home_seed:1,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
+    {away:"McNeese",away_seed:12,home:"Vanderbilt",home_seed:5,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
+    {away:"N Dakota St",away_seed:14,home:"Michigan St",home_seed:3,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:"Michigan St"},
+    {away:"Hawaii",away_seed:13,home:"Arkansas",home_seed:4,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:"Arkansas"},
+    {away:"VCU",away_seed:11,home:"UNC",home_seed:6,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
+    {away:"Howard",away_seed:16,home:"Michigan",home_seed:1,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
+    {away:"Texas",away_seed:7,home:"BYU",home_seed:6,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
+    {away:"Texas A&M",away_seed:10,home:"Saint Mary's",home_seed:7,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
+    {away:"Penn",away_seed:14,home:"Illinois",home_seed:3,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:"Illinois"},
+    {away:"Saint Louis",away_seed:9,home:"Georgia",home_seed:8,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
+    {away:"Kennesaw St",away_seed:14,home:"Gonzaga",home_seed:3,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:"Gonzaga"},
+    {away:"Idaho",away_seed:15,home:"Houston",home_seed:2,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
+  ],
+};
+
+// ============================================================
+// RENDERING
+// ============================================================
+function showTab(id) {
+  document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.add('hidden'));
+  document.getElementById('tab-' + id).classList.remove('hidden');
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  event.target.classList.add('active');
+  render();
+}
+
+function h(tag, attrs, ...children) {
+  let el = document.createElement(tag);
+  if (attrs) Object.entries(attrs).forEach(([k,v]) => {
+    if (k === 'className') el.className = v;
+    else if (k === 'onclick') el.onclick = v;
+    else if (k === 'innerHTML') el.innerHTML = v;
+    else el.setAttribute(k, v);
+  });
+  children.flat().forEach(c => {
+    if (c == null) return;
+    if (typeof c === 'string' || typeof c === 'number') el.appendChild(document.createTextNode(c));
+    else el.appendChild(c);
+  });
+  return el;
+}
+
+function metricCard(label, value, sub, accent) {
+  let card = h('div', {className: 'metric' + (accent ? ' accent' : '')});
+  card.appendChild(h('div', {className: 'metric-label'}, label));
+  card.appendChild(h('div', {className: 'metric-value'}, value));
+  if (sub) card.appendChild(h('div', {className: 'metric-sub'}, sub));
+  return card;
+}
+
+function renderOverview() {
+  let S = DATA.splash, W = DATA.sweat;
+  let totalInvest = S.our_entries * S.buy_in + W.our_entries * W.buy_in;
+  let totalPrize = S.prize_pool + W.prize_pool;
+  let totalAlive = S.our_alive + W.our_alive;
+  let totalEntries = S.our_entries + W.our_entries;
+
+  let m = document.getElementById('overview-metrics');
+  m.innerHTML = '';
+  m.appendChild(metricCard('Total investment', '$' + totalInvest.toLocaleString(), totalEntries + ' entries across 2 contests'));
+  m.appendChild(metricCard('Combined prize pool', '$' + totalPrize.toLocaleString(), Math.round(totalPrize/totalInvest) + 'x leverage', true));
+  m.appendChild(metricCard('Entries alive', totalAlive + '/' + totalEntries, 'Day ' + DATA.day + ' in progress', true));
+  m.appendChild(metricCard('Equity estimate', 'TBD', 'Updates after Day 1'));
+
+  let c = document.getElementById('overview-contests');
+  c.innerHTML = '';
+  c.appendChild(renderContestMini(S, 'Splash'));
+  c.appendChild(renderContestMini(W, 'Sweat'));
+}
+
+function renderContestMini(contest, label) {
+  let panel = h('div', {className: 'panel', style: 'margin-bottom:12px'});
+  let hdr = h('div', {className: 'panel-header'});
+  let left = h('div', {style: 'display:flex;align-items:center'});
+  left.appendChild(h('span', {className: 'panel-title'}, contest.name));
+  left.appendChild(h('span', {className: 'panel-meta'}, contest.our_entries + ' entries | ' + contest.field_size.toLocaleString() + ' field'));
+  hdr.appendChild(left);
+  let badge = h('span', {className: 'panel-badge ' + (contest.vig === 0 ? 'badge-green' : 'badge-amber')}, contest.vig === 0 ? '0% vig' : contest.vig + '% vig');
+  hdr.appendChild(badge);
+  panel.appendChild(hdr);
+  return panel;
+}
+
+function renderScores() {
+  let container = document.getElementById('tab-scores');
+  container.innerHTML = '<div class="pick-section-title" style="margin-bottom:12px">Thursday — Day 1 games (our picks highlighted)</div>';
+  let grid = h('div', {className: 'scores-grid'});
+
+  DATA.games.forEach(g => {
+    let cls = 'score-card';
+    if (g.status === 'live') cls += ' live';
+    else if (g.status === 'final') cls += g.our_pick ? (g.our_pick_won ? ' final-win' : ' final-loss') : '';
+
+    let statusCls = g.status === 'live' ? 'status-live' : g.status === 'final' ? 'status-final' : 'status-upcoming';
+    let statusText = g.status === 'live' ? g.time : g.status === 'final' ? 'FINAL' : g.time || 'TBD';
+
+    let card = h('div', {className: cls});
+    card.appendChild(h('div', {className: 'score-status ' + statusCls}, statusText));
+
+    let teams = h('div', {className: 'score-teams', style: 'margin-bottom:4px'});
+    let awayDiv = h('div');
+    awayDiv.appendChild(h('span', {className: 'score-seed'}, '(' + g.away_seed + ')'));
+    awayDiv.appendChild(h('span', {className: 'score-team'}, g.away));
+    teams.appendChild(awayDiv);
+    if (g.status !== 'upcoming') teams.appendChild(h('span', {className: 'score-num'}, g.away_score));
+    card.appendChild(teams);
+
+    let teams2 = h('div', {className: 'score-teams'});
+    let homeDiv = h('div');
+    homeDiv.appendChild(h('span', {className: 'score-seed'}, '(' + g.home_seed + ')'));
+    homeDiv.appendChild(h('span', {className: 'score-team'}, g.home));
+    if (g.our_pick) homeDiv.appendChild(h('span', {className: 'our-pick-badge'}, 'OUR PICK'));
+    teams2.appendChild(homeDiv);
+    if (g.status !== 'upcoming') teams2.appendChild(h('span', {className: 'score-num'}, g.home_score));
+    card.appendChild(teams2);
+
+    grid.appendChild(card);
+  });
+  container.appendChild(grid);
+}
+
+function renderContest(contest, containerId) {
+  let container = document.getElementById(containerId);
+  container.innerHTML = '';
+
+  // Metrics
+  let totalInvest = contest.our_entries * contest.buy_in;
+  let m = h('div', {className: 'metrics'});
+  m.appendChild(metricCard('Investment', '$' + totalInvest.toLocaleString(), '$' + contest.buy_in + '/entry'));
+  m.appendChild(metricCard('Prize pool', '$' + contest.prize_pool.toLocaleString(), Math.round(contest.prize_pool/totalInvest) + 'x leverage', true));
+  m.appendChild(metricCard('Field share', ((contest.our_entries/contest.field_size)*100).toFixed(1) + '%', contest.our_entries + ' of ' + contest.field_size.toLocaleString()));
+  m.appendChild(metricCard('Alive', contest.our_alive + '/' + contest.our_entries, '100% survival', true));
+  container.appendChild(m);
+
+  // Day 1 picks
+  container.appendChild(h('div', {className: 'pick-section-title', style: 'margin-top:8px'}, 'Day 1 picks — Thursday'));
+  (contest.picks.day1 || []).forEach(p => {
+    let row = h('div', {className: 'pick-row'});
+    let dotCls = p.status === 'won' ? 'dot-green' : p.status === 'lost' ? 'dot-red' : p.status === 'pending' ? 'dot-amber' : 'dot-gray';
+    row.appendChild(h('div', {className: 'pick-dot ' + dotCls}));
+    row.appendChild(h('div', {className: 'pick-name ours'}, '(' + p.seed + ') ' + p.team));
+    
+    let pct = (p.entries / contest.our_entries * 100);
+    let barBg = h('div', {className: 'pick-bar-bg'});
+    barBg.appendChild(h('div', {className: 'pick-bar-fill fill-ours', style: 'width:' + Math.min(pct*2,100) + '%'}));
+    barBg.appendChild(h('span', {className: 'pick-bar-label'}, p.entries + ' entries (' + pct.toFixed(0) + '%)'));
+    row.appendChild(barBg);
+    row.appendChild(h('div', {className: 'pick-stat'}, p.win_pct + '%'));
+    
+    if (p.field_pct != null) {
+      let lev = (pct / p.field_pct).toFixed(1);
+      row.appendChild(h('div', {className: 'pick-stat' + (parseFloat(lev) > 2 ? ' highlight' : '')}, lev + 'x'));
+    }
+    container.appendChild(row);
+  });
+
+  // Day 2 picks
+  if (contest.picks.day2?.length) {
+    container.appendChild(h('div', {className: 'pick-section-title', style: 'margin-top:16px'}, 'Day 2 picks — Friday'));
+    (contest.picks.day2 || []).forEach(p => {
+      let row = h('div', {className: 'pick-row'});
+      row.appendChild(h('div', {className: 'pick-dot dot-gray'}));
+      row.appendChild(h('div', {className: 'pick-name ours'}, '(' + p.seed + ') ' + p.team));
+      let pct = (p.entries / contest.our_entries * 100);
+      let barBg = h('div', {className: 'pick-bar-bg'});
+      barBg.appendChild(h('div', {className: 'pick-bar-fill fill-ours', style: 'width:' + Math.min(pct*2,100) + '%'}));
+      barBg.appendChild(h('span', {className: 'pick-bar-label'}, p.entries + ' entries (' + pct.toFixed(0) + '%)'));
+      row.appendChild(barBg);
+      row.appendChild(h('div', {className: 'pick-stat'}, p.win_pct + '%'));
+      container.appendChild(row);
+    });
+  }
+
+  // Saved teams
+  if (contest.saved?.length) {
+    let box = h('div', {className: 'saved-box'});
+    box.appendChild(h('div', {className: 'saved-label'}, 'Saved for later rounds'));
+    let tags = h('div', {className: 'saved-tags'});
+    contest.saved.forEach(t => tags.appendChild(h('span', {className: 'saved-tag'}, t)));
+    box.appendChild(tags);
+    container.appendChild(box);
+  }
+
+  // Field distribution
+  if (contest.field_picks?.length) {
+    container.appendChild(h('div', {className: 'pick-section-title', style: 'margin-top:16px'}, 'Field pick distribution'));
+    let ourTeams = [...(contest.picks.day1||[]), ...(contest.picks.day2||[])].map(p => p.team);
+    let maxPct = Math.max(...contest.field_picks.map(f => f.pct));
+    contest.field_picks.forEach(f => {
+      let isOurs = ourTeams.includes(f.team);
+      let row = h('div', {className: 'field-bar'});
+      row.appendChild(h('div', {className: 'field-name' + (isOurs ? ' ours' : '')}, f.team));
+      let bg = h('div', {className: 'field-fill-bg'});
+      let fillCls = isOurs ? 'fill-ours' : f.grade === 'losing' ? 'fill-losing' : f.grade === 'winning' ? 'fill-winning' : 'fill-field';
+      bg.appendChild(h('div', {className: 'field-fill ' + fillCls, style: 'width:' + (f.pct/maxPct*100) + '%'}));
+      row.appendChild(bg);
+      row.appendChild(h('div', {className: 'field-num'}, f.picks));
+      row.appendChild(h('div', {className: 'field-pct'}, f.pct + '%'));
+      if (f.grade) row.appendChild(h('div', {className: 'field-grade', style: 'background:' + (f.grade==='winning'?'var(--green)':'var(--red)')}));
+      container.appendChild(row);
+    });
+  }
+
+  // Dead money / seeds burned
+  if (contest.dead_money) {
+    let box = h('div', {className: 'info-box info-dead'});
+    box.appendChild(h('div', {className: 'info-label'}, 'Dead money'));
+    box.appendChild(h('div', {className: 'info-text'}, contest.dead_money.no_submit + ' entries (' + contest.dead_money.pct + '%) didn\'t submit — auto-eliminated'));
+    container.appendChild(box);
+  }
+  if (contest.seeds_burned) {
+    let box = h('div', {className: 'info-box info-green'});
+    box.appendChild(h('div', {className: 'info-label'}, '1/2 seed burns'));
+    box.appendChild(h('div', {className: 'info-text'}, 'Only ' + contest.seeds_burned.pct + '% burned a 1 or 2 seed today'));
+    container.appendChild(box);
+  }
+}
+
+function renderPlayers() {
+  let container = document.getElementById('tab-players');
+  container.innerHTML = '';
+  container.appendChild(h('div', {className: 'pick-section-title', style: 'margin-bottom:12px'}, 'Portfolio players (50+ entries) — Splash'));
+
+  let maxEntries = Math.max(...DATA.splash.portfolio_players.map(p => p.entries));
+  DATA.splash.portfolio_players.forEach(p => {
+    let row = h('div', {className: 'player-row'});
+    row.appendChild(h('div', {className: 'player-name' + (p.is_us ? ' is-us' : '')}, p.name + (p.is_us ? ' (YOU)' : '')));
+    row.appendChild(h('div', {className: 'player-count'}, p.entries));
+    let bar = h('div', {className: 'player-bar'});
+    bar.appendChild(h('div', {className: 'player-fill' + (p.is_us ? ' is-us' : ''), style: 'width:' + (p.entries/maxEntries*100) + '%'}));
+    row.appendChild(bar);
+    container.appendChild(row);
+  });
+
+  container.appendChild(h('div', {className: 'pick-section-title', style: 'margin-top:20px;margin-bottom:12px'}, 'Entry count distribution'));
+  DATA.splash.entry_dist.forEach(d => {
+    let row = h('div', {className: 'field-bar'});
+    row.appendChild(h('div', {className: 'field-name'}, d.range));
+    let bg = h('div', {className: 'field-fill-bg'});
+    bg.appendChild(h('div', {className: 'field-fill fill-ours', style: 'width:' + (d.entries/DATA.splash.field_size*100) + '%'}));
+    row.appendChild(bg);
+    row.appendChild(h('div', {className: 'field-num'}, d.players + 'p'));
+    row.appendChild(h('div', {className: 'field-pct'}, (d.entries/DATA.splash.field_size*100).toFixed(1) + '%'));
+    container.appendChild(row);
+  });
+
+  let box = h('div', {className: 'info-box info-green', style: 'margin-top:12px'});
+  box.appendChild(h('div', {className: 'info-label'}, 'Key insight'));
+  box.appendChild(h('div', {className: 'info-text'}, '77.7% of entries come from multi-entry players. 8 portfolio players (50+) control 9.2% of the field. Only 22.3% are single-entry casuals.'));
+  container.appendChild(box);
+}
+
+function renderStrategy() {
+  let container = document.getElementById('tab-strategy');
+  container.innerHTML = '';
+  
+  container.appendChild(h('div', {className: 'pick-section-title', style: 'margin-bottom:10px'}, 'Core principles'));
+  ["Save ALL 1-seeds and 2-seeds for Sweet 16+",
+   "Pick 3-5 seeds on Days 1-2 (85-99% win probability)",
+   "Diversify across 5 groups (Splash) / 3 groups (Sweat)",
+   "Endgame team availability death is the biggest edge",
+   "Nebraska at 17-22% field = massive free leverage for us"
+  ].forEach(p => container.appendChild(h('div', {className: 'strategy-principle', style: 'margin-bottom:6px'}, p)));
+
+  container.appendChild(h('div', {className: 'pick-section-title', style: 'margin-top:20px;margin-bottom:10px'}, 'Key field data'));
+  let grid = h('div', {className: 'metrics'});
+  grid.appendChild(metricCard('Sweat — seeds burned', '4.2%', 'burned 1/2 seeds Day 1'));
+  grid.appendChild(metricCard('Sweat — dead money', '6.2%', '54 entries no submit'));
+  grid.appendChild(metricCard('Nebraska exposure', '17-22%', 'field on NEB, we have 0%'));
+  grid.appendChild(metricCard('Our avg leverage', '~4x', 'overweight low-ownership', true));
+  container.appendChild(grid);
+
+  container.appendChild(h('div', {className: 'pick-section-title', style: 'margin-top:20px;margin-bottom:10px'}, 'Upcoming milestones'));
+  [
+    {when:"Tonight",what:"Re-scrape Splash entries after Day 1 games finish"},
+    {when:"Tonight",what:"Re-run calibration model with real field data"},
+    {when:"Fri AM",what:"Optimize Day 2 picks based on Day 1 results"},
+    {when:"Saturday",what:"Day 3 picks — Round of 32"},
+    {when:"Late",what:"Hedging strategy when equity > $20K"},
+  ].forEach(m => {
+    let row = h('div', {className: 'strategy-milestone'});
+    row.appendChild(h('div', {className: 'milestone-when'}, m.when));
+    row.appendChild(h('div', {className: 'milestone-what'}, m.what));
+    container.appendChild(row);
+  });
+}
+
+function render() {
+  renderOverview();
+  renderScores();
+  renderContest(DATA.splash, 'tab-splash');
+  renderContest(DATA.sweat, 'tab-sweat');
+  renderPlayers();
+  renderStrategy();
+  document.getElementById('last-updated').textContent = 'Updated: ' + new Date().toLocaleTimeString();
+}
+
+// Clock
+setInterval(() => {
+  document.getElementById('clock').textContent = new Date().toLocaleTimeString();
+}, 1000);
+
+// Initial render
+render();
+
+// Auto-refresh every 60 seconds (for when we add live score fetching)
+setInterval(render, 60000);
+</script>
+</body>
+</html>
