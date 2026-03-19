@@ -413,7 +413,7 @@ function renderContest(contest, containerId) {
   container.appendChild(h('div', {className: 'pick-section-title', style: 'margin-top:8px'}, 'Day 1 picks — Thursday'));
   (contest.picks.day1 || []).forEach(p => {
     let row = h('div', {className: 'pick-row'});
-    let dotCls = p.status === 'won' ? 'dot-green' : p.status === 'lost' ? 'dot-red' : p.status === 'pending' ? 'dot-amber' : 'dot-gray';
+    let dotCls = p.status === 'won' ? 'dot-green' : p.status === 'lost' ? 'dot-red' : p.status === 'live' ? 'dot-amber' : p.status === 'pending' ? 'dot-amber' : 'dot-gray';
     row.appendChild(h('div', {className: 'pick-dot ' + dotCls}));
     row.appendChild(h('div', {className: 'pick-name ours'}, '(' + p.seed + ') ' + p.team));
     
@@ -586,8 +586,96 @@ setInterval(render, 60000);
 // ============================================================
 // LIVE SCORE FETCHING — ESPN API (no auth needed)
 // ============================================================
+
+// Map our pick team names to ESPN abbreviations
+const TEAM_TO_ALIAS = {
+  'Illinois':'ILL','Gonzaga':'GONZ','Michigan St':'MSU','Arkansas':'ARK','Wisconsin':'WIS',
+  'Virginia':'UVA','Kansas':'KU','Alabama':'BAMA','St Johns':'SJU','Texas Tech':'TTU',
+  'Duke':'DUKE','Michigan':'MICH','Houston':'HOU','Arizona':'ARIZ','Florida':'FLA',
+  'UConn':'CONN','Iowa State':'ISU','Purdue':'PUR','Nebraska':'NEB','Louisville':'LOU',
+  'Ohio State':'OSU','Vanderbilt':'VAN','UNC':'UNC','BYU':'BYU','Saint Mary\'s':'SMC',
+  'TCU':'TCU','South Florida':'USF','Troy':'TROY','High Point':'HP','Georgia':'UGA',
+  'Texas':'TEX','VCU':'VCU','Saint Louis':'SLU','Texas A&M':'TA&M','McNeese':'MCNS',
+};
+const ALIAS_TO_TEAM = Object.fromEntries(Object.entries(TEAM_TO_ALIAS).map(([k,v])=>[v,k]));
+
 const OUR_PICKS_ALIASES = ['ILL','GONZ','MSU','ARK','WIS']; // Day 1 Splash picks
+const OUR_SWEAT_ALIASES = ['ILL','GONZ','MSU']; // Day 1 Sweat picks
 const SAVED_ALIASES = ['DUKE','MICH','HOU'];
+
+function syncPickStatuses(games) {
+  // Build a lookup: alias -> {status, won}
+  let results = {};
+  games.forEach(g => {
+    if (g.status === 'final') {
+      let homeWon = g.home_score > g.away_score;
+      results[g.home_alias] = { status: 'final', won: homeWon };
+      results[g.away_alias] = { status: 'final', won: !homeWon };
+    } else if (g.status === 'live') {
+      results[g.home_alias] = { status: 'live' };
+      results[g.away_alias] = { status: 'live' };
+    }
+  });
+  
+  // Update Splash picks
+  function updatePicks(picks) {
+    if (!picks) return;
+    picks.forEach(p => {
+      let alias = TEAM_TO_ALIAS[p.team];
+      if (!alias) {
+        // Try fuzzy match on game data
+        games.forEach(g => {
+          if (g.home.includes(p.team) || p.team.includes(g.home)) alias = g.home_alias;
+          if (g.away.includes(p.team) || p.team.includes(g.away)) alias = g.away_alias;
+        });
+      }
+      if (alias && results[alias]) {
+        let r = results[alias];
+        if (r.status === 'final') {
+          p.status = r.won ? 'won' : 'lost';
+        } else if (r.status === 'live') {
+          p.status = 'live';
+        }
+      }
+    });
+  }
+  
+  updatePicks(DATA.splash.picks.day1);
+  updatePicks(DATA.splash.picks.day2);
+  updatePicks(DATA.sweat.picks.day1);
+  updatePicks(DATA.sweat.picks.day2);
+  
+  // Update field picks grade from ESPN
+  function updateFieldGrade(fieldPicks) {
+    if (!fieldPicks) return;
+    fieldPicks.forEach(f => {
+      let alias = TEAM_TO_ALIAS[f.team];
+      if (alias && results[alias]) {
+        let r = results[alias];
+        if (r.status === 'final') {
+          f.grade = r.won ? 'winning' : 'losing';
+        } else if (r.status === 'live') {
+          // Keep existing or set to null
+        }
+      }
+    });
+  }
+  
+  updateFieldGrade(DATA.splash.field_picks);
+  updateFieldGrade(DATA.sweat.field_picks);
+  
+  // Update alive counts
+  let splashLosses = 0;
+  let sweatLosses = 0;
+  (DATA.splash.picks.day1 || []).forEach(p => {
+    if (p.status === 'lost') splashLosses += p.entries;
+  });
+  (DATA.sweat.picks.day1 || []).forEach(p => {
+    if (p.status === 'lost') sweatLosses += p.entries;
+  });
+  DATA.splash.our_alive = DATA.splash.our_entries - splashLosses;
+  DATA.sweat.our_alive = DATA.sweat.our_entries - sweatLosses;
+}
 
 async function fetchLiveScores() {
   try {
@@ -660,11 +748,8 @@ async function fetchLiveScores() {
     if (newGames.length > 0) {
       DATA.games = newGames;
       
-      // Update alive counts based on results
-      let ourLosses = 0;
-      newGames.forEach(g => {
-        if (g.status === 'final' && g.our_pick && !g.our_pick_won) ourLosses++;
-      });
+      // Sync game results to pick statuses in Splash and Sweat
+      syncPickStatuses(newGames);
       
       render();
       document.getElementById('last-updated').textContent = 'Scores updated: ' + new Date().toLocaleTimeString();
