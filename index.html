@@ -386,6 +386,7 @@ function renderScores() {
     homeDiv.appendChild(h('span', {className: 'score-seed'}, '(' + g.home_seed + ')'));
     homeDiv.appendChild(h('span', {className: 'score-team'}, g.home));
     if (g.our_pick) homeDiv.appendChild(h('span', {className: 'our-pick-badge'}, 'OUR PICK'));
+    if (g.saved_team && g.home === g.saved_team) homeDiv.appendChild(h('span', {className: 'our-pick-badge', style:'background:var(--amber-dim);color:var(--amber)'}, 'SAVED'));
     teams2.appendChild(homeDiv);
     if (g.status !== 'upcoming') teams2.appendChild(h('span', {className: 'score-num'}, g.home_score));
     card.appendChild(teams2);
@@ -581,6 +582,102 @@ render();
 
 // Auto-refresh every 60 seconds (for when we add live score fetching)
 setInterval(render, 60000);
+
+// ============================================================
+// LIVE SCORE FETCHING — ESPN API (no auth needed)
+// ============================================================
+const OUR_PICKS_ALIASES = ['ILL','GONZ','MSU','ARK','WIS']; // Day 1 Splash picks
+const SAVED_ALIASES = ['DUKE','MICH','HOU'];
+
+async function fetchLiveScores() {
+  try {
+    let resp = await fetch('https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=100&dates=20260319&limit=50');
+    let data = await resp.json();
+    if (!data.events) return;
+    
+    let newGames = [];
+    data.events.forEach(ev => {
+      let comp = ev.competitions?.[0];
+      if (!comp) return;
+      
+      let teams = comp.competitors || [];
+      let home = teams.find(t => t.homeAway === 'home') || teams[0];
+      let away = teams.find(t => t.homeAway === 'away') || teams[1];
+      
+      let homeAlias = home?.team?.abbreviation || '';
+      let awayAlias = away?.team?.abbreviation || '';
+      let homeName = home?.team?.shortDisplayName || home?.team?.displayName || homeAlias;
+      let awayName = away?.team?.shortDisplayName || away?.team?.displayName || awayAlias;
+      let homeSeed = parseInt(home?.curatedRank?.current) || parseInt(home?.seed) || 0;
+      let awaySeed = parseInt(away?.curatedRank?.current) || parseInt(away?.seed) || 0;
+      let homeScore = parseInt(home?.score) || 0;
+      let awayScore = parseInt(away?.score) || 0;
+      
+      let statusObj = comp.status || {};
+      let statusType = statusObj.type?.name || '';
+      let statusDetail = statusObj.type?.shortDetail || statusObj.type?.detail || '';
+      let clock = statusObj.displayClock || '';
+      let period = statusObj.period || 0;
+      
+      let status = 'upcoming';
+      let timeDisplay = '';
+      if (statusType === 'STATUS_FINAL' || statusType === 'STATUS_END_PERIOD') {
+        status = 'final';
+        timeDisplay = 'FINAL';
+      } else if (statusType === 'STATUS_IN_PROGRESS' || statusType === 'STATUS_HALFTIME') {
+        status = 'live';
+        if (statusType === 'STATUS_HALFTIME') timeDisplay = 'HALF';
+        else timeDisplay = clock + ' ' + (period === 1 ? '1H' : period === 2 ? '2H' : 'OT');
+      } else {
+        timeDisplay = statusDetail || ev.date?.substring(11,16) || 'TBD';
+      }
+      
+      // Determine if this is our pick
+      let ourPick = null;
+      if (OUR_PICKS_ALIASES.includes(homeAlias)) ourPick = homeName;
+      else if (OUR_PICKS_ALIASES.includes(awayAlias)) ourPick = awayName;
+      
+      let ourPickWon = false;
+      if (status === 'final' && ourPick) {
+        if (ourPick === homeName) ourPickWon = homeScore > awayScore;
+        else ourPickWon = awayScore > homeScore;
+      }
+
+      // Check if saved team is playing
+      let savedTeam = null;
+      if (SAVED_ALIASES.includes(homeAlias)) savedTeam = homeName;
+      else if (SAVED_ALIASES.includes(awayAlias)) savedTeam = awayName;
+      
+      newGames.push({
+        away: awayName, away_seed: awaySeed, away_alias: awayAlias,
+        home: homeName, home_seed: homeSeed, home_alias: homeAlias,
+        status: status, away_score: awayScore, home_score: homeScore,
+        time: timeDisplay, our_pick: ourPick, our_pick_won: ourPickWon,
+        saved_team: savedTeam,
+      });
+    });
+    
+    if (newGames.length > 0) {
+      DATA.games = newGames;
+      
+      // Update alive counts based on results
+      let ourLosses = 0;
+      newGames.forEach(g => {
+        if (g.status === 'final' && g.our_pick && !g.our_pick_won) ourLosses++;
+      });
+      
+      render();
+      document.getElementById('last-updated').textContent = 'Scores updated: ' + new Date().toLocaleTimeString();
+      console.log('Scores refreshed:', newGames.length, 'games');
+    }
+  } catch(e) {
+    console.warn('Score fetch failed:', e.message);
+  }
+}
+
+// Fetch scores immediately and every 2 minutes
+fetchLiveScores();
+setInterval(fetchLiveScores, 120000);
 </script>
 </body>
 </html>
