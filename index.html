@@ -163,7 +163,38 @@ var D={
     ],
     dead:{n:54,pc:6.2},seeds:{pc:4.2}
   },
-  games:[]
+  games:[],
+  pathPlan:{
+    r32_h2h:[
+      {d:3,a:"Duke",b:"TCU",pa:87.9,r:"East 1v9"},
+      {d:3,a:"Michigan St",b:"Louisville",pa:67.0,r:"East 3v6"},
+      {d:3,a:"Vanderbilt",b:"Nebraska",pa:54.2,r:"South 4v5"},
+      {d:3,a:"Illinois",b:"VCU",pa:85.9,r:"South 3v11"},
+      {d:3,a:"Houston",b:"Texas A&M",pa:91.4,r:"South 2v10"},
+      {d:3,a:"Arkansas",b:"High Point",pa:82.1,r:"West 4v12"},
+      {d:3,a:"Gonzaga",b:"Texas",pa:76.9,r:"West 3v11"},
+      {d:3,a:"Michigan",b:"Saint Louis",pa:91.0,r:"Midwest 1v9"},
+      {d:4,a:"Kansas",b:"St Johns",pa:53.0,r:"East 4v5"},
+      {d:4,a:"UConn",b:"UCLA",pa:75.1,r:"East 2v7"},
+      {d:4,a:"Florida",b:"Iowa",pa:76.3,r:"South 1v8"},
+      {d:4,a:"Arizona",b:"Utah State",pa:85.3,r:"West 1v8"},
+      {d:4,a:"Purdue",b:"Miami",pa:76.7,r:"West 2v7"},
+      {d:4,a:"Texas Tech",b:"Alabama",pa:57.6,r:"Midwest 4v5"},
+      {d:4,a:"Virginia",b:"Tennessee",pa:55.9,r:"Midwest 3v6"},
+      {d:4,a:"Iowa State",b:"Kentucky",pa:76.9,r:"Midwest 2v7"}
+    ],
+    splashPath:[
+      {d:3,rnd:"R32",picks:[{g:"Illinois D1",t:"Arkansas",wp:82.1,n:18},{g:"Gonzaga D1",t:"Illinois",wp:85.9,n:18},{g:"Arkansas D1",t:"Gonzaga",wp:76.9,n:17},{g:"MSU D1",t:"Illinois",wp:85.9,n:16}],note:"Cross-assign Day 1 teams, no saved teams burned"},
+      {d:4,rnd:"R32",picks:[{g:"All groups",t:"Iowa State",wp:76.9,n:57}],note:"Burn Iowa State (76.9% vs Kentucky). Non-saved only 53-58%"},
+      {d:5,rnd:"S16",picks:[{g:"All",t:"Duke",wp:76.3,n:44}],note:"Deploy Duke vs Kansas (East S16). Eff value 67.0%"},
+      {d:6,rnd:"S16",picks:[{g:"All",t:"Michigan",wp:77.0,n:30}],note:"Deploy Michigan vs Texas Tech (Midwest S16). Eff value 70.1%"},
+      {d:7,rnd:"E8",picks:[{g:"All",t:"Houston",wp:65.5,n:21}],note:"Deploy Houston (South E8). Eff value 39.0%"},
+      {d:8,rnd:"E8",picks:[{g:"All",t:"Arizona",wp:59.3,n:8}],note:"Deploy Arizona (West E8). Eff value 37.9%"},
+      {d:9,rnd:"F4",picks:[{g:"All",t:"TBD (Florida/Purdue)",wp:50,n:3}],note:"Best available F4 team"},
+      {d:10,rnd:"NCG",picks:[{g:"All",t:"TBD",wp:50,n:0.3}],note:"Championship pick"}
+    ],
+    burnOrder:["Day 4: Iowa State","Day 5: Duke","Day 6: Michigan","Day 7: Houston","Day 8: Arizona","Day 9: Florida/Purdue"]
+  }
 };
 
 function showTab(id,btn){
@@ -325,10 +356,49 @@ function renderPlayers(){
 
 function renderStrategy(){
   var el=document.getElementById('tab-strategy');
-  var h='<div class="st">Core principles</div>';
-  ["Save ALL 1/2 seeds for Sweet 16+","Pick 3-5 seeds on Days 1-2 (85-99% win prob)","Diversify across 5 groups (Splash) / 3 groups (Sweat)","Endgame team availability death is the biggest edge","Nebraska 17-22% of field = massive free leverage"].forEach(function(p){
-    h+='<div style="font-size:13px;color:var(--tm);padding:5px 0 5px 12px;border-left:2px solid var(--ad);margin-bottom:4px">'+p+'</div>';
-  });
+  var h='<div class="st">Full tournament path plan (path optimizer)</div>';
+  h+='<div style="font-size:11px;color:var(--td);margin-bottom:12px;font-family:var(--mono)">Dr. Bob conditional H2H probabilities - NOT pre-tournament averages</div>';
+  var pp=D.pathPlan;
+  if(pp&&pp.splashPath){
+    pp.splashPath.forEach(function(day){
+      var bgc=day.d<=4?'var(--card)':'#0d1520';
+      var bdc=day.d===3?'var(--green)':day.d===4?'var(--amber)':'var(--bl)';
+      h+='<div style="background:'+bgc+';border-radius:6px;padding:10px 12px;margin-bottom:6px;border:1px solid var(--bl);border-left:3px solid '+bdc+'">';
+      h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">';
+      h+='<span style="font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent)">Day '+day.d+' - '+day.rnd+'</span>';
+      var en=day.picks.reduce(function(s,p){return s+p.n},0);
+      h+='<span style="font-family:var(--mono);font-size:10px;color:var(--td)">~'+Math.round(en)+' entries</span></div>';
+      day.picks.forEach(function(pk){
+        h+='<div style="display:flex;justify-content:space-between;font-size:12px;padding:2px 0">';
+        h+='<span style="color:var(--tm)">'+pk.g+' &rarr; <span style="color:#eef2f6;font-weight:600">'+pk.t+'</span></span>';
+        h+='<span style="font-family:var(--mono);font-size:11px;color:'+(pk.wp>=70?'var(--green)':pk.wp>=50?'var(--amber)':'var(--red)')+'">'+pk.wp+'%</span></div>';
+      });
+      h+='<div style="font-size:11px;color:var(--td);margin-top:4px;font-style:italic">'+day.note+'</div></div>';
+    });
+  }
+  h+='<div class="st" style="margin-top:16px">Saved team burn order</div>';
+  if(pp&&pp.burnOrder){
+    pp.burnOrder.forEach(function(b){
+      h+='<div style="font-size:12px;color:var(--tm);padding:4px 0 4px 12px;border-left:2px solid var(--ad);margin-bottom:3px">'+b+'</div>';
+    });
+  }
+  h+='<div class="st" style="margin-top:16px">R32 matchup probabilities (conditional H2H)</div>';
+  if(pp&&pp.r32_h2h){
+    [3,4].forEach(function(d){
+      h+='<div style="font-family:var(--mono);font-size:10px;color:var(--accent);margin:8px 0 4px;text-transform:uppercase;letter-spacing:1px">Day '+d+' ('+['','','','Sat','Sun'][d]+')</div>';
+      pp.r32_h2h.filter(function(m){return m.d===d}).forEach(function(m){
+        var c1=m.pa>=60?'var(--green)':m.pa>=50?'var(--accent)':'var(--red)';
+        var c2=100-m.pa>=60?'var(--green)':100-m.pa>=50?'var(--accent)':'var(--red)';
+        h+='<div style="display:flex;align-items:center;gap:6px;padding:3px 0;font-size:12px">';
+        h+='<span style="width:110px;text-align:right;color:#eef2f6">'+m.a+'</span>';
+        h+='<span style="font-family:var(--mono);font-size:11px;width:40px;text-align:right;color:'+c1+'">'+m.pa.toFixed(0)+'%</span>';
+        h+='<span style="flex:1;height:6px;background:#141e2a;border-radius:3px;overflow:hidden;position:relative"><span style="position:absolute;left:0;top:0;height:100%;width:'+m.pa+'%;background:'+c1+';border-radius:3px"></span></span>';
+        h+='<span style="font-family:var(--mono);font-size:11px;width:40px;color:'+c2+'">'+(100-m.pa).toFixed(0)+'%</span>';
+        h+='<span style="width:110px;color:var(--tm)">'+m.b+'</span>';
+        h+='<span style="font-family:var(--mono);font-size:9px;color:var(--td);width:80px">'+m.r+'</span></div>';
+      });
+    });
+  }
   h+='<div class="st" style="margin-top:16px">Key field data</div>';
   h+='<div class="mg">';
   h+=mc('Seeds burned','4.0%','Duke(109) Michigan(44) Houston(127)').outerHTML;
@@ -336,10 +406,6 @@ function renderStrategy(){
   h+=mc('Nebraska','17-22%','of field, we have 0%').outerHTML;
   h+=mc('Our leverage','~3x avg','overweight low-ownership',true).outerHTML;
   h+='</div>';
-  h+='<div class="st" style="margin-top:16px">Upcoming</div>';
-  [["Tonight","Re-scrape Splash entries after all Day 1 games"],["Fri AM","Upload Day 2 CSV + submit Sweat picks"],["Fri PM","Monitor Day 2 games, scrape field data"],["Saturday","Day 3 - Round of 32"],["Late tourney","Hedging strategy when equity > $20K"]].forEach(function(m){
-    h+='<div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--bl)"><span style="width:80px;font-family:var(--mono);font-size:11px;color:var(--td)">'+m[0]+'</span><span style="font-size:12px;color:var(--tm)">'+m[1]+'</span></div>';
-  });
   el.innerHTML=h;
 }
 
