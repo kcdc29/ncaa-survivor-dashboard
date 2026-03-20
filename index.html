@@ -223,17 +223,35 @@ var D = {
     },
 
     field_dist_d1: [
-      { team: 'Nebraska', seed: 7, pct: 16.0, lost: false },
-      { team: 'Arkansas', seed: 4, pct: 12.1, lost: false },
-      { team: 'Gonzaga', seed: 3, pct: 12.0, lost: false },
-      { team: 'Wisconsin', seed: 5, pct: 10.3, lost: true },
-      { team: 'Vanderbilt', seed: 8, pct: 7.9, lost: false },
-      { team: 'Illinois', seed: 3, pct: 7.5, lost: false },
-      { team: 'Michigan St', seed: 3, pct: 7.0, lost: false },
-      { team: 'Louisville', seed: 7, pct: 4.5, lost: false },
-      { team: 'Duke', seed: 1, pct: 1.2, lost: false },
-      { team: 'Houston', seed: 1, pct: 1.0, lost: false }
+      { team: 'Nebraska', seed: 7, pct: 16.0, count: 1122, lost: false },
+      { team: 'Arkansas', seed: 4, pct: 12.1, count: 847, lost: false },
+      { team: 'Gonzaga', seed: 3, pct: 12.0, count: 842, lost: false },
+      { team: 'Wisconsin', seed: 5, pct: 10.3, count: 722, lost: true },
+      { team: 'Vanderbilt', seed: 8, pct: 7.9, count: 557, lost: false },
+      { team: 'Illinois', seed: 3, pct: 7.5, count: 527, lost: false },
+      { team: 'Michigan St', seed: 3, pct: 7.0, count: 492, lost: false },
+      { team: "Saint Mary's", seed: 10, pct: 4.2, count: 297, lost: true },
+      { team: 'Louisville', seed: 7, pct: 2.8, count: 194, lost: false },
+      { team: 'North Carolina', seed: 8, pct: 2.7, count: 190, lost: true },
+      { team: 'Ohio State', seed: 5, pct: 2.7, count: 189, lost: true },
+      { team: 'BYU', seed: 6, pct: 2.5, count: 176, lost: true },
+      { team: 'Georgia', seed: 6, pct: 2.4, count: 168, lost: true },
+      { team: 'Houston', seed: 1, pct: 1.8, count: 127, lost: false, is12: true },
+      { team: 'Duke', seed: 1, pct: 1.6, count: 109, lost: false, is12: true },
+      { team: 'South Florida', seed: 10, pct: 1.5, count: 103, lost: true },
+      { team: 'VCU', seed: 12, pct: 1.3, count: 93, lost: false },
+      { team: 'Saint Louis', seed: 12, pct: 0.9, count: 60, lost: false },
+      { team: 'TCU', seed: 11, pct: 0.8, count: 56, lost: false },
+      { team: 'Michigan', seed: 1, pct: 0.6, count: 44, lost: false, is12: true },
+      { team: 'Texas', seed: 6, pct: 0.6, count: 41, lost: false },
+      { team: 'Texas A&M', seed: 9, pct: 0.4, count: 29, lost: false },
+      { team: 'Troy', seed: 16, pct: 0.1, count: 7, lost: true },
+      { team: 'High Point', seed: 12, pct: 0.1, count: 7, lost: false },
+      { team: "Hawai'i", seed: 13, pct: 0.0, count: 2, lost: true },
+      { team: 'McNeese', seed: 13, pct: 0.0, count: 2, lost: true }
     ],
+    field_d1_losers: 9,
+    field_d1_eliminated: 1188,
     field_12seed_d1_pct: 4.0,
 
     field_dist_d2: [
@@ -852,7 +870,7 @@ function renderDistro() {
 
   // Splash Day 1
   p.appendChild(renderDistBars(
-    'Splash Day 1 — Field Pick Distribution (Top 10)',
+    'Splash Day 1 — Field Pick Distribution (all 26 teams)',
     D.splash.field_dist_d1, 20
   ));
 
@@ -885,7 +903,7 @@ function renderDistro() {
 
   // Sweat Day 1
   p.appendChild(renderDistBars(
-    'Sweat Day 1 — Field Pick Distribution',
+    'Sweat Day 1 — Field Pick Distribution (all 23 teams)',
     D.sweat.field_dist_d1, 25
   ));
 
