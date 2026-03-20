@@ -76,7 +76,7 @@ footer{margin-top:24px;padding:12px 14px;border-top:1px solid var(--bl);font-fam
 <div class="w">
 <header>
 <div><div class="tag">NCAA Survivor 2026</div><h1>Tournament Command Center</h1></div>
-<div class="di"><div class="day">Day 1 - Round of 64</div><div>Thursday, March 19</div><div id="clock"></div></div>
+<div class="di"><div class="day">Day 2 - Round of 64</div><div>Friday, March 20</div><div id="clock"></div></div>
 </header>
 <div class="tabs">
 <button class="tab active" onclick="showTab('overview',this)">Overview</button>
@@ -111,7 +111,7 @@ var D={
       {t:"St Johns",s:5,n:19,wp:77.5,fp:null,st:"upcoming"},
       {t:"Texas Tech",s:5,n:19,wp:79.5,fp:null,st:"upcoming"}
     ],
-    saved:["Duke","Michigan","Houston"],
+    saved:["Duke","Michigan","Houston","Arizona","Florida","UConn","Iowa State","Purdue"],
     field:[
       {t:"Nebraska",p:1122,pc:16.0,g:"w"},{t:"Arkansas",p:847,pc:12.1,g:"w"},{t:"Gonzaga",p:842,pc:12.0,g:"w"},
       {t:"Wisconsin",p:722,pc:10.3,g:"l"},{t:"Vanderbilt",p:557,pc:7.9,g:"w"},{t:"Illinois",p:527,pc:7.5,g:"w"},
@@ -265,7 +265,7 @@ function renderOverview(){
 function renderScores(){
   var el=document.getElementById('tab-scores');
   if(!D.games.length){el.innerHTML='<div class="st">Scores auto-update from ESPN every 2 min</div><div style="color:var(--td);font-size:13px">Waiting for ESPN data...</div>';return}
-  var h='<div class="st">Thursday - Day 1 games</div><div class="sg">';
+  var h='<div class="st">Friday - Day 2 games</div><div class="sg">';
   D.games.forEach(function(g){
     var cls='sc';
     if(g.status==='live')cls+=' live';
@@ -349,10 +349,10 @@ setInterval(function(){document.getElementById('clock').textContent=new Date().t
 render();
 
 // ESPN live scores
-var OUR=['ILL','GONZ','MSU','ARK','WIS'];
-var SAVED=['DUKE','MICH','HOU'];
+var OUR=['UVA','KAN','ALA','SJU','TTU'];
+var SAVED=['ARIZ','FLA','CONN','IOSU','PUR'];
 function fetchScores(){
-  fetch('https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=100&dates=20260319&limit=50')
+  fetch('https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=100&dates=20260320&limit=50')
   .then(function(r){return r.json()})
   .then(function(data){
     if(!data.events)return;
