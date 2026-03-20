@@ -235,14 +235,15 @@ const DATA = {
     },
     seeds_burned: {duke:109,michigan:44,houston:127,total:280,pct:4.0},
     portfolio_players: [
-      {name:"ASTRO1227",entries:100,is_us:true},
-      {name:"princehal",entries:100},
-      {name:"poopbutt2",entries:100},
-      {name:"MattyCollins",entries:100},
-      {name:"daviesloveiii",entries:100},
-      {name:"steaktacos",entries:100},
-      {name:"Astrong0609",entries:50},
-      {name:"andype",entries:50},
+      {name:"ASTRO1227",entries:100,alive:82,is_us:true,picks:"ILL(21), GONZ(21), MSU(20), ARK(20), WIS(18)",strategy:"5-group diversified, saved all 1/2 seeds"},
+      {name:"princehal",entries:100,alive:100,picks:"NEB(37), GONZ(33), ARK(20), ILL(5), HOU(5)",strategy:"Heavy chalk, burned Houston"},
+      {name:"steaktacos",entries:100,alive:92,picks:"NEB(28), GONZ(22), MSU(16), ARK(14), WIS(8), ILL(6), VAN(6)",strategy:"7-group spread, similar to us"},
+      {name:"poopbutt2",entries:100,alive:80,picks:"GONZ(40), ARK(40), WIS(20)",strategy:"Ultra-concentrated 3 teams, WIS hurt"},
+      {name:"MattyCollins",entries:100,alive:72,picks:"16 teams spread — max diversification",strategy:"Spray-and-pray, many losers"},
+      {name:"daviesloveiii",entries:100,alive:65,picks:"14 teams — UGA(8), WIS(8), SMC(7), BYU(7), UNC(7) all dead",strategy:"Over-diversified into bad picks"},
+      {name:"BirdieKillers-231",entries:50,alive:50,picks:"NEB(30), MSU(20)",strategy:"Pure chalk concentration"},
+      {name:"Astrong0609",entries:50,alive:39,picks:"NEB(13), VAN(7), WIS(6), LOU(5), MSU(5), GONZ(5), ARK(4), UNC(4), BYU(1)",strategy:"Spread too thin"},
+      {name:"andype",entries:50,alive:32,picks:"UGA(6), NEB(5), VAN(5), ARK(5) + 9 more teams",strategy:"Max spread, UGA(6) all dead"},
     ],
     entry_dist: [
       {range:"1 entry",players:1447,entries:1447},
@@ -524,18 +525,78 @@ function renderContest(contest, containerId) {
 function renderPlayers() {
   let container = document.getElementById('tab-players');
   container.innerHTML = '';
-  container.appendChild(h('div', {className: 'pick-section-title', style: 'margin-bottom:12px'}, 'Portfolio players (50+ entries) — Splash'));
+  container.appendChild(h('div', {className: 'pick-section-title', style: 'margin-bottom:12px'}, 'Portfolio players (50+ entries) — Day 1 results'));
 
-  let maxEntries = Math.max(...DATA.splash.portfolio_players.map(p => p.entries));
   DATA.splash.portfolio_players.forEach(p => {
-    let row = h('div', {className: 'player-row'});
-    row.appendChild(h('div', {className: 'player-name' + (p.is_us ? ' is-us' : '')}, p.name + (p.is_us ? ' (YOU)' : '')));
-    row.appendChild(h('div', {className: 'player-count'}, p.entries));
-    let bar = h('div', {className: 'player-bar'});
-    bar.appendChild(h('div', {className: 'player-fill' + (p.is_us ? ' is-us' : ''), style: 'width:' + (p.entries/maxEntries*100) + '%'}));
-    row.appendChild(bar);
+    let survPct = p.alive ? (p.alive / p.entries * 100) : 0;
+    let survColor = survPct >= 90 ? 'var(--green)' : survPct >= 75 ? 'var(--accent)' : survPct >= 50 ? 'var(--amber)' : 'var(--red)';
+    
+    let card = h('div', {style: 'background:var(--card);border-radius:8px;padding:12px 14px;margin-bottom:8px;border:1px solid ' + (p.is_us ? 'var(--accent-dim)' : 'var(--border-lite)')});
+    
+    // Header row: name + survival
+    let hdr = h('div', {style: 'display:flex;justify-content:space-between;align-items:center;margin-bottom:8px'});
+    let nameEl = h('div', {style: 'font-size:14px;font-weight:600;color:' + (p.is_us ? 'var(--accent)' : '#eef2f6')}, p.name + (p.is_us ? ' (YOU)' : ''));
+    hdr.appendChild(nameEl);
+    let aliveEl = h('div', {style: 'font-family:var(--font-mono);font-size:13px;font-weight:600;color:' + survColor}, (p.alive || '?') + '/' + p.entries + ' alive (' + Math.round(survPct) + '%)');
+    hdr.appendChild(aliveEl);
+    card.appendChild(hdr);
+    
+    // Survival bar
+    let barBg = h('div', {style: 'background:#141e2a;border-radius:3px;height:8px;margin-bottom:8px;overflow:hidden'});
+    barBg.appendChild(h('div', {style: 'height:100%;border-radius:3px;width:' + survPct + '%;background:' + survColor + ';transition:width 0.5s'}));
+    card.appendChild(barBg);
+    
+    // Picks
+    if (p.picks) {
+      let picksEl = h('div', {style: 'font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:4px'}, p.picks);
+      card.appendChild(picksEl);
+    }
+    
+    // Strategy note
+    if (p.strategy) {
+      let stratEl = h('div', {style: 'font-size:11px;color:var(--text-dim);font-style:italic'}, p.strategy);
+      card.appendChild(stratEl);
+    }
+    
+    container.appendChild(card);
+  });
+
+  // Key insights
+  let insights = h('div', {style: 'margin-top:16px'});
+  insights.appendChild(h('div', {className: 'pick-section-title', style: 'margin-bottom:8px'}, 'Competitive insights'));
+  
+  let insightData = [
+    {label: 'Leader', value: 'princehal (100% alive)', detail: 'Heavy chalk on NEB/GONZ but burned Houston — fewer saves for later'},
+    {label: 'Our position', value: '3rd of 6 at 82%', detail: 'Lost Wisconsin but ahead of poopbutt2 (80%), MattyCollins (72%), daviesloveiii (65%)'},
+    {label: 'Biggest loser', value: 'daviesloveiii (65% alive)', detail: 'Spread into 14 teams including UGA, WIS, SMC, BYU, UNC — all dead'},
+    {label: 'Field survival', value: '75.7% (5,315/7,023)', detail: 'We outperformed field by 6.3pp on Splash, perfect on Sweat'},
+    {label: 'Dead entries', value: '1,708 eliminated Day 1', detail: '24.3% of field gone — WIS(722) biggest killer'},
+  ];
+  
+  insightData.forEach(ins => {
+    let row = h('div', {style: 'padding:8px 12px;background:var(--card);border-radius:6px;margin-bottom:6px;border:1px solid var(--border-lite)'});
+    row.appendChild(h('div', {style: 'display:flex;justify-content:space-between;margin-bottom:2px'},[
+      h('span', {style: 'font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px'}, ins.label),
+      h('span', {style: 'font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--accent)'}, ins.value),
+    ]));
+    row.appendChild(h('div', {style: 'font-size:12px;color:var(--text-muted)'}, ins.detail));
+    insights.appendChild(row);
+  });
+  container.appendChild(insights);
+
+  // Entry distribution
+  container.appendChild(h('div', {className: 'pick-section-title', style: 'margin-top:20px;margin-bottom:12px'}, 'Entry count distribution'));
+  DATA.splash.entry_dist.forEach(d => {
+    let row = h('div', {className: 'field-bar'});
+    row.appendChild(h('div', {className: 'field-name'}, d.range));
+    let bg = h('div', {className: 'field-fill-bg'});
+    bg.appendChild(h('div', {className: 'field-fill fill-ours', style: 'width:' + (d.entries/DATA.splash.field_size*100) + '%'}));
+    row.appendChild(bg);
+    row.appendChild(h('div', {className: 'field-num'}, d.players + 'p'));
+    row.appendChild(h('div', {className: 'field-pct'}, (d.entries/DATA.splash.field_size*100).toFixed(1) + '%'));
     container.appendChild(row);
   });
+}
 
   container.appendChild(h('div', {className: 'pick-section-title', style: 'margin-top:20px;margin-bottom:12px'}, 'Entry count distribution'));
   DATA.splash.entry_dist.forEach(d => {
