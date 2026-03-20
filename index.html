@@ -239,8 +239,8 @@ const DATA = {
       {name:"princehal",entries:100,alive:100,picks:"NEB(37), GONZ(33), ARK(20), ILL(5), HOU(5)",strategy:"Heavy chalk, burned Houston"},
       {name:"steaktacos",entries:100,alive:92,picks:"NEB(28), GONZ(22), MSU(16), ARK(14), WIS(8), ILL(6), VAN(6)",strategy:"7-group spread, similar to us"},
       {name:"poopbutt2",entries:100,alive:80,picks:"GONZ(40), ARK(40), WIS(20)",strategy:"Ultra-concentrated 3 teams, WIS hurt"},
-      {name:"MattyCollins",entries:100,alive:72,picks:"16 teams spread — max diversification",strategy:"Spray-and-pray, many losers"},
-      {name:"daviesloveiii",entries:100,alive:65,picks:"14 teams — UGA(8), WIS(8), SMC(7), BYU(7), UNC(7) all dead",strategy:"Over-diversified into bad picks"},
+      {name:"MattyCollins",entries:100,alive:72,picks:"16 teams spread, max diversification",strategy:"Spray-and-pray, many losers"},
+      {name:"daviesloveiii",entries:100,alive:65,picks:"14 teams, UGA(8) WIS(8) SMC(7) BYU(7) UNC(7) all dead",strategy:"Over-diversified into bad picks"},
       {name:"BirdieKillers-231",entries:50,alive:50,picks:"NEB(30), MSU(20)",strategy:"Pure chalk concentration"},
       {name:"Astrong0609",entries:50,alive:39,picks:"NEB(13), VAN(7), WIS(6), LOU(5), MSU(5), GONZ(5), ARK(4), UNC(4), BYU(1)",strategy:"Spread too thin"},
       {name:"andype",entries:50,alive:32,picks:"UGA(6), NEB(5), VAN(5), ARK(5) + 9 more teams",strategy:"Max spread, UGA(6) all dead"},
@@ -566,19 +566,19 @@ function renderPlayers() {
   insights.appendChild(h('div', {className: 'pick-section-title', style: 'margin-bottom:8px'}, 'Competitive insights'));
   
   let insightData = [
-    {label: 'Leader', value: 'princehal (100% alive)', detail: 'Heavy chalk on NEB/GONZ but burned Houston — fewer saves for later'},
+    {label: 'Leader', value: 'princehal (100% alive)', detail: 'Heavy chalk on NEB/GONZ but burned Houston - fewer saves for later'},
     {label: 'Our position', value: '3rd of 6 at 82%', detail: 'Lost Wisconsin but ahead of poopbutt2 (80%), MattyCollins (72%), daviesloveiii (65%)'},
-    {label: 'Biggest loser', value: 'daviesloveiii (65% alive)', detail: 'Spread into 14 teams including UGA, WIS, SMC, BYU, UNC — all dead'},
+    {label: 'Biggest loser', value: 'daviesloveiii (65% alive)', detail: 'Spread into 14 teams including UGA, WIS, SMC, BYU, UNC - all dead'},
     {label: 'Field survival', value: '75.7% (5,315/7,023)', detail: 'We outperformed field by 6.3pp on Splash, perfect on Sweat'},
-    {label: 'Dead entries', value: '1,708 eliminated Day 1', detail: '24.3% of field gone — WIS(722) biggest killer'},
+    {label: 'Dead entries', value: '1,708 eliminated Day 1', detail: '24.3% of field gone - WIS(722) biggest killer'},
   ];
   
   insightData.forEach(ins => {
     let row = h('div', {style: 'padding:8px 12px;background:var(--card);border-radius:6px;margin-bottom:6px;border:1px solid var(--border-lite)'});
-    row.appendChild(h('div', {style: 'display:flex;justify-content:space-between;margin-bottom:2px'},[
-      h('span', {style: 'font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px'}, ins.label),
-      h('span', {style: 'font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--accent)'}, ins.value),
-    ]));
+    let topRow = h('div', {style: 'display:flex;justify-content:space-between;margin-bottom:2px'});
+    topRow.appendChild(h('span', {style: 'font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px'}, ins.label));
+    topRow.appendChild(h('span', {style: 'font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--accent)'}, ins.value));
+    row.appendChild(topRow);
     row.appendChild(h('div', {style: 'font-size:12px;color:var(--text-muted)'}, ins.detail));
     insights.appendChild(row);
   });
