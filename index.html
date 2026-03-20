@@ -689,13 +689,104 @@ function renderScores() {
   return p;
 }
 
+// ═══════════════════════════════════════════
+// AUTO-UPDATE: Bridge ESPN scores → pick results
+// ═══════════════════════════════════════════
+// Maps ESPN shortDisplayName / displayName → our pick team name
+var TEAM_MAP = {
+  'Virginia':'Virginia', 'Virginia Cavaliers':'Virginia', 'Cavaliers':'Virginia',
+  'Kansas':'Kansas', 'Kansas Jayhawks':'Kansas', 'Jayhawks':'Kansas',
+  'Alabama':'Alabama', 'Alabama Crimson Tide':'Alabama', 'Crimson Tide':'Alabama',
+  "St. John's":"St. Johns", "St. John's Red Storm":"St. Johns", 'Red Storm':'St. Johns',
+  'Texas Tech':'Texas Tech', 'Texas Tech Red Raiders':'Texas Tech', 'Red Raiders':'Texas Tech',
+  'Wright State':'Wright State', 'Wright State Raiders':'Wright State',
+  'Cal Baptist':'Cal Baptist', 'California Baptist':'Cal Baptist', 'California Baptist Lancers':'Cal Baptist',
+  'Hofstra':'Hofstra', 'Hofstra Pride':'Hofstra',
+  'Northern Iowa':'Northern Iowa', 'Northern Iowa Panthers':'Northern Iowa',
+  'Akron':'Akron', 'Akron Zips':'Akron',
+  'Kentucky':'Kentucky', 'Kentucky Wildcats':'Kentucky',
+  'Santa Clara':'Santa Clara', 'Santa Clara Broncos':'Santa Clara',
+  'Iowa State':'Iowa State', 'Iowa State Cyclones':'Iowa State',
+  'Tennessee State':'Tennessee State', 'Tennessee State Tigers':'Tennessee State',
+  'Arizona':'Arizona', 'Arizona Wildcats':'Arizona',
+  'LIU':'LIU', 'LIU Sharks':'LIU',
+  'UConn':'UConn', 'UConn Huskies':'UConn',
+  'Furman':'Furman', 'Furman Paladins':'Furman',
+  'Purdue':'Purdue', 'Purdue Boilermakers':'Purdue',
+  'Queens':'Queens', 'Queens University':'Queens', 'Queens University Royals':'Queens',
+  'Florida':'Florida', 'Florida Gators':'Florida',
+  'Prairie View A&M':'Prairie View A&M', 'Prairie View A&M Panthers':'Prairie View A&M',
+  'Tennessee':'Tennessee', 'Tennessee Volunteers':'Tennessee',
+  'Miami (OH)':'Miami OH', 'Miami (OH) RedHawks':'Miami OH',
+  'UCLA':'UCLA', 'UCLA Bruins':'UCLA',
+  'UCF':'UCF', 'UCF Knights':'UCF',
+  'Clemson':'Clemson', 'Clemson Tigers':'Clemson',
+  'Iowa':'Iowa', 'Iowa Hawkeyes':'Iowa',
+  'Villanova':'Villanova', 'Villanova Wildcats':'Villanova',
+  'Utah State':'Utah State', 'Utah State Aggies':'Utah State',
+  'Miami':'Miami FL', 'Miami Hurricanes':'Miami FL', 'Miami (FL)':'Miami FL',
+  'Missouri':'Missouri', 'Missouri Tigers':'Missouri'
+};
+
+function resolveTeam(espnName) {
+  return TEAM_MAP[espnName] || espnName;
+}
+
+function updatePickResults(events) {
+  var changed = false;
+  var contests = [
+    { data: D.splash, dayIdx: 1 },
+    { data: D.sweat, dayIdx: 1 }
+  ];
+
+  events.forEach(function(ev) {
+    var comp = ev.competitions[0];
+    if (!comp.status.type.completed) return;
+
+    var home = comp.competitors.find(function(c){return c.homeAway==='home'});
+    var away = comp.competitors.find(function(c){return c.homeAway==='away'});
+    var homeScore = parseInt(home.score);
+    var awayScore = parseInt(away.score);
+    var homeName = resolveTeam(home.team.shortDisplayName || home.team.displayName);
+    var awayName = resolveTeam(away.team.shortDisplayName || away.team.displayName);
+    var homeWon = homeScore > awayScore;
+    var scoreStr = homeWon ? homeScore + '-' + awayScore : awayScore + '-' + homeScore;
+
+    contests.forEach(function(ctx) {
+      var day = ctx.data.days[ctx.dayIdx];
+      if (!day) return;
+      day.picks.forEach(function(pk) {
+        if (pk.result !== '-') return;
+        var pickName = pk.team;
+        if (pickName === homeName) {
+          pk.result = homeWon ? 'W' : 'L';
+          pk.score = scoreStr;
+          changed = true;
+        } else if (pickName === awayName) {
+          pk.result = homeWon ? 'L' : 'W';
+          pk.score = scoreStr;
+          changed = true;
+        }
+      });
+    });
+  });
+
+  if (changed) render();
+  return changed;
+}
+
 function fetchScores() {
   var url = 'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=20260320&groups=100&limit=50';
   fetch(url).then(function(r){return r.json()}).then(function(data) {
+    if (!data.events) return;
+
+    // Auto-update pick results from ESPN
+    var changed = updatePickResults(data.events);
+
     var container = document.getElementById('scores-container');
     if (!container) return;
     container.innerHTML = '';
-    if (!data.events || !data.events.length) {
+    if (!data.events.length) {
       container.appendChild(h('div', {className:'card', style:'text-align:center;color:var(--text-dim);padding:40px'}, 'No games found for today'));
       return;
     }
