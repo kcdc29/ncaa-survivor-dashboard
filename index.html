@@ -266,24 +266,26 @@ var D = {
     prize_pool: 73170,
     vig: 0.00,
     investment: 1000,
-    no_submit: 54,
-    no_submit_pct: 6.2,
+    no_submit_d1: 0,
+    no_submit_d2_alive: 0,
+    d1_losers_count: 7,
+    d1_eliminated: 188,
 
     days: [
       {
         day: 1, round: 'R64', label: 'Thursday Mar 19',
         picks: [
-          { team: 'Illinois', seed: 3, entries: 4, result: 'W', score: '105-70', opp: 'Penn', field_pct: null },
+          { team: 'Illinois', seed: 3, entries: 4, result: 'W', score: '105-70', opp: 'Penn', field_pct: 7.96 },
           { team: 'Gonzaga', seed: 3, entries: 3, result: 'W', score: '73-64', opp: 'Kennesaw St', field_pct: 15.11 },
-          { team: 'Michigan St', seed: 3, entries: 3, result: 'W', score: '92-67', opp: 'N. Dakota St', field_pct: null }
+          { team: 'Michigan St', seed: 3, entries: 3, result: 'W', score: '92-67', opp: 'N. Dakota St', field_pct: 5.77 }
         ]
       },
       {
         day: 2, round: 'R64', label: 'Friday Mar 20',
         picks: [
-          { team: 'Virginia', seed: 4, entries: 4, result: '-', score: null, opp: 'Wright State', field_pct: 19.47 },
-          { team: 'Kansas', seed: 2, entries: 3, result: '-', score: null, opp: 'Cal Baptist', field_pct: 26.25 },
-          { team: 'Alabama', seed: 4, entries: 3, result: '-', score: null, opp: 'Hofstra', field_pct: 11.21 }
+          { team: 'Virginia', seed: 4, entries: 4, result: '-', score: null, opp: 'Wright State', field_pct: 19.44 },
+          { team: 'Kansas', seed: 2, entries: 3, result: '-', score: null, opp: 'Cal Baptist', field_pct: 26.22 },
+          { team: 'Alabama', seed: 4, entries: 3, result: '-', score: null, opp: 'Hofstra', field_pct: 11.19 }
         ]
       }
     ],
@@ -292,40 +294,62 @@ var D = {
     teams_saved_note: "More flexibility — hasn't used Arkansas, Wisconsin, St. Johns, Texas Tech",
 
     field_dist_d1: [
-      { team: 'Nebraska', seed: 7, pct: 22.49, lost: false },
-      { team: 'Gonzaga', seed: 3, pct: 15.11, lost: false },
-      { team: 'Wisconsin', seed: 5, pct: 10.38, lost: true },
-      { team: 'Arkansas', seed: 4, pct: 9.57, lost: false }
+      { team: 'Nebraska', seed: 7, pct: 22.49, count: 195, lost: false },
+      { team: 'Gonzaga', seed: 3, pct: 15.11, count: 131, lost: false },
+      { team: 'Wisconsin', seed: 5, pct: 10.38, count: 90, lost: true },
+      { team: 'Arkansas', seed: 4, pct: 9.57, count: 83, lost: false },
+      { team: 'Vanderbilt', seed: 8, pct: 8.54, count: 74, lost: false },
+      { team: 'Illinois', seed: 3, pct: 7.96, count: 69, lost: false },
+      { team: 'Michigan St', seed: 3, pct: 5.77, count: 50, lost: false },
+      { team: "Saint Mary's", seed: 10, pct: 3.92, count: 34, lost: true },
+      { team: 'Louisville', seed: 7, pct: 1.85, count: 16, lost: false },
+      { team: 'Georgia', seed: 6, pct: 1.85, count: 16, lost: true },
+      { team: 'Duke', seed: 1, pct: 1.61, count: 14, lost: false, is12: true },
+      { team: 'North Carolina', seed: 8, pct: 1.61, count: 14, lost: true },
+      { team: 'BYU', seed: 6, pct: 1.38, count: 12, lost: true },
+      { team: 'Ohio State', seed: 5, pct: 1.38, count: 12, lost: true },
+      { team: 'Houston', seed: 1, pct: 1.27, count: 11, lost: false, is12: true },
+      { team: 'Michigan', seed: 1, pct: 1.27, count: 11, lost: false, is12: true },
+      { team: 'South Florida', seed: 10, pct: 1.15, count: 10, lost: true },
+      { team: 'TCU', seed: 11, pct: 0.92, count: 8, lost: false },
+      { team: 'Texas', seed: 6, pct: 0.69, count: 6, lost: false },
+      { team: 'VCU', seed: 12, pct: 0.69, count: 6, lost: false },
+      { team: 'Texas A&M', seed: 9, pct: 0.23, count: 2, lost: false },
+      { team: 'Saint Louis', seed: 12, pct: 0.23, count: 2, lost: false },
+      { team: 'High Point', seed: 12, pct: 0.12, count: 1, lost: false }
     ],
-    field_12seed_d1_pct: 4.2,
+    field_d1_losers: 7,
+    field_d1_eliminated: 188,
+    field_12seed_d1_pct: 4.15,
 
     field_dist_d2: [
-      { team: 'Kansas', seed: 2, pct: 26.25, lost: false, is12: true },
-      { team: 'Virginia', seed: 4, pct: 19.47, lost: false },
-      { team: 'Alabama', seed: 4, pct: 11.21, lost: false },
-      { team: 'UConn', seed: 1, pct: 8.26, lost: false, is12: true },
-      { team: 'Tennessee', seed: 3, pct: 6.78, lost: false },
-      { team: 'St. Johns', seed: 2, pct: 6.34, lost: false, is12: true },
-      { team: 'UCLA', seed: 5, pct: 4.42, lost: false },
-      { team: 'Texas Tech', seed: 6, pct: 3.83, lost: false },
-      { team: 'Purdue', seed: 1, pct: 3.10, lost: false, is12: true },
-      { team: 'Iowa State', seed: 2, pct: 2.21, lost: false, is12: true },
-      { team: 'Florida', seed: 1, pct: 1.77, lost: false, is12: true },
-      { team: 'Arizona', seed: 2, pct: 1.62, lost: false, is12: true },
-      { team: 'Kentucky', seed: 7, pct: 1.18, lost: false },
-      { team: 'Miami FL', seed: 8, pct: 0.88, lost: false },
-      { team: 'Utah State', seed: 11, pct: 0.88, lost: false },
-      { team: 'Iowa', seed: 9, pct: 0.74, lost: false },
-      { team: 'Villanova', seed: 8, pct: 0.29, lost: false },
-      { team: 'Miami OH', seed: 14, pct: 0.15, lost: false },
-      { team: 'Akron', seed: 12, pct: 0.15, lost: false },
-      { team: 'Missouri', seed: 10, pct: 0.15, lost: false },
-      { team: 'Santa Clara', seed: 10, pct: 0.15, lost: false },
-      { team: 'UCF', seed: 9, pct: 0.15, lost: false }
+      { team: 'Kansas', seed: 2, pct: 26.22, count: 178, lost: false, is12: true },
+      { team: 'Virginia', seed: 4, pct: 19.44, count: 132, lost: false },
+      { team: 'Alabama', seed: 4, pct: 11.19, count: 76, lost: false },
+      { team: 'UConn', seed: 1, pct: 8.25, count: 56, lost: false, is12: true },
+      { team: 'Tennessee', seed: 3, pct: 6.77, count: 46, lost: false },
+      { team: 'St. Johns', seed: 2, pct: 6.33, count: 43, lost: false, is12: true },
+      { team: 'UCLA', seed: 5, pct: 4.42, count: 30, lost: false },
+      { team: 'Texas Tech', seed: 6, pct: 3.83, count: 26, lost: false },
+      { team: 'Purdue', seed: 1, pct: 3.09, count: 21, lost: false, is12: true },
+      { team: 'Iowa State', seed: 2, pct: 2.21, count: 15, lost: false, is12: true },
+      { team: 'Florida', seed: 1, pct: 1.77, count: 12, lost: false, is12: true },
+      { team: 'Arizona', seed: 2, pct: 1.62, count: 11, lost: false, is12: true },
+      { team: 'Kentucky', seed: 7, pct: 1.18, count: 8, lost: false },
+      { team: 'Miami FL', seed: 8, pct: 0.88, count: 6, lost: false },
+      { team: 'Utah State', seed: 11, pct: 0.88, count: 6, lost: false },
+      { team: 'Iowa', seed: 9, pct: 0.74, count: 5, lost: false },
+      { team: 'Villanova', seed: 8, pct: 0.29, count: 2, lost: false },
+      { team: 'Missouri', seed: 10, pct: 0.15, count: 1, lost: false },
+      { team: 'Santa Clara', seed: 10, pct: 0.15, count: 1, lost: false },
+      { team: 'Akron', seed: 12, pct: 0.15, count: 1, lost: false },
+      { team: 'Miami OH', seed: 14, pct: 0.15, count: 1, lost: false },
+      { team: 'UCF', seed: 9, pct: 0.15, count: 1, lost: false },
+      { team: 'No Pick', seed: 0, pct: 0.15, count: 1, lost: true }
     ],
-    field_12seed_d2_pct: 21.4,
+    field_12seed_d2_pct: 49.5,
     field_d2_total_picks: 679,
-    field_d2_12seed_picks: 145
+    field_d2_12seed_picks: 336
   },
 
   path: [
@@ -572,7 +596,7 @@ function renderOverview() {
   combGrid.appendChild(h('div', {className:'card card-dark'},
     h('div', {className:'card-title'}, 'Field 1/2 seed burn rate'),
     h('div', {className:'metric-val sm amber'}, D.sweat.field_12seed_d2_pct + '%'),
-    h('div', {className:'metric-sub'}, 'D1: ' + D.splash.field_12seed_d1_pct + '% → D2: ' + D.sweat.field_12seed_d2_pct + '% (Sweat)')
+    h('div', {className:'metric-sub'}, 'D1: ' + D.sweat.field_12seed_d1_pct + '% → D2: ' + D.sweat.field_12seed_d2_pct + '% (Sweat)')
   ));
   p.appendChild(combGrid);
 
@@ -811,13 +835,15 @@ function renderDistro() {
     distData.forEach(function(d) {
       var fillColor = d.lost ? 'var(--red)' : (d.is12 ? 'var(--amber)' : 'var(--accent)');
       if (colorFn) fillColor = colorFn(d);
+      var seedLabel = d.seed ? '(' + d.seed + ') ' : '';
       var row = h('div', {className:'dist-row'},
-        h('div', {className:'dist-name'}, '(' + d.seed + ') ' + d.team),
+        h('div', {className:'dist-name'}, seedLabel + d.team),
         h('div', {className:'dist-bar'},
           h('div', {className:'dist-fill', style:'width:' + (d.pct / maxPct * 100) + '%;background:' + fillColor})
         ),
         h('div', {className:'dist-pct'}, d.pct.toFixed(1) + '%'),
-        h('div', {className:'dist-note'}, d.lost ? '\u2717' : '')
+        d.count != null ? h('div', {style:'font-family:var(--mono);font-size:9.5px;color:var(--text-dim);min-width:28px;text-align:right'}, '' + d.count) :
+          h('div', {className:'dist-note'}, d.lost ? '\u2717' : '')
       );
       sec.appendChild(row);
     });
@@ -875,30 +901,30 @@ function renderDistro() {
   burnCard.appendChild(h('div', {className:'card-title'}, '1/2 Seed Burn Rate — Field Trend'));
 
   var burns = [
-    { label: 'Splash Day 1', pct: D.splash.field_12seed_d1_pct },
     { label: 'Sweat Day 1', pct: D.sweat.field_12seed_d1_pct },
+    { label: 'Splash Day 1', pct: D.splash.field_12seed_d1_pct },
     { label: 'Sweat Day 2', pct: D.sweat.field_12seed_d2_pct }
   ];
   burns.forEach(function(b) {
     burnCard.appendChild(h('div', {className:'bar-row'},
       h('div', {className:'bar-label'}, b.label),
       h('div', {className:'bar-track'},
-        h('div', {className:'bar-fill amber', style:'width:' + (b.pct / 30 * 100) + '%'})
+        h('div', {className:'bar-fill amber', style:'width:' + (b.pct / 55 * 100) + '%'})
       ),
       h('div', {className:'bar-pct'}, b.pct + '%')
     ));
   });
   burnCard.appendChild(h('div', {className:'info-box amber'},
-    h('div', {className:'info-title'}, 'Our edge grows'),
-    'Field is burning 1/2 seeds 5x faster by Day 2. We have 8 saved teams including 4 one-seeds. This advantage compounds every round.'
+    h('div', {className:'info-title'}, 'Half the alive field burned a 1/2 seed on Day 2'),
+    '49.5% of Sweat Day 2 picks are 1/2 seeds (336/679), up from 4.2% on Day 1. Kansas alone accounts for 26.2%. We saved all our 1/2 seeds — this advantage compounds every round as the field runs out of top seeds.'
   ));
   p.appendChild(burnCard);
 
-  // No-submit callout (Sweat)
-  if (D.sweat.no_submit) {
-    p.appendChild(h('div', {className:'info-box accent'},
-      h('div', {className:'info-title'}, 'Sweat: ' + D.sweat.no_submit + ' entries (' + D.sweat.no_submit_pct + '%) never submitted Day 1'),
-      'Free eliminations — these entries are dead without even playing. Effectively reduces the field before any games are played.'
+  // Day 1 elimination callout (Sweat)
+  if (D.sweat.d1_eliminated) {
+    p.appendChild(h('div', {className:'info-box red', style:'margin-top:12px'},
+      h('div', {className:'info-title'}, 'Sweat Day 1: ' + D.sweat.d1_losers_count + ' teams lost, ' + D.sweat.d1_eliminated + ' entries eliminated (' + pct(D.sweat.d1_eliminated, D.sweat.field_size) + ')'),
+      'Wisconsin(90), Saint Mary\'s(34), Georgia(16), UNC(14), Ohio State(12), BYU(12), South Florida(10). All 679 survivors submitted Day 2 picks.'
     ));
   }
 
