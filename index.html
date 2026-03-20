@@ -179,17 +179,17 @@ const DATA = {
     name: "Splash Sports — Walker's Madness",
     field_size: 6503,
     our_entries: 100,
-    our_alive: 100,
+    our_alive: 82,
     buy_in: 25,
     prize_pool: 142335,
     vig: 10,
     picks: {
       day1: [
-        {team:"Illinois",seed:3,entries:21,win_pct:99.3,field_pct:null,status:"pending"},
-        {team:"Gonzaga",seed:3,entries:21,win_pct:99.1,field_pct:null,status:"pending"},
-        {team:"Michigan St",seed:3,entries:20,win_pct:93.9,field_pct:null,status:"pending"},
-        {team:"Arkansas",seed:4,entries:20,win_pct:93.4,field_pct:null,status:"pending"},
-        {team:"Wisconsin",seed:5,entries:18,win_pct:90.9,field_pct:11.1,status:"pending"},
+        {team:"Illinois",seed:3,entries:21,win_pct:99.3,field_pct:7.5,status:"won"},
+        {team:"Gonzaga",seed:3,entries:21,win_pct:99.1,field_pct:12.0,status:"won"},
+        {team:"Michigan St",seed:3,entries:20,win_pct:93.9,field_pct:7.0,status:"won"},
+        {team:"Arkansas",seed:4,entries:20,win_pct:93.4,field_pct:12.1,status:"won"},
+        {team:"Wisconsin",seed:5,entries:18,win_pct:90.9,field_pct:10.3,status:"lost"},
       ],
       day2: [
         {team:"Virginia",seed:3,entries:21,win_pct:94.6,field_pct:null,status:"upcoming"},
@@ -201,15 +201,39 @@ const DATA = {
     },
     saved: ["Duke","Michigan","Houston"],
     field_picks: [
-      {team:"Nebraska",picks:1122,pct:17.3,grade:"winning"},
-      {team:"Wisconsin",picks:722,pct:11.1,grade:"winning"},
-      {team:"Louisville",picks:194,pct:3.0,grade:"winning"},
-      {team:"Ohio State",picks:189,pct:2.9,grade:"winning"},
-      {team:"South Florida",picks:103,pct:1.6,grade:"losing"},
-      {team:"TCU",picks:56,pct:0.9,grade:"losing"},
+      {team:"Nebraska",picks:1122,pct:16.0,grade:"winning"},
+      {team:"Arkansas",picks:847,pct:12.1,grade:"winning"},
+      {team:"Gonzaga",picks:842,pct:12.0,grade:"winning"},
+      {team:"Wisconsin",picks:722,pct:10.3,grade:"losing"},
+      {team:"Vanderbilt",picks:557,pct:7.9,grade:"winning"},
+      {team:"Illinois",picks:527,pct:7.5,grade:"winning"},
+      {team:"Michigan St",picks:492,pct:7.0,grade:"winning"},
+      {team:"Saint Mary's",picks:297,pct:4.2,grade:"losing"},
+      {team:"Louisville",picks:194,pct:2.8,grade:"winning"},
+      {team:"UNC",picks:190,pct:2.7,grade:"losing"},
+      {team:"Ohio State",picks:189,pct:2.7,grade:"losing"},
+      {team:"BYU",picks:176,pct:2.5,grade:"losing"},
+      {team:"Georgia",picks:168,pct:2.4,grade:"losing"},
+      {team:"Houston",picks:127,pct:1.8,grade:"winning"},
+      {team:"Duke",picks:109,pct:1.6,grade:"winning"},
+      {team:"South Florida",picks:103,pct:1.5,grade:"losing"},
+      {team:"VCU",picks:93,pct:1.3,grade:"winning"},
+      {team:"Saint Louis",picks:60,pct:0.9,grade:"winning"},
+      {team:"TCU",picks:56,pct:0.8,grade:"winning"},
+      {team:"Michigan",picks:44,pct:0.6,grade:"winning"},
+      {team:"Texas",picks:41,pct:0.6,grade:"winning"},
+      {team:"Texas A&M",picks:29,pct:0.4,grade:"winning"},
       {team:"Troy",picks:7,pct:0.1,grade:"losing"},
-      {team:"High Point",picks:7,pct:0.1,grade:"losing"},
+      {team:"High Point",picks:7,pct:0.1,grade:"winning"},
+      {team:"Hawaii",picks:2,pct:0.0,grade:"losing"},
+      {team:"McNeese",picks:2,pct:0.0,grade:"losing"},
     ],
+    field_dead: {
+      total: 1856,
+      pct: 28.5,
+      teams: "WIS(722) + SMC(297) + UNC(190) + OSU(189) + BYU(176) + UGA(168) + USF(103) + Troy(7) + HAW(2) + MCNS(2)"
+    },
+    seeds_burned: {duke:109,michigan:44,houston:127,total:280,pct:4.0},
     portfolio_players: [
       {name:"ASTRO1227",entries:100,is_us:true},
       {name:"princehal",entries:100},
@@ -227,6 +251,11 @@ const DATA = {
       {range:"10-49",players:45,entries:774},
       {range:"50-100",players:8,entries:600},
     ],
+    day1_summary: {
+      our_survival: "82/100 (82%)",
+      field_survival: "~4,647/6,503 (~71.5%)",
+      leverage: "We survived at 82% vs field 71.5% — positive leverage despite Wisconsin loss"
+    },
   },
   
   sweat: {
@@ -239,9 +268,9 @@ const DATA = {
     vig: 0,
     picks: {
       day1: [
-        {team:"Illinois",seed:3,entries:4,win_pct:99.3,field_pct:7.96,status:"pending"},
-        {team:"Gonzaga",seed:3,entries:3,win_pct:99.1,field_pct:15.11,status:"pending"},
-        {team:"Michigan St",seed:3,entries:3,win_pct:93.9,field_pct:5.77,status:"pending"},
+        {team:"Illinois",seed:3,entries:4,win_pct:99.3,field_pct:7.96,status:"won"},
+        {team:"Gonzaga",seed:3,entries:3,win_pct:99.1,field_pct:15.11,status:"won"},
+        {team:"Michigan St",seed:3,entries:3,win_pct:93.9,field_pct:5.77,status:"won"},
       ],
       day2: [
         {team:"Virginia",seed:3,entries:4,win_pct:94.6,field_pct:null,status:"upcoming"},
@@ -251,42 +280,41 @@ const DATA = {
     },
     saved: ["Duke","Michigan","Houston","Arizona","Florida","UConn","Iowa State","Purdue"],
     field_picks: [
-      {team:"Nebraska",picks:195,pct:22.49},{team:"Gonzaga",picks:131,pct:15.11},
-      {team:"Wisconsin",picks:90,pct:10.38},{team:"Arkansas",picks:83,pct:9.57},
-      {team:"Vanderbilt",picks:74,pct:8.54},{team:"Illinois",picks:69,pct:7.96},
-      {team:"Michigan St",picks:50,pct:5.77},{team:"Saint Mary's",picks:34,pct:3.92},
-      {team:"Louisville",picks:16,pct:1.85},{team:"Georgia",picks:16,pct:1.85},
-      {team:"UNC",picks:14,pct:1.61},{team:"Duke",picks:14,pct:1.61},
-      {team:"BYU",picks:12,pct:1.38},{team:"Ohio State",picks:12,pct:1.38},
-      {team:"Houston",picks:11,pct:1.27},{team:"Michigan",picks:11,pct:1.27},
-      {team:"South Florida",picks:10,pct:1.15},{team:"TCU",picks:8,pct:0.92},
-      {team:"Texas",picks:6,pct:0.69},{team:"VCU",picks:6,pct:0.69},
-      {team:"Saint Louis",picks:2,pct:0.23},{team:"Texas A&M",picks:2,pct:0.23},
-      {team:"High Point",picks:1,pct:0.12},
+      {team:"Nebraska",picks:195,pct:22.49,grade:"winning"},
+      {team:"Gonzaga",picks:131,pct:15.11,grade:"winning"},
+      {team:"Wisconsin",picks:90,pct:10.38,grade:"losing"},
+      {team:"Arkansas",picks:83,pct:9.57,grade:"winning"},
+      {team:"Vanderbilt",picks:74,pct:8.54,grade:"winning"},
+      {team:"Illinois",picks:69,pct:7.96,grade:"winning"},
+      {team:"Michigan St",picks:50,pct:5.77,grade:"winning"},
+      {team:"Saint Mary's",picks:34,pct:3.92,grade:"losing"},
+      {team:"Louisville",picks:16,pct:1.85,grade:"winning"},
+      {team:"Georgia",picks:16,pct:1.85,grade:"losing"},
+      {team:"UNC",picks:14,pct:1.61,grade:"losing"},
+      {team:"Duke",picks:14,pct:1.61,grade:"winning"},
+      {team:"BYU",picks:12,pct:1.38,grade:"losing"},
+      {team:"Ohio State",picks:12,pct:1.38,grade:"losing"},
+      {team:"Houston",picks:11,pct:1.27,grade:"winning"},
+      {team:"Michigan",picks:11,pct:1.27,grade:"winning"},
+      {team:"South Florida",picks:10,pct:1.15,grade:"losing"},
+      {team:"TCU",picks:8,pct:0.92,grade:"winning"},
+      {team:"Texas",picks:6,pct:0.69,grade:"winning"},
+      {team:"VCU",picks:6,pct:0.69,grade:"winning"},
+      {team:"Saint Louis",picks:2,pct:0.23,grade:"winning"},
+      {team:"Texas A&M",picks:2,pct:0.23,grade:"winning"},
+      {team:"High Point",picks:1,pct:0.12,grade:"winning"},
     ],
     dead_money: {no_submit:54,pct:6.2},
     seeds_burned: {one_seeds:25,two_seeds:11,pct:4.2},
+    day1_summary: {
+      our_survival: "10/10 (100%)",
+      field_dead_pct: "~28%",
+      leverage: "Perfect survival. No exposure to Wisconsin upset."
+    },
   },
 
-  // Games - update these as scores come in
-  games: [
-    {away:"TCU",away_seed:9,home:"Ohio State",home_seed:8,status:"live",away_score:0,home_score:0,time:"1H",our_pick:null},
-    {away:"Troy",away_seed:13,home:"Nebraska",home_seed:4,status:"live",away_score:0,home_score:0,time:"1H",our_pick:null},
-    {away:"South Florida",away_seed:11,home:"Louisville",home_seed:6,status:"upcoming",away_score:0,home_score:0,time:"2:00 ET",our_pick:null},
-    {away:"High Point",away_seed:12,home:"Wisconsin",home_seed:5,status:"upcoming",away_score:0,home_score:0,time:"2:30 ET",our_pick:"Wisconsin"},
-    {away:"Siena",away_seed:16,home:"Duke",home_seed:1,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
-    {away:"McNeese",away_seed:12,home:"Vanderbilt",home_seed:5,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
-    {away:"N Dakota St",away_seed:14,home:"Michigan St",home_seed:3,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:"Michigan St"},
-    {away:"Hawaii",away_seed:13,home:"Arkansas",home_seed:4,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:"Arkansas"},
-    {away:"VCU",away_seed:11,home:"UNC",home_seed:6,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
-    {away:"Howard",away_seed:16,home:"Michigan",home_seed:1,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
-    {away:"Texas",away_seed:7,home:"BYU",home_seed:6,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
-    {away:"Texas A&M",away_seed:10,home:"Saint Mary's",home_seed:7,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
-    {away:"Penn",away_seed:14,home:"Illinois",home_seed:3,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:"Illinois"},
-    {away:"Saint Louis",away_seed:9,home:"Georgia",home_seed:8,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
-    {away:"Kennesaw St",away_seed:14,home:"Gonzaga",home_seed:3,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:"Gonzaga"},
-    {away:"Idaho",away_seed:15,home:"Houston",home_seed:2,status:"upcoming",away_score:0,home_score:0,time:"",our_pick:null},
-  ],
+  // Games - ESPN API auto-updates these
+  games: [],
 };
 
 // ============================================================
@@ -335,8 +363,8 @@ function renderOverview() {
   m.innerHTML = '';
   m.appendChild(metricCard('Total investment', '$' + totalInvest.toLocaleString(), totalEntries + ' entries across 2 contests'));
   m.appendChild(metricCard('Combined prize pool', '$' + totalPrize.toLocaleString(), Math.round(totalPrize/totalInvest) + 'x leverage', true));
-  m.appendChild(metricCard('Entries alive', totalAlive + '/' + totalEntries, 'Day ' + DATA.day + ' in progress', true));
-  m.appendChild(metricCard('Equity estimate', 'TBD', 'Updates after Day 1'));
+  m.appendChild(metricCard('Entries alive', totalAlive + '/' + totalEntries, 'Splash ' + S.our_alive + '/100 | Sweat ' + W.our_alive + '/10', true));
+  m.appendChild(metricCard('Day 1 edge', 'Us 84% vs Field ~72%', 'Outsurvived field by ~12pp', true));
 
   let c = document.getElementById('overview-contests');
   c.innerHTML = '';
