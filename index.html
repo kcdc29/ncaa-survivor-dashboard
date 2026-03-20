@@ -255,14 +255,20 @@ var D = {
     field_12seed_d1_pct: 4.0,
 
     field_dist_d2: [
+      { team: 'Virginia', seed: 3, pct: 15.80, count: 811, tipped: true },
       { team: 'Texas Tech', seed: 5, pct: 5.00, count: 258, tipped: true },
+      { team: 'Iowa State', seed: 2, pct: 2.90, count: 151, tipped: true, is12: true },
       { team: 'Kentucky', seed: 7, pct: 2.10, count: 109, tipped: true },
+      { team: 'Arizona', seed: 1, pct: 1.40, count: 72, tipped: true, is12: true },
       { team: 'Santa Clara', seed: 10, pct: 0.40, count: 23, tipped: true },
-      { team: 'Akron', seed: 12, pct: 0.30, count: 13, tipped: true }
+      { team: 'Akron', seed: 12, pct: 0.30, count: 13, tipped: true },
+      { team: 'LIU', seed: 16, pct: 0, count: 0, tipped: true },
+      { team: 'Wright State', seed: 14, pct: 0, count: 0, tipped: true },
+      { team: 'Tennessee State', seed: 15, pct: 0, count: 0, tipped: true }
     ],
     field_d2_partial: true,
-    field_d2_tipped_total: 403,
-    field_d2_tipped_pct: 7.80,
+    field_d2_tipped_total: 1437,
+    field_d2_tipped_pct: 27.04,
 
     portfolio_players: [
       { name: 'princehal', entries: 100, alive: 100, pct: 100, picks: 'NEB(37) GONZ(33) ARK(20) ILL(5) HOU(5)', note: 'Burned Houston D1' },
@@ -884,6 +890,7 @@ function renderDistro() {
       D.splash.field_d2_tipped_total + ' picks visible (' + D.splash.field_d2_tipped_pct + '% of alive field) — updates as games tip'
     ));
     D.splash.field_dist_d2.forEach(function(d) {
+      if (d.count === 0) return;
       var row = h('div', {className:'dist-row'},
         h('div', {className:'dist-name'}, '(' + d.seed + ') ' + d.team),
         h('div', {className:'dist-bar'},
@@ -895,8 +902,8 @@ function renderDistro() {
       splashD2Card.appendChild(row);
     });
     splashD2Card.appendChild(h('div', {className:'info-box accent', style:'margin-top:8px'},
-      h('div', {className:'info-title'}, 'TTU at 5% of field'),
-      'Texas Tech is the most popular Day 2 pick so far on Splash (258 entries). We have 19 entries on TTU. Kentucky at 2.1% is notable — they are our Day 4 opponent for Iowa State burn.'
+      h('div', {className:'info-title'}, 'Virginia is the Splash Day 2 chalk at 15.8%'),
+      '811 entries on Virginia (we have 21). Iowa State at 2.9% (151) — notable since ISU is our Day 4 burn candidate. Arizona at 1.4% (72) — a 1-seed being burned early by 72 entries while we have it saved for Day 8.'
     ));
     p.appendChild(splashD2Card);
   }
