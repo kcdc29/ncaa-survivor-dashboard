@@ -420,10 +420,10 @@ var D = {
       result: 'In progress — games tipping now',
       prob: null },
     { day: 3, round: 'R32', status: 'active', label: 'Day 3 — R32 Sat',
-      splash: 'ILL grp(21)→ARK · GONZ grp(21)→ARK · MSU grp(20)→ILL · ARK grp(20)→ILL',
-      sweat: 'ILL grp(4)→ARK · GONZ grp(3)→ILL · MSU grp(3)→GONZ',
+      splash: 'MSU+GONZ grp(41)→ILL · ILL grp(21)→ARK · ARK grp(20)→GONZ',
+      sweat: 'ILL(6) · ARK(4)',
       result: 'Games tipping — R32',
-      prob: 'ARK 90.8% (Elo) · ILL 87.0% (Elo) · GONZ 77.9% (Elo)',
+      prob: 'ILL 86.3% · ARK 84.1% · GONZ 75.3% (blended)',
       tag: 'cross', tagLabel: 'ZERO SAVES BURNED' },
     { day: 4, round: 'R32', status: 'future', label: 'Day 4 — R32 Sun',
       splash: 'Iowa State vs Kentucky winner (all entries)',
@@ -1214,269 +1214,225 @@ function renderPath() {
 }
 
 // ═══════════════════════════════════════════
-// ELO LAB — Reverse-Engineered Dr. Bob Model
+// ELO LAB — Bracket-Aware Model
 // ═══════════════════════════════════════════
 var ELO = {
   sigma: { East: 421, South: 291, West: 468, Midwest: 405 },
   teams: [
-    {n:'Duke',s:1,r:'East',elo:1693,alive:true,used_sp:false,used_sw:false},
-    {n:'Ohio St.',s:8,r:'East',elo:1412,alive:false},
-    {n:'TCU',s:9,r:'East',elo:1326,alive:true,used_sp:false,used_sw:false},
-    {n:'Kansas',s:4,r:'East',elo:1443,alive:true,used_sp:true,used_sw:false},
-    {n:'Cal Baptist',s:13,r:'East',elo:1071,alive:false},
-    {n:"St. John's",s:5,r:'East',elo:1425,alive:true,used_sp:true,used_sw:false},
-    {n:'Louisville',s:6,r:'East',elo:1441,alive:true,used_sp:false,used_sw:false},
-    {n:'South Florida',s:11,r:'East',elo:1225,alive:false},
-    {n:'Michigan St.',s:3,r:'East',elo:1574,alive:true,used_sp:true,used_sw:true},
-    {n:'N. Dakota St.',s:14,r:'East',elo:1074,alive:false},
-    {n:'UCLA',s:7,r:'East',elo:1373,alive:true,used_sp:false,used_sw:false},
-    {n:'UCF',s:10,r:'East',elo:1267,alive:true,used_sp:false,used_sw:false},
-    {n:'Connecticut',s:2,r:'East',elo:1575,alive:true,used_sp:false,used_sw:false},
-    {n:'Furman',s:15,r:'East',elo:852,alive:false},
-    {n:'Florida',s:1,r:'South',elo:1531,alive:true,used_sp:false,used_sw:false},
-    {n:'Clemson',s:8,r:'South',elo:1354,alive:true,used_sp:false,used_sw:false},
-    {n:'Iowa',s:9,r:'South',elo:1382,alive:true,used_sp:false,used_sw:false},
-    {n:'Nebraska',s:4,r:'South',elo:1415,alive:true,used_sp:false,used_sw:false},
-    {n:'Troy',s:13,r:'South',elo:1173,alive:false},
-    {n:'Vanderbilt',s:5,r:'South',elo:1440,alive:true,used_sp:false,used_sw:false},
-    {n:'McNeese',s:12,r:'South',elo:1200,alive:false},
-    {n:'North Carolina',s:6,r:'South',elo:1421,alive:false},
-    {n:'Illinois',s:3,r:'South',elo:1571,alive:true,used_sp:true,used_sw:true},
-    {n:'VCU',s:11,r:'South',elo:1331,alive:true,used_sp:false,used_sw:false},
-    {n:'Houston',s:2,r:'South',elo:1663,alive:true,used_sp:false,used_sw:false},
-    {n:'Texas A&M',s:10,r:'South',elo:1366,alive:true,used_sp:false,used_sw:false},
-    {n:'Arizona',s:1,r:'West',elo:1723,alive:true,used_sp:false,used_sw:false},
-    {n:'Villanova',s:8,r:'West',elo:1353,alive:true,used_sp:false,used_sw:false},
-    {n:'Utah State',s:9,r:'West',elo:1359,alive:true,used_sp:false,used_sw:false},
-    {n:'Arkansas',s:4,r:'West',elo:1446,alive:true,used_sp:true,used_sw:false},
-    {n:'Wisconsin',s:5,r:'West',elo:1448,alive:false},
-    {n:'High Point',s:12,r:'West',elo:980,alive:true,used_sp:false,used_sw:false},
-    {n:'BYU',s:6,r:'West',elo:1525,alive:false},
-    {n:'Texas',s:11,r:'West',elo:1496,alive:true,used_sp:false,used_sw:false},
-    {n:'Gonzaga',s:3,r:'West',elo:1752,alive:true,used_sp:true,used_sw:true},
-    {n:'Miami FL',s:7,r:'West',elo:1510,alive:true,used_sp:false,used_sw:false},
-    {n:'Missouri',s:10,r:'West',elo:1489,alive:true,used_sp:false,used_sw:false},
-    {n:'Purdue',s:2,r:'West',elo:1750,alive:true,used_sp:false,used_sw:false},
-    {n:'Michigan',s:1,r:'Midwest',elo:1717,alive:true,used_sp:false,used_sw:false},
-    {n:'Georgia',s:8,r:'Midwest',elo:1319,alive:true,used_sp:false,used_sw:false},
-    {n:'Saint Louis',s:9,r:'Midwest',elo:1330,alive:true,used_sp:false,used_sw:false},
-    {n:'Alabama',s:4,r:'Midwest',elo:1412,alive:true,used_sp:true,used_sw:true},
-    {n:'Hofstra',s:13,r:'Midwest',elo:1200,alive:false},
-    {n:'Texas Tech',s:5,r:'Midwest',elo:1475,alive:true,used_sp:true,used_sw:false},
-    {n:'Akron',s:12,r:'Midwest',elo:1237,alive:false},
-    {n:'Tennessee',s:6,r:'Midwest',elo:1480,alive:true,used_sp:false,used_sw:false},
-    {n:'Virginia',s:3,r:'Midwest',elo:1539,alive:true,used_sp:true,used_sw:true},
-    {n:'Kentucky',s:7,r:'Midwest',elo:1413,alive:true,used_sp:false,used_sw:false},
-    {n:'Santa Clara',s:10,r:'Midwest',elo:1351,alive:true,used_sp:false,used_sw:false},
-    {n:'Iowa State',s:2,r:'Midwest',elo:1625,alive:true,used_sp:false,used_sw:false}
+    {n:'Duke',s:1,r:'East',elo:1693,alive:true,us:'saved',bp:1},
+    {n:'TCU',s:9,r:'East',elo:1326,alive:true,us:false,bp:2},
+    {n:'Kansas',s:4,r:'East',elo:1443,alive:true,us:'splash',bp:3},
+    {n:"St. John's",s:5,r:'East',elo:1425,alive:true,us:'splash',bp:4},
+    {n:'Louisville',s:6,r:'East',elo:1441,alive:true,us:false,bp:5},
+    {n:'Michigan St.',s:3,r:'East',elo:1574,alive:true,us:'both',bp:6},
+    {n:'UCLA',s:7,r:'East',elo:1373,alive:true,us:false,bp:7},
+    {n:'Connecticut',s:2,r:'East',elo:1575,alive:true,us:'saved',bp:8},
+    {n:'Florida',s:1,r:'South',elo:1531,alive:true,us:'saved',bp:1},
+    {n:'Clemson',s:8,r:'South',elo:1354,alive:true,us:false,bp:2},
+    {n:'Iowa',s:9,r:'South',elo:1382,alive:true,us:false,bp:2},
+    {n:'Nebraska',s:4,r:'South',elo:1415,alive:true,us:false,bp:3},
+    {n:'Vanderbilt',s:5,r:'South',elo:1440,alive:true,us:false,bp:4},
+    {n:'Illinois',s:3,r:'South',elo:1571,alive:true,us:'both',bp:5},
+    {n:'VCU',s:11,r:'South',elo:1331,alive:true,us:false,bp:6},
+    {n:'Houston',s:2,r:'South',elo:1663,alive:true,us:'saved',bp:7},
+    {n:'Texas A&M',s:10,r:'South',elo:1366,alive:true,us:false,bp:8},
+    {n:'Arizona',s:1,r:'West',elo:1723,alive:true,us:'saved',bp:1},
+    {n:'Villanova',s:8,r:'West',elo:1353,alive:true,us:false,bp:2},
+    {n:'Utah State',s:9,r:'West',elo:1359,alive:true,us:false,bp:2},
+    {n:'Arkansas',s:4,r:'West',elo:1446,alive:true,us:'splash',bp:3},
+    {n:'High Point',s:12,r:'West',elo:980,alive:true,us:false,bp:4},
+    {n:'Texas',s:11,r:'West',elo:1496,alive:true,us:false,bp:5},
+    {n:'Gonzaga',s:3,r:'West',elo:1752,alive:true,us:'both',bp:6},
+    {n:'Miami FL',s:7,r:'West',elo:1510,alive:true,us:false,bp:7},
+    {n:'Missouri',s:10,r:'West',elo:1489,alive:true,us:false,bp:7},
+    {n:'Purdue',s:2,r:'West',elo:1750,alive:true,us:'saved',bp:8},
+    {n:'Michigan',s:1,r:'Midwest',elo:1717,alive:true,us:'saved',bp:1},
+    {n:'Saint Louis',s:9,r:'Midwest',elo:1330,alive:true,us:false,bp:2},
+    {n:'Georgia',s:8,r:'Midwest',elo:1319,alive:true,us:false,bp:2},
+    {n:'Alabama',s:4,r:'Midwest',elo:1412,alive:true,us:'both',bp:3},
+    {n:'Texas Tech',s:5,r:'Midwest',elo:1475,alive:true,us:'splash',bp:4},
+    {n:'Tennessee',s:6,r:'Midwest',elo:1480,alive:true,us:false,bp:5},
+    {n:'Virginia',s:3,r:'Midwest',elo:1539,alive:true,us:'both',bp:6},
+    {n:'Kentucky',s:7,r:'Midwest',elo:1413,alive:true,us:false,bp:7},
+    {n:'Santa Clara',s:10,r:'Midwest',elo:1351,alive:true,us:false,bp:7},
+    {n:'Iowa State',s:2,r:'Midwest',elo:1625,alive:true,us:'saved',bp:8}
   ]
 };
+function eloWinProb(rA,rB,sigma){return 1/(1+Math.pow(10,(rB-rA)/sigma))}
 
-function eloWinProb(rA, rB, sigma) {
-  return 1.0 / (1.0 + Math.pow(10, (rB - rA) / sigma));
+function getMatchupsByRound(round,region){
+  var teams=ELO.teams.filter(function(t){return t.alive&&(!region||t.r===region)});
+  var m=[];
+  var regs=region?[region]:['East','South','West','Midwest'];
+  regs.forEach(function(reg){
+    var rt=teams.filter(function(t){return t.r===reg});
+    if(round==='R32'){
+      [[1,2],[3,4],[5,6],[7,8]].forEach(function(pod){
+        var a=rt.filter(function(t){return t.bp===pod[0]});
+        var b=rt.filter(function(t){return t.bp===pod[1]});
+        a.forEach(function(ta){b.forEach(function(tb){m.push({a:ta,b:tb,region:reg})})});
+      });
+    } else if(round==='S16'){
+      [[1,2,3,4],[5,6,7,8]].forEach(function(pod){
+        var top=rt.filter(function(t){return pod.slice(0,2).indexOf(t.bp)>=0});
+        var bot=rt.filter(function(t){return pod.slice(2).indexOf(t.bp)>=0});
+        top.forEach(function(ta){bot.forEach(function(tb){m.push({a:ta,b:tb,region:reg})})});
+      });
+    } else if(round==='E8'){
+      var top=rt.filter(function(t){return t.bp<=4}),bot=rt.filter(function(t){return t.bp>=5});
+      top.forEach(function(ta){bot.forEach(function(tb){m.push({a:ta,b:tb,region:reg})})});
+    }
+  });
+  if(round==='F4'){
+    [['East','South'],['West','Midwest']].forEach(function(pair){
+      var r1=teams.filter(function(t){return t.r===pair[0]});
+      var r2=teams.filter(function(t){return t.r===pair[1]});
+      r1.forEach(function(ta){r2.forEach(function(tb){m.push({a:ta,b:tb,region:pair[0]+'/'+pair[1]})})});
+    });
+  }
+  return m;
 }
 
-function renderEloLab() {
-  var p = h('div', {className:'panel' + (activeTab === 'Elo Lab' ? ' active' : ''), 'data-tab':'Elo Lab'});
-
-  p.appendChild(h('div', {className:'section-title'}, 'Reverse-Engineered Dr. Bob Model'));
-  p.appendChild(h('div', {style:'font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.6'},
-    'We reverse-engineered Dr. Bob\'s round-by-round probabilities into an Elo-based rating system. ',
-    'Formula: P(A beats B) = 1 / (1 + 10', h('sup', null, '(rB-rA)/σ'), '). ',
-    'Each region has a different σ (spread): ',
-    h('span', {style:'color:var(--green);font-family:var(--mono)'}, 'South σ=291'), ' (least random) · ',
-    h('span', {style:'color:var(--accent);font-family:var(--mono)'}, 'Midwest σ=405'), ' · ',
-    h('span', {style:'color:var(--amber);font-family:var(--mono)'}, 'East σ=421'), ' · ',
-    h('span', {style:'color:var(--red);font-family:var(--mono)'}, 'West σ=468'), ' (most random). ',
-    'Fit quality: <0.5pp error across R64, S16, E8.'
+function renderEloLab(){
+  var p=h('div',{className:'panel'+(activeTab==='Elo Lab'?' active':''),'data-tab':'Elo Lab'});
+  p.appendChild(h('div',{className:'section-title'},'Reverse-Engineered Dr. Bob Model'));
+  p.appendChild(h('div',{style:'font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.6'},
+    'Elo model with region-specific \u03c3. Optimizer blends 40% Elo / 40% Market / 20% Crude. ',
+    h('span',{style:'color:var(--green);font-family:var(--mono)'},'S \u03c3=291'),' \u00b7 ',
+    h('span',{style:'color:var(--accent);font-family:var(--mono)'},'MW \u03c3=405'),' \u00b7 ',
+    h('span',{style:'color:var(--amber);font-family:var(--mono)'},'E \u03c3=421'),' \u00b7 ',
+    h('span',{style:'color:var(--red);font-family:var(--mono)'},'W \u03c3=468')
   ));
 
-  // Interactive matchup calculator
-  var calcCard = h('div', {className:'card', style:'margin-bottom:14px;border:1px solid var(--accent-dim)'});
-  calcCard.appendChild(h('div', {className:'card-title'}, 'Matchup Calculator ', h('span', {className:'badge badge-accent'}, 'INTERACTIVE')));
+  var calcCard=h('div',{className:'card',style:'margin-bottom:14px;border:1px solid var(--accent-dim)'});
+  calcCard.appendChild(h('div',{className:'card-title'},'Bracket Matchup Explorer ',h('span',{className:'badge badge-accent'},'BRACKET-AWARE')));
 
-  var calcGrid = h('div', {style:'display:grid;grid-template-columns:1fr 60px 1fr;gap:12px;align-items:start'});
+  var filterRow=h('div',{style:'display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap'});
+  var roundSel=h('select',{id:'elo-round',style:'padding:8px 12px;background:var(--surface);color:var(--text-bright);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:11px'});
+  ['R32','S16','E8','F4','Any'].forEach(function(r){
+    var lbl={R32:'R32 \u2014 Round of 32',S16:'S16 \u2014 Sweet 16',E8:'E8 \u2014 Elite 8',F4:'F4 \u2014 Final Four',Any:'Free pick (any vs any)'}[r];
+    roundSel.appendChild(h('option',{value:r},lbl));
+  });
+  var regionSel=h('select',{id:'elo-region',style:'padding:8px 12px;background:var(--surface);color:var(--text-bright);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:11px'});
+  regionSel.appendChild(h('option',{value:''},'All Regions'));
+  ['East','South','West','Midwest'].forEach(function(r){regionSel.appendChild(h('option',{value:r},r+' (\u03c3='+ELO.sigma[r]+')'))});
+  filterRow.appendChild(h('div',null,h('div',{style:'font-size:9px;color:var(--text-dim);font-family:var(--mono);margin-bottom:3px;text-transform:uppercase;letter-spacing:1px'},'Round'),roundSel));
+  filterRow.appendChild(h('div',null,h('div',{style:'font-size:9px;color:var(--text-dim);font-family:var(--mono);margin-bottom:3px;text-transform:uppercase;letter-spacing:1px'},'Region'),regionSel));
+  calcCard.appendChild(filterRow);
 
-  var aliveTeams = ELO.teams.filter(function(t){return t.alive}).sort(function(a,b){return b.elo-a.elo});
+  var mc=h('div',{id:'elo-matchups'});
+  calcCard.appendChild(mc);
 
-  function makeSelect(id) {
-    var sel = h('select', {id:id, style:'width:100%;padding:10px;background:var(--surface);color:var(--text-bright);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:12px'});
-    sel.appendChild(h('option', {value:''}, 'Select team...'));
-    ['East','South','West','Midwest'].forEach(function(reg) {
-      var grp = h('optgroup', {label:reg + ' (σ=' + ELO.sigma[reg] + ')'});
-      aliveTeams.filter(function(t){return t.r===reg}).forEach(function(t) {
-        var label = '(' + t.s + ') ' + t.n + ' [' + t.elo + ']';
-        grp.appendChild(h('option', {value:t.n}, label));
+  function si(t){return t.us==='saved'?'\ud83d\udd12':t.us==='splash'?'\ud83d\udcddS':t.us==='both'?'\ud83d\udcddB':''}
+
+  function renderMatchups(){
+    var c=document.getElementById('elo-matchups');if(!c)return;c.innerHTML='';
+    var round=document.getElementById('elo-round').value;
+    var region=document.getElementById('elo-region').value||null;
+    if(round==='Any'){c.appendChild(renderFreePick());return}
+    var matchups=getMatchupsByRound(round,region);
+    if(!matchups.length){c.appendChild(h('div',{style:'color:var(--text-dim);padding:20px;text-align:center'},'No matchups for this round/region'));return}
+    var byReg={};matchups.forEach(function(m){if(!byReg[m.region])byReg[m.region]=[];byReg[m.region].push(m)});
+    Object.keys(byReg).forEach(function(reg){
+      var el=h('div',{style:'margin-bottom:14px'});
+      el.appendChild(h('div',{style:'font-family:var(--mono);font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border-lite)'},reg));
+      byReg[reg].forEach(function(m){
+        var sigma=m.a.r===m.b.r?ELO.sigma[m.a.r]:(ELO.sigma[m.a.r]+ELO.sigma[m.b.r])/2;
+        var pA=eloWinProb(m.a.elo,m.b.elo,sigma);
+        var row=h('div',{style:'display:grid;grid-template-columns:1fr 180px 1fr;gap:6px;align-items:center;padding:5px 0;border-bottom:1px solid var(--border-lite)'});
+        row.appendChild(h('div',{style:'text-align:right;font-size:12px'},
+          si(m.a)?h('span',{style:'font-size:10px;margin-right:3px'},si(m.a)):null,
+          h('span',{className:'seed'},'('+m.a.s+')'),
+          h('span',{style:'font-weight:'+(pA>=0.5?'700':'400')+';color:'+(pA>=0.5?'var(--text-bright)':'var(--text-muted)')},m.a.n),
+          h('span',{style:'font-family:var(--mono);font-size:11px;margin-left:6px;color:'+(pA>=0.5?'var(--green)':'var(--text-dim)')},(pA*100).toFixed(1)+'%')
+        ));
+        row.appendChild(h('div',{style:'height:14px;border-radius:3px;overflow:hidden;display:flex'},
+          h('div',{style:'width:'+Math.round(pA*100)+'%;background:'+(pA>=0.5?'var(--green)':'var(--red)')}),
+          h('div',{style:'width:'+Math.round((1-pA)*100)+'%;background:'+(pA<0.5?'var(--green)':'var(--red)')})
+        ));
+        row.appendChild(h('div',{style:'font-size:12px'},
+          h('span',{style:'font-family:var(--mono);font-size:11px;margin-right:6px;color:'+(pA<0.5?'var(--green)':'var(--text-dim)')},((1-pA)*100).toFixed(1)+'%'),
+          h('span',{style:'font-weight:'+(pA<0.5?'700':'400')+';color:'+(pA<0.5?'var(--text-bright)':'var(--text-muted)')},m.b.n),
+          h('span',{className:'seed'},'('+m.b.s+')'),
+          si(m.b)?h('span',{style:'font-size:10px;margin-left:3px'},si(m.b)):null
+        ));
+        el.appendChild(row);
       });
-      sel.appendChild(grp);
+      c.appendChild(el);
     });
-    return sel;
+    c.appendChild(h('div',{style:'margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--text-dim)'},
+      '\ud83d\udd12 Saved \u00b7 \ud83d\udcddS Splash used \u00b7 \ud83d\udcddB Both used \u00b7 Only bracket-possible matchups shown'));
   }
 
-  var selA = makeSelect('elo-team-a');
-  var selB = makeSelect('elo-team-b');
-
-  var resultBox = h('div', {id:'elo-result', style:'text-align:center;padding:20px 8px;font-family:var(--mono);color:var(--text-dim);font-size:11px'}, 'Select two teams');
-
-  function updateCalc() {
-    var nameA = document.getElementById('elo-team-a').value;
-    var nameB = document.getElementById('elo-team-b').value;
-    var box = document.getElementById('elo-result');
-    if (!nameA || !nameB || nameA === nameB) {
-      box.innerHTML = '<div style="color:var(--text-dim);font-size:11px">Select two different teams</div>';
-      return;
+  function renderFreePick(){
+    var box=h('div');
+    var alive=ELO.teams.filter(function(t){return t.alive}).sort(function(a,b){return b.elo-a.elo});
+    function mkS(id){
+      var sel=h('select',{id:id,style:'width:100%;padding:10px;background:var(--surface);color:var(--text-bright);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:12px'});
+      sel.appendChild(h('option',{value:''},'Select team...'));
+      ['East','South','West','Midwest'].forEach(function(reg){
+        var grp=h('optgroup',{label:reg+' (\u03c3='+ELO.sigma[reg]+')'});
+        alive.filter(function(t){return t.r===reg}).forEach(function(t){grp.appendChild(h('option',{value:t.n},'('+t.s+') '+t.n+' ['+t.elo+']'))});
+        sel.appendChild(grp);
+      });
+      return sel;
     }
-    var tA = ELO.teams.find(function(t){return t.n===nameA});
-    var tB = ELO.teams.find(function(t){return t.n===nameB});
-    if (!tA || !tB) return;
-
-    // Use the region of the higher seed (home team approximation) or average sigmas
-    var sigma = (ELO.sigma[tA.r] + ELO.sigma[tB.r]) / 2;
-    if (tA.r === tB.r) sigma = ELO.sigma[tA.r];
-
-    var pA = eloWinProb(tA.elo, tB.elo, sigma);
-    var pB = 1 - pA;
-    var fav = pA >= pB ? tA : tB;
-    var dog = pA >= pB ? tB : tA;
-    var favP = Math.max(pA, pB);
-    var dogP = Math.min(pA, pB);
-
-    var eloDiff = Math.abs(tA.elo - tB.elo);
-    var sigmaNote = tA.r === tB.r ? tA.r + ' σ=' + ELO.sigma[tA.r] : 'avg σ=' + Math.round(sigma);
-
-    var barW = Math.round(favP * 100);
-
-    box.innerHTML = '';
-    box.appendChild(h('div', {style:'font-size:22px;font-weight:700;color:var(--text-bright);margin-bottom:4px'},
-      '(' + fav.s + ') ' + fav.n + ' ' + (favP * 100).toFixed(1) + '%'
-    ));
-    box.appendChild(h('div', {style:'height:24px;border-radius:4px;overflow:hidden;display:flex;margin:8px 0'},
-      h('div', {style:'width:' + barW + '%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff'}, (favP*100).toFixed(1) + '%'),
-      h('div', {style:'width:' + (100-barW) + '%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff'}, (dogP*100).toFixed(1) + '%')
-    ));
-    box.appendChild(h('div', {style:'font-size:10px;color:var(--text-dim);margin-top:6px'},
-      'Elo gap: ' + eloDiff + ' · ' + sigmaNote + ' · ' + fav.r + (tA.r !== tB.r ? '/' + dog.r : '')
-    ));
-
-    // Show usage status
-    var usageA = tA.used_sp ? '⚠ Used in Splash' : tA.used_sw ? '⚠ Used in Sweat' : '✓ Available';
-    var usageB = tB.used_sp ? '⚠ Used in Splash' : tB.used_sw ? '⚠ Used in Sweat' : '✓ Available';
-    box.appendChild(h('div', {style:'display:flex;justify-content:space-between;margin-top:8px;font-size:10px'},
-      h('span', {style:'color:' + (tA.used_sp || tA.used_sw ? 'var(--amber)' : 'var(--green)')}, tA.n + ': ' + usageA),
-      h('span', {style:'color:' + (tB.used_sp || tB.used_sw ? 'var(--amber)' : 'var(--green)')}, tB.n + ': ' + usageB)
-    ));
+    var sA=mkS('elo-free-a'),sB=mkS('elo-free-b');
+    var res=h('div',{id:'elo-free-result',style:'text-align:center;padding:16px;color:var(--text-dim)'},'Select two teams');
+    function calc(){
+      var a=document.getElementById('elo-free-a').value,b=document.getElementById('elo-free-b').value;
+      var r=document.getElementById('elo-free-result');
+      if(!a||!b||a===b){r.innerHTML='Select two different teams';return}
+      var tA=ELO.teams.find(function(t){return t.n===a}),tB=ELO.teams.find(function(t){return t.n===b});
+      var sigma=tA.r===tB.r?ELO.sigma[tA.r]:(ELO.sigma[tA.r]+ELO.sigma[tB.r])/2;
+      var pA=eloWinProb(tA.elo,tB.elo,sigma);
+      r.innerHTML='';
+      r.appendChild(h('div',{style:'font-size:20px;font-weight:700;color:var(--text-bright)'},'('+tA.s+') '+tA.n+'  '+(pA*100).toFixed(1)+'%  vs  '+((1-pA)*100).toFixed(1)+'%  '+tB.n+' ('+tB.s+')'));
+      r.appendChild(h('div',{style:'height:24px;border-radius:4px;overflow:hidden;display:flex;margin:8px 0'},
+        h('div',{style:'width:'+Math.round(pA*100)+'%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff'},(pA*100).toFixed(1)+'%'),
+        h('div',{style:'width:'+Math.round((1-pA)*100)+'%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff'},((1-pA)*100).toFixed(1)+'%')
+      ));
+      r.appendChild(h('div',{style:'font-size:10px;color:var(--text-dim);margin-top:4px;font-family:var(--mono)'},
+        'Elo gap: '+Math.abs(tA.elo-tB.elo)+' \u00b7 \u03c3='+Math.round(sigma)+' \u00b7 '+(tA.r===tB.r?tA.r:tA.r+'/'+tB.r)));
+    }
+    sA.onchange=calc;sB.onchange=calc;
+    var grid=h('div',{style:'display:grid;grid-template-columns:1fr 40px 1fr;gap:8px;align-items:start'});
+    grid.appendChild(h('div',null,h('div',{style:'font-size:9px;color:var(--text-dim);font-family:var(--mono);margin-bottom:3px'},'TEAM A'),sA));
+    grid.appendChild(h('div',{style:'text-align:center;padding-top:22px;font-weight:700;color:var(--text-dim)'},'vs'));
+    grid.appendChild(h('div',null,h('div',{style:'font-size:9px;color:var(--text-dim);font-family:var(--mono);margin-bottom:3px'},'TEAM B'),sB));
+    box.appendChild(grid);box.appendChild(res);
+    return box;
   }
 
-  selA.onchange = updateCalc;
-  selB.onchange = updateCalc;
-
-  var colA = h('div', null, h('div', {style:'font-size:10px;color:var(--text-muted);margin-bottom:4px;font-family:var(--mono);text-transform:uppercase;letter-spacing:1px'}, 'Team A'), selA);
-  var vs = h('div', {style:'text-align:center;padding-top:24px;font-size:16px;font-weight:700;color:var(--text-dim)'}, 'vs');
-  var colB = h('div', null, h('div', {style:'font-size:10px;color:var(--text-muted);margin-bottom:4px;font-family:var(--mono);text-transform:uppercase;letter-spacing:1px'}, 'Team B'), selB);
-
-  calcGrid.appendChild(colA);
-  calcGrid.appendChild(vs);
-  calcGrid.appendChild(colB);
-  calcCard.appendChild(calcGrid);
-  calcCard.appendChild(resultBox);
+  roundSel.onchange=renderMatchups;regionSel.onchange=renderMatchups;
   p.appendChild(calcCard);
+  setTimeout(renderMatchups,50);
 
-  // Quick-reference: Day 3 R32 matchups
-  var r32Card = h('div', {className:'card', style:'margin-bottom:14px'});
-  r32Card.appendChild(h('div', {className:'card-title'}, 'Day 3 R32 Matchups — Fitted Elo H2H'));
-  var r32Matchups = [
-    ['Duke','TCU','East'],['Michigan St.','Louisville','East'],
-    ['Nebraska','Vanderbilt','South'],['Illinois','VCU','South'],
-    ['Houston','Texas A&M','South'],['Arkansas','High Point','West'],
-    ['Gonzaga','Texas','West'],['Michigan','Saint Louis','Midwest']
-  ];
-
-  var r32Tbl = h('table', {className:'tbl'});
-  r32Tbl.appendChild(h('thead', null, h('tr', null,
-    h('th', null, 'Region'), h('th', null, 'Favorite'), h('th', {className:'num'}, 'Win%'),
-    h('th', null, 'Underdog'), h('th', {className:'num'}, 'Win%'), h('th', {className:'num'}, 'Our pick')
-  )));
-  var r32Body = h('tbody');
-
-  r32Matchups.forEach(function(m) {
-    var tA = ELO.teams.find(function(t){return t.n===m[0]});
-    var tB = ELO.teams.find(function(t){return t.n===m[1]});
-    var sigma = ELO.sigma[m[2]];
-    var pA = eloWinProb(tA.elo, tB.elo, sigma);
-
-    var fav = pA >= 0.5 ? tA : tB;
-    var dog = pA >= 0.5 ? tB : tA;
-    var fp = Math.max(pA, 1-pA);
-
-    // Check if this is one of our picks
-    var ourPick = '';
-    var splashD3 = {Arkansas:42, Illinois:40};
-    var sweatD3 = {Arkansas:4, Illinois:3, Gonzaga:3};
-    if (splashD3[fav.n]) ourPick = 'SPL:' + splashD3[fav.n];
-    else if (splashD3[dog.n]) ourPick = 'SPL:' + splashD3[dog.n];
-    if (sweatD3[fav.n]) ourPick += (ourPick ? ' ' : '') + 'SW:' + sweatD3[fav.n];
-    else if (sweatD3[dog.n]) ourPick += (ourPick ? ' ' : '') + 'SW:' + sweatD3[dog.n];
-
-    r32Body.appendChild(h('tr', null,
-      h('td', {style:'font-size:11px;color:var(--text-dim)'}, m[2]),
-      h('td', null, h('span', {className:'seed'}, '(' + fav.s + ')'), h('span', {className:'team'}, fav.n)),
-      h('td', {className:'num win'}, (fp*100).toFixed(1) + '%'),
-      h('td', null, h('span', {className:'seed'}, '(' + dog.s + ')'), h('span', {style:'color:var(--text-muted)'}, dog.n)),
-      h('td', {className:'num'}, ((1-fp)*100).toFixed(1) + '%'),
-      h('td', {className:'num', style:'color:' + (ourPick ? 'var(--accent)' : 'var(--text-dim)') + ';font-family:var(--mono);font-size:10px'}, ourPick || '—')
-    ));
+  // Power rankings
+  var rankCard=h('div',{className:'card'});
+  rankCard.appendChild(h('div',{className:'card-title'},'Power Rankings \u2014 Sigma-Normalized'));
+  var rankTbl=h('table',{className:'tbl'});
+  rankTbl.appendChild(h('thead',null,h('tr',null,h('th',{style:'width:24px'},'#'),h('th',null,'Team'),h('th',null,'Region'),h('th',{className:'num'},'Elo'),h('th',{className:'num'},'z-score'),h('th',null,'Status'))));
+  var rankBody=h('tbody');
+  var regionMeans={East:1350,South:1380,West:1400,Midwest:1370};
+  var alive=ELO.teams.filter(function(t){return t.alive});
+  alive.map(function(t){return{t:t,z:(t.elo-regionMeans[t.r])/ELO.sigma[t.r]}}).sort(function(a,b){return b.z-a.z}).forEach(function(item,i){
+    var t=item.t,z=item.z;
+    var st=t.us==='saved'?'SAVED':t.us==='both'?'Both':t.us==='splash'?'Splash':'Avail';
+    var sc=st==='SAVED'?'var(--green)':st==='Avail'?'var(--accent)':'var(--text-dim)';
+    var rc={East:'var(--amber)',South:'var(--green)',West:'var(--red)',Midwest:'var(--accent)'}[t.r];
+    rankBody.appendChild(h('tr',null,
+      h('td',{style:'font-family:var(--mono);font-size:10px;color:var(--text-dim)'},''+(i+1)),
+      h('td',null,h('span',{className:'seed'},'('+t.s+')'),h('span',{className:'team'},t.n)),
+      h('td',{style:'font-size:11px;color:'+rc},t.r),
+      h('td',{className:'num',style:'font-weight:600'},''+t.elo),
+      h('td',{className:'num',style:'color:'+(z>0.7?'var(--green)':z>0.4?'var(--accent)':'var(--text-muted)')},z.toFixed(2)),
+      h('td',{style:'font-family:var(--mono);font-size:10px;color:'+sc},st)));
   });
-  r32Tbl.appendChild(r32Body);
-  r32Card.appendChild(r32Tbl);
-  p.appendChild(r32Card);
-
-  // Full team power rankings
-  var rankCard = h('div', {className:'card'});
-  rankCard.appendChild(h('div', {className:'card-title'}, 'Full Power Rankings — All Alive Teams'));
-
-  var rankTbl = h('table', {className:'tbl'});
-  rankTbl.appendChild(h('thead', null, h('tr', null,
-    h('th', {style:'width:24px'}, '#'), h('th', null, 'Team'), h('th', null, 'Region'),
-    h('th', {className:'num'}, 'Elo'), h('th', {className:'num'}, 'σ'),
-    h('th', {className:'num'}, 'z-score'), h('th', null, 'Status')
-  )));
-  var rankBody = h('tbody');
-
-  var regionMeans = {East:1350, South:1380, West:1400, Midwest:1370};
-  var ranked = aliveTeams.map(function(t) {
-    var z = (t.elo - regionMeans[t.r]) / ELO.sigma[t.r];
-    return {t:t, z:z};
-  }).sort(function(a,b){return b.z - a.z});
-
-  ranked.forEach(function(item, i) {
-    var t = item.t;
-    var z = item.z;
-    var status = t.used_sp && t.used_sw ? 'Both used' :
-                 t.used_sp ? 'Splash used' :
-                 t.used_sw ? 'Sweat used' :
-                 t.s <= 2 ? 'SAVED' : 'Available';
-    var statusColor = status === 'SAVED' ? 'var(--green)' :
-                      status === 'Available' ? 'var(--accent)' :
-                      'var(--text-dim)';
-
-    var regionColor = {East:'var(--amber)',South:'var(--green)',West:'var(--red)',Midwest:'var(--accent)'}[t.r];
-
-    rankBody.appendChild(h('tr', null,
-      h('td', {style:'font-family:var(--mono);font-size:10px;color:var(--text-dim)'}, '' + (i+1)),
-      h('td', null, h('span', {className:'seed'}, '(' + t.s + ')'), h('span', {className:'team'}, t.n)),
-      h('td', {style:'font-size:11px;color:' + regionColor}, t.r),
-      h('td', {className:'num', style:'font-weight:600'}, '' + t.elo),
-      h('td', {className:'num', style:'color:var(--text-dim)'}, '' + ELO.sigma[t.r]),
-      h('td', {className:'num', style:'color:' + (z > 0.7 ? 'var(--green)' : z > 0.4 ? 'var(--accent)' : 'var(--text-muted)')}, z.toFixed(2)),
-      h('td', {style:'font-family:var(--mono);font-size:10px;color:' + statusColor}, status)
-    ));
-  });
-  rankTbl.appendChild(rankBody);
-  rankCard.appendChild(rankTbl);
-  p.appendChild(rankCard);
-
+  rankTbl.appendChild(rankBody);rankCard.appendChild(rankTbl);p.appendChild(rankCard);
   return p;
 }
+
 function renderStrategy() {
   var p = h('div', {className:'panel' + (activeTab === 'Strategy' ? ' active' : ''), 'data-tab':'Strategy'});
 
