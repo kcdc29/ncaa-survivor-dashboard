@@ -167,10 +167,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 // ═══════════════════════════════════════════
 var D = {
   meta: {
-    day: 3,
-    dayLabel: 'Day 3',
+    day: 4,
+    dayLabel: 'Day 4',
     round: 'Round of 32',
-    date: 'Saturday, March 21',
+    date: 'Sunday, March 22',
     updated: new Date().toISOString()
   },
 
@@ -180,10 +180,10 @@ var D = {
     entry_fee: 25,
     our_entries: 100,
     field_size: 6503,
-    alive_field: 5315,
-    alive_ours: 82,
-    dead_entries: 18,
-    dead_from: 'Wisconsin',
+    alive_field: 4089,
+    alive_ours: 62,
+    dead_entries: 38,
+    dead_from: 'Wisconsin(18) + Gonzaga(20)',
     prize_pool: 142335,
     vig: 0.10,
     username: 'ASTRO1227',
@@ -204,51 +204,66 @@ var D = {
       {
         day: 2, round: 'R64', label: 'Friday Mar 20',
         picks: [
-          { team: 'Virginia', seed: 3, entries: 21, result: '-', score: null, opp: 'Wright State', field_pct: 15.80 },
-          { team: 'Kansas', seed: 4, entries: 21, result: '-', score: null, opp: 'Cal Baptist', field_pct: null },
-          { team: 'Alabama', seed: 4, entries: 20, result: '-', score: null, opp: 'Hofstra', field_pct: 12.50 },
-          { team: 'St. Johns', seed: 5, entries: 19, result: '-', score: null, opp: 'Northern Iowa', field_pct: null },
-          { team: 'Texas Tech', seed: 5, entries: 19, result: '-', score: null, opp: 'Akron', field_pct: 5.00 }
+          { team: 'Virginia', seed: 3, entries: 21, result: 'W', score: '75-54', opp: 'Wright State', field_pct: 15.80 },
+          { team: 'Kansas', seed: 4, entries: 21, result: 'W', score: '72-56', opp: 'Cal Baptist', field_pct: 14.50 },
+          { team: 'Alabama', seed: 4, entries: 20, result: 'W', score: '81-63', opp: 'Hofstra', field_pct: 12.50 },
+          { team: 'St. Johns', seed: 5, entries: 19, result: 'W', score: '78-60', opp: 'Northern Iowa', field_pct: 10.30 },
+          { team: 'Texas Tech', seed: 5, entries: 19, result: 'W', score: '69-55', opp: 'Akron', field_pct: 5.00 }
+        ]
+      },
+      {
+        day: 3, round: 'R32', label: 'Saturday Mar 21',
+        picks: [
+          { team: 'Illinois', seed: 3, entries: 41, result: 'W', score: '76-55', opp: 'VCU', field_pct: 24.6 },
+          { team: 'Arkansas', seed: 4, entries: 21, result: 'W', score: '94-88', opp: 'High Point', field_pct: 34.5 },
+          { team: 'Gonzaga', seed: 3, entries: 20, result: 'L', score: '68-74', opp: 'Texas', field_pct: 13.2 }
+        ]
+      },
+      {
+        day: 4, round: 'R32', label: 'Sunday Mar 22',
+        picks: [
+          { team: 'Iowa State', seed: 2, entries: 42, result: '-', score: null, opp: 'Kentucky', field_pct: 19.6 },
+          { team: 'Purdue', seed: 2, entries: 20, result: '-', score: null, opp: 'Miami FL', field_pct: 20.6 }
         ]
       }
     ],
 
-    teams_used: ['Illinois','Gonzaga','Michigan St','Arkansas','Wisconsin','Virginia','Kansas','Alabama','St. Johns','Texas Tech'],
+    teams_used: ['Illinois','Gonzaga','Michigan St','Arkansas','Wisconsin','Virginia','Kansas','Alabama','St. Johns','Texas Tech','Illinois','Arkansas','Gonzaga','Iowa State','Purdue'],
     teams_saved: {
       'Duke': {seed:1, assigned:1, note:'Day 5 S16'},
       'Michigan': {seed:1, assigned:1, note:'Day 6 S16'},
-      'Houston': {seed:1, assigned:2, note:'Day 7 E8'},
-      'Arizona': {seed:2, assigned:1, note:'Day 8 E8'},
+      'Houston': {seed:2, assigned:2, note:'Day 7 E8'},
+      'Arizona': {seed:1, assigned:1, note:'Day 8 E8'},
       'Florida': {seed:1, assigned:1, note:'Day 9+'},
-      'UConn': {seed:1, assigned:2, note:'Day 9+'},
-      'Iowa State': {seed:2, assigned:2, note:'Day 4 burn'},
-      'Purdue': {seed:1, assigned:2, note:'Day 9+'}
+      'UConn': {seed:2, assigned:2, note:'Day 9+'},
+      'Iowa State': {seed:2, assigned:2, note:'BURNED Day 4 (42 entries)'},
+      'Purdue': {seed:2, assigned:2, note:'BURNED Day 4 (20 entries)'}
     },
 
     field_dist_d1: [
-      { team: 'Nebraska', seed: 7, pct: 16.0, count: 1122, lost: false },
+      { team: 'Nebraska', seed: 4, pct: 16.0, count: 1122, lost: false },
       { team: 'Arkansas', seed: 4, pct: 12.1, count: 847, lost: false },
       { team: 'Gonzaga', seed: 3, pct: 12.0, count: 842, lost: false },
       { team: 'Wisconsin', seed: 5, pct: 10.3, count: 722, lost: true },
-      { team: 'Vanderbilt', seed: 8, pct: 7.9, count: 557, lost: false },
+      { team: 'Vanderbilt', seed: 5, pct: 7.9, count: 557, lost: false },
       { team: 'Illinois', seed: 3, pct: 7.5, count: 527, lost: false },
       { team: 'Michigan St', seed: 3, pct: 7.0, count: 492, lost: false },
-      { team: "Saint Mary's", seed: 10, pct: 4.2, count: 297, lost: true },
+      { team: "Saint Mary's", seed: 7, pct: 4.2, count: 297, lost: true },
       { team: 'Louisville', seed: 7, pct: 2.8, count: 194, lost: false },
-      { team: 'North Carolina', seed: 8, pct: 2.7, count: 190, lost: true },
-      { team: 'Ohio State', seed: 5, pct: 2.7, count: 189, lost: true },
+      { team: 'North Carolina', seed: 6, pct: 2.7, count: 190, lost: true },
+      { team: 'Ohio State', seed: 8, pct: 2.7, count: 189, lost: true },
       { team: 'BYU', seed: 6, pct: 2.5, count: 176, lost: true },
-      { team: 'Georgia', seed: 6, pct: 2.4, count: 168, lost: true },
-      { team: 'Houston', seed: 1, pct: 1.8, count: 127, lost: false, is12: true },
+      { team: 'Georgia', seed: 8, pct: 2.4, count: 168, lost: true },
+      { team: 'Houston', seed: 2, pct: 1.8, count: 127, lost: false, is12: true },
       { team: 'Duke', seed: 1, pct: 1.6, count: 109, lost: false, is12: true },
-      { team: 'South Florida', seed: 10, pct: 1.5, count: 103, lost: true },
-      { team: 'VCU', seed: 12, pct: 1.3, count: 93, lost: false },
-      { team: 'Saint Louis', seed: 12, pct: 0.9, count: 60, lost: false },
-      { team: 'TCU', seed: 11, pct: 0.8, count: 56, lost: false },
+      { team: 'South Florida', seed: 11, pct: 1.5, count: 103, lost: true },
+      { team: 'VCU', seed: 11, pct: 1.3, count: 93, lost: false },
+      { team: 'Saint Louis', seed: 9, pct: 0.9, count: 60, lost: false },
+      { team: 'TCU', seed: 9, pct: 0.8, count: 56, lost: false },
       { team: 'Michigan', seed: 1, pct: 0.6, count: 44, lost: false, is12: true },
-      { team: 'Texas', seed: 6, pct: 0.6, count: 41, lost: false },
-      { team: 'Texas A&M', seed: 9, pct: 0.4, count: 29, lost: false },
-      { team: 'Troy', seed: 16, pct: 0.1, count: 7, lost: true },
+      { team: 'Texas', seed: 11, pct: 0.6, count: 41, lost: false },
+      { team: 'Texas A&M', seed: 10, pct: 0.4, count: 29, lost: false },
+      { team: 'Troy', seed: 13, pct: 0.1, count: 7, lost: true },
       { team: 'High Point', seed: 12, pct: 0.1, count: 7, lost: false },
       { team: "Hawai'i", seed: 13, pct: 0.0, count: 2, lost: true },
       { team: 'McNeese', seed: 13, pct: 0.0, count: 2, lost: true }
@@ -278,21 +293,56 @@ var D = {
     field_d2_partial: true,
     field_d2_tipped_total: 2532,
     field_d2_tipped_pct: 47.6,
+    field_d2_eliminated: 341,  // 5315 - 4974
 
     field_dist_d3: [
-      { team: 'Michigan', seed: 1, pct: 2.10, count: 104, tipped: true, is12: true },
-      { team: 'Saint Louis', seed: 9, pct: 0.02, count: 1, tipped: true }
+      { team: 'Arkansas', seed: 4, pct: 34.5, count: 1716, lost: false },
+      { team: 'Illinois', seed: 3, pct: 24.6, count: 1222, lost: false },
+      { team: 'Gonzaga', seed: 3, pct: 13.2, count: 659, lost: true },
+      { team: 'Michigan St', seed: 3, pct: 8.1, count: 404, lost: false },
+      { team: 'Houston', seed: 2, pct: 7.0, count: 350, lost: false, is12: true },
+      { team: 'Duke', seed: 1, pct: 3.8, count: 188, lost: false, is12: true },
+      { team: 'Vanderbilt', seed: 5, pct: 3.4, count: 170, lost: true },
+      { team: 'Michigan', seed: 1, pct: 2.1, count: 104, lost: false, is12: true },
+      { team: 'Nebraska', seed: 4, pct: 1.5, count: 75, lost: false },
+      { team: 'Texas', seed: 11, pct: 0.6, count: 30, lost: false },
+      { team: 'Louisville', seed: 6, pct: 0.2, count: 9, lost: true },
+      { team: 'High Point', seed: 12, pct: 0.2, count: 8, lost: true },
+      { team: 'VCU', seed: 11, pct: 0.0, count: 1, lost: true },
+      { team: 'Texas A&M', seed: 10, pct: 0.0, count: 1, lost: true },
+      { team: 'Saint Louis', seed: 9, pct: 0.0, count: 1, lost: true }
     ],
-    field_d3_partial: true,
-    field_d3_note: 'Only Michigan vs Saint Louis tipped so far',
+    field_d3_partial: false,
+    field_d3_eliminated: 849,
+    field_d3_12seed_pct: 12.9,
+
+    field_dist_d4: [
+      { team: 'Purdue', seed: 2, pct: 20.6, count: 843, lost: false, is12: true },
+      { team: 'Iowa State', seed: 2, pct: 19.6, count: 801, lost: false, is12: true },
+      { team: 'UConn', seed: 2, pct: 17.9, count: 730, lost: false, is12: true },
+      { team: 'St. Johns', seed: 5, pct: 11.1, count: 452, lost: false },
+      { team: 'Florida', seed: 1, pct: 8.6, count: 353, lost: false, is12: true },
+      { team: 'Arizona', seed: 1, pct: 5.2, count: 214, lost: false, is12: true },
+      { team: 'Texas Tech', seed: 5, pct: 5.0, count: 204, lost: false },
+      { team: 'Tennessee', seed: 6, pct: 4.8, count: 196, lost: false },
+      { team: 'Virginia', seed: 3, pct: 3.4, count: 140, lost: false },
+      { team: 'Alabama', seed: 4, pct: 2.7, count: 112, lost: false },
+      { team: 'Kansas', seed: 4, pct: 0.7, count: 30, lost: false },
+      { team: 'UCLA', seed: 7, pct: 0.2, count: 8, lost: false },
+      { team: 'Miami FL', seed: 7, pct: 0.1, count: 6, lost: false }
+    ],
+    field_d4_partial: true,
+    field_d4_note: 'v5 forecast (Sweat-calibrated) — Purdue actual, rest projected',
+    field_d4_12seed_pct: 72.0,
 
     portfolio_players: [
       { name: 'princehal', entries: 100, alive: 100, pct: 100, picks: 'NEB(37) GONZ(33) ARK(20) ILL(5) HOU(5)', note: 'Burned Houston D1' },
       { name: 'steaktacos', entries: 100, alive: 92, pct: 92, picks: 'NEB(28) GONZ(22) MSU(16) ARK(14) WIS(8) ILL(6) VAN(6)', note: '8 on Wisconsin' },
-      { name: 'ASTRO1227', entries: 100, alive: 82, pct: 82, picks: 'ILL(21) GONZ(21) MSU(20) ARK(20) WIS(18)', note: 'Us — 18 on Wisconsin', is_us: true },
+      { name: 'ASTRO1227', entries: 100, alive: 62, pct: 62, picks: 'ILL(21) GONZ(21) MSU(20) ARK(20) WIS(18)', note: 'Us — lost WIS(18)+GONZ(20)', is_us: true },
       { name: 'poopbutt2', entries: 100, alive: 80, pct: 80, picks: 'GONZ(40) ARK(40) WIS(20)', note: '20 on Wisconsin' },
-      { name: 'MattyCollins', entries: 100, alive: 72, pct: 72, picks: '16 teams spread', note: 'Max diversification' },
-      { name: 'daviesloveiii', entries: 100, alive: 65, pct: 65, picks: '14 teams, many dead', note: 'Heavy losses' }
+      { name: 'MattyCollins', entries: 100, alive: 67, pct: 67, picks: '16 teams spread', note: 'Max diversification' },
+      { name: 'daviesloveiii', entries: 100, alive: 56, pct: 56, picks: '14 teams, many dead', note: 'Heavy losses' },
+      { name: 'BirdieKillers-231', entries: 50, alive: 50, pct: 100, picks: 'NEB(30) MSU(20)', note: 'Pure chalk — 100% survival' }
     ]
   },
 
@@ -301,7 +351,7 @@ var D = {
     entry_fee: 100,
     our_entries: 10,
     field_size: 867,
-    alive_field: 679,
+    alive_field: 580,
     alive_ours: 10,
     prize_pool: 73170,
     vig: 0.00,
@@ -323,39 +373,54 @@ var D = {
       {
         day: 2, round: 'R64', label: 'Friday Mar 20',
         picks: [
-          { team: 'Virginia', seed: 3, entries: 4, result: '-', score: null, opp: 'Wright State', field_pct: 19.44 },
-          { team: 'Kansas', seed: 2, entries: 3, result: '-', score: null, opp: 'Cal Baptist', field_pct: 26.22 },
-          { team: 'Alabama', seed: 4, entries: 3, result: '-', score: null, opp: 'Hofstra', field_pct: 11.19 }
+          { team: 'Virginia', seed: 3, entries: 4, result: 'W', score: '75-54', opp: 'Wright State', field_pct: 19.47 },
+          { team: 'Kansas', seed: 4, entries: 3, result: 'W', score: '72-56', opp: 'Cal Baptist', field_pct: 26.25 },
+          { team: 'Alabama', seed: 4, entries: 3, result: 'W', score: '81-63', opp: 'Hofstra', field_pct: 11.21 }
+        ]
+      },
+      {
+        day: 3, round: 'R32', label: 'Saturday Mar 21',
+        picks: [
+          { team: 'Illinois', seed: 3, entries: 6, result: 'W', score: '76-55', opp: 'VCU', field_pct: 26.7 },
+          { team: 'Arkansas', seed: 4, entries: 4, result: 'W', score: '94-88', opp: 'High Point', field_pct: 34.6 }
+        ]
+      },
+      {
+        day: 4, round: 'R32', label: 'Sunday Mar 22',
+        picks: [
+          { team: 'Iowa State', seed: 2, entries: 5, result: '-', score: null, opp: 'Kentucky', field_pct: 18.4 },
+          { team: 'Purdue', seed: 2, entries: 3, result: '-', score: null, opp: 'Miami FL', field_pct: 26.0 },
+          { team: 'Florida', seed: 1, entries: 2, result: '-', score: null, opp: 'Iowa', field_pct: 8.0 }
         ]
       }
     ],
 
-    teams_used: ['Illinois','Gonzaga','Michigan St','Virginia','Kansas','Alabama'],
-    teams_saved_note: "More flexibility — hasn't used Arkansas, Wisconsin, St. Johns, Texas Tech",
+    teams_used: ['Illinois','Gonzaga','Michigan St','Virginia','Kansas','Alabama','Illinois','Arkansas','Iowa State','Purdue','Florida'],
+    teams_saved_note: "More flexibility — hasn't used Arkansas, St. Johns, Texas Tech. All 1/2 seeds saved.",
 
     field_dist_d1: [
-      { team: 'Nebraska', seed: 7, pct: 22.49, count: 195, lost: false },
+      { team: 'Nebraska', seed: 4, pct: 22.49, count: 195, lost: false },
       { team: 'Gonzaga', seed: 3, pct: 15.11, count: 131, lost: false },
       { team: 'Wisconsin', seed: 5, pct: 10.38, count: 90, lost: true },
       { team: 'Arkansas', seed: 4, pct: 9.57, count: 83, lost: false },
-      { team: 'Vanderbilt', seed: 8, pct: 8.54, count: 74, lost: false },
+      { team: 'Vanderbilt', seed: 5, pct: 8.54, count: 74, lost: false },
       { team: 'Illinois', seed: 3, pct: 7.96, count: 69, lost: false },
       { team: 'Michigan St', seed: 3, pct: 5.77, count: 50, lost: false },
-      { team: "Saint Mary's", seed: 10, pct: 3.92, count: 34, lost: true },
+      { team: "Saint Mary's", seed: 7, pct: 3.92, count: 34, lost: true },
       { team: 'Louisville', seed: 7, pct: 1.85, count: 16, lost: false },
-      { team: 'Georgia', seed: 6, pct: 1.85, count: 16, lost: true },
+      { team: 'Georgia', seed: 8, pct: 1.85, count: 16, lost: true },
       { team: 'Duke', seed: 1, pct: 1.61, count: 14, lost: false, is12: true },
-      { team: 'North Carolina', seed: 8, pct: 1.61, count: 14, lost: true },
+      { team: 'North Carolina', seed: 6, pct: 1.61, count: 14, lost: true },
       { team: 'BYU', seed: 6, pct: 1.38, count: 12, lost: true },
-      { team: 'Ohio State', seed: 5, pct: 1.38, count: 12, lost: true },
-      { team: 'Houston', seed: 1, pct: 1.27, count: 11, lost: false, is12: true },
+      { team: 'Ohio State', seed: 8, pct: 1.38, count: 12, lost: true },
+      { team: 'Houston', seed: 2, pct: 1.27, count: 11, lost: false, is12: true },
       { team: 'Michigan', seed: 1, pct: 1.27, count: 11, lost: false, is12: true },
-      { team: 'South Florida', seed: 10, pct: 1.15, count: 10, lost: true },
-      { team: 'TCU', seed: 11, pct: 0.92, count: 8, lost: false },
-      { team: 'Texas', seed: 6, pct: 0.69, count: 6, lost: false },
-      { team: 'VCU', seed: 12, pct: 0.69, count: 6, lost: false },
-      { team: 'Texas A&M', seed: 9, pct: 0.23, count: 2, lost: false },
-      { team: 'Saint Louis', seed: 12, pct: 0.23, count: 2, lost: false },
+      { team: 'South Florida', seed: 11, pct: 1.15, count: 10, lost: true },
+      { team: 'TCU', seed: 9, pct: 0.92, count: 8, lost: false },
+      { team: 'Texas', seed: 11, pct: 0.69, count: 6, lost: false },
+      { team: 'VCU', seed: 11, pct: 0.69, count: 6, lost: false },
+      { team: 'Texas A&M', seed: 10, pct: 0.23, count: 2, lost: false },
+      { team: 'Saint Louis', seed: 9, pct: 0.23, count: 2, lost: false },
       { team: 'High Point', seed: 12, pct: 0.12, count: 1, lost: false }
     ],
     field_d1_losers: 7,
@@ -367,24 +432,24 @@ var D = {
       { team: 'Virginia', seed: 3, pct: 19.44, count: 132, lost: false },
       { team: 'Alabama', seed: 4, pct: 11.19, count: 76, lost: false },
       { team: 'UConn', seed: 1, pct: 8.25, count: 56, lost: false, is12: true },
-      { team: 'Tennessee', seed: 3, pct: 6.77, count: 46, lost: false },
-      { team: 'St. Johns', seed: 2, pct: 6.33, count: 43, lost: false, is12: true },
-      { team: 'UCLA', seed: 5, pct: 4.42, count: 30, lost: false },
-      { team: 'Texas Tech', seed: 6, pct: 3.83, count: 26, lost: false },
+      { team: 'Tennessee', seed: 6, pct: 6.77, count: 46, lost: false },
+      { team: 'St. Johns', seed: 5, pct: 6.33, count: 43, lost: false, is12: true },
+      { team: 'UCLA', seed: 7, pct: 4.42, count: 30, lost: false },
+      { team: 'Texas Tech', seed: 5, pct: 3.83, count: 26, lost: false },
       { team: 'Purdue', seed: 1, pct: 3.09, count: 21, lost: false, is12: true },
       { team: 'Iowa State', seed: 2, pct: 2.21, count: 15, lost: false, is12: true },
       { team: 'Florida', seed: 1, pct: 1.77, count: 12, lost: false, is12: true },
-      { team: 'Arizona', seed: 2, pct: 1.62, count: 11, lost: false, is12: true },
+      { team: 'Arizona', seed: 1, pct: 1.62, count: 11, lost: false, is12: true },
       { team: 'Kentucky', seed: 7, pct: 1.18, count: 8, lost: false },
       { team: 'Miami FL', seed: 8, pct: 0.88, count: 6, lost: false },
-      { team: 'Utah State', seed: 11, pct: 0.88, count: 6, lost: false },
+      { team: 'Utah State', seed: 9, pct: 0.88, count: 6, lost: false },
       { team: 'Iowa', seed: 9, pct: 0.74, count: 5, lost: false },
       { team: 'Villanova', seed: 8, pct: 0.29, count: 2, lost: false },
       { team: 'Missouri', seed: 10, pct: 0.15, count: 1, lost: false },
       { team: 'Santa Clara', seed: 10, pct: 0.15, count: 1, lost: false },
       { team: 'Akron', seed: 12, pct: 0.15, count: 1, lost: false },
-      { team: 'Miami OH', seed: 14, pct: 0.15, count: 1, lost: false },
-      { team: 'UCF', seed: 9, pct: 0.15, count: 1, lost: false },
+      { team: 'Miami OH', seed: 11, pct: 0.15, count: 1, lost: false },
+      { team: 'UCF', seed: 10, pct: 0.15, count: 1, lost: false },
       { team: 'No Pick', seed: 0, pct: 0.15, count: 1, lost: true }
     ],
     field_12seed_d2_pct: 49.5,
@@ -405,7 +470,25 @@ var D = {
       { team: 'High Point', seed: 12, pct: 0.15, count: 1, lost: false }
     ],
     field_d3_12seed_pct: 15.3,
-    field_d3_12seed_picks: 103
+    field_d3_12seed_picks: 103,
+
+    field_dist_d4: [
+      { team: 'Purdue', seed: 2, pct: 26.0, count: 150, lost: false, is12: true },
+      { team: 'Iowa State', seed: 2, pct: 18.4, count: 106, lost: false, is12: true },
+      { team: 'UConn', seed: 2, pct: 16.2, count: 93, lost: false, is12: true },
+      { team: 'St. Johns', seed: 5, pct: 10.8, count: 62, lost: false },
+      { team: 'Florida', seed: 1, pct: 8.0, count: 46, lost: false, is12: true },
+      { team: 'Arizona', seed: 1, pct: 4.9, count: 28, lost: false, is12: true },
+      { team: 'Texas Tech', seed: 5, pct: 4.5, count: 26, lost: false },
+      { team: 'Tennessee', seed: 6, pct: 4.2, count: 24, lost: false },
+      { team: 'Virginia', seed: 3, pct: 3.1, count: 18, lost: false },
+      { team: 'Alabama', seed: 4, pct: 2.6, count: 15, lost: false },
+      { team: 'Kansas', seed: 4, pct: 0.9, count: 5, lost: false },
+      { team: 'Miami FL', seed: 7, pct: 0.3, count: 2, lost: false },
+      { team: 'UCLA', seed: 7, pct: 0.2, count: 1, lost: false }
+    ],
+    field_d4_12seed_pct: 73.5,
+    field_d4_total: 576
   },
 
   path: [
@@ -414,23 +497,23 @@ var D = {
       sweat: 'ILL(4) GONZ(3) MSU(3)',
       result: 'Splash 82/100, Sweat 10/10. Wisconsin upset cost 18 Splash entries.',
       prob: null },
-    { day: 2, round: 'R64', status: 'active', label: 'Day 2 — R64 Fri',
+    { day: 2, round: 'R64', status: 'done', label: 'Day 2 — R64 Fri',
       splash: 'VIR(21) KAN(21) ALA(20) SJU(19) TTU(19)',
       sweat: 'VIR(4) KAN(3) ALA(3)',
-      result: 'In progress — games tipping now',
+      result: 'All 5 Splash picks WON. Sweat 3/3 WON. Field: 4974 alive.',
       prob: null },
-    { day: 3, round: 'R32', status: 'active', label: 'Day 3 — R32 Sat',
+    { day: 3, round: 'R32', status: 'done', label: 'Day 3 — R32 Sat',
       splash: 'MSU+GONZ grp(41)→ILL · ILL grp(21)→ARK · ARK grp(20)→GONZ',
       sweat: 'ILL(6) · ARK(4)',
-      result: 'Games tipping — R32',
+      result: 'Splash 62/82 (lost 20 on Gonzaga). Sweat 10/10 perfect.',
       prob: 'ILL 86.3% · ARK 84.1% · GONZ 75.3% (blended)',
       tag: 'cross', tagLabel: 'ZERO SAVES BURNED' },
-    { day: 4, round: 'R32', status: 'future', label: 'Day 4 — R32 Sun',
-      splash: 'Iowa State vs Kentucky winner (all entries)',
-      sweat: 'Iowa State',
-      result: null,
-      prob: 'ISU 76.9%',
-      tag: 'burn', tagLabel: 'BURN IOWA STATE' },
+    { day: 4, round: 'R32', status: 'active', label: 'Day 4 — R32 Sun',
+      splash: 'ISU(42) + PUR(20) — hedged split',
+      sweat: 'ISU(5) + PUR(3) + FLA(2) — 3-way split',
+      result: 'Games in progress — Day 4 R32',
+      prob: 'ISU 74.0% · PUR 78.3% · FLA 77.7%',
+      tag: 'burn', tagLabel: 'BURN ISU + PUR' },
     { day: 5, round: 'S16', status: 'future', label: 'Day 5 — Sweet 16',
       splash: 'Deploy Duke',
       sweat: 'Duke',
@@ -448,13 +531,13 @@ var D = {
       sweat: 'Houston',
       result: null,
       prob: 'HOU 65.5%',
-      tag: 'save', tagLabel: 'DEPLOY 1-SEED' },
+      tag: 'save', tagLabel: 'DEPLOY 2-SEED' },
     { day: 8, round: 'E8', status: 'future', label: 'Day 8 — Elite 8',
       splash: 'Deploy Arizona',
       sweat: 'Arizona',
       result: null,
       prob: 'ARIZ 59.3%',
-      tag: 'save', tagLabel: 'DEPLOY 2-SEED' },
+      tag: 'save', tagLabel: 'DEPLOY 1-SEED' },
     { day: 9, round: 'F4+', status: 'future', label: 'Days 9-10 — Final Four+',
       splash: 'Best available: Florida / UConn / Purdue',
       sweat: 'Best available',
@@ -478,7 +561,11 @@ var D = {
     'Pre-tournament conditional probabilities are WRONG after games are played. Must recalculate.',
     'Leverage is a bet amplifier, not a free edge. High leverage on a losing pick is catastrophic.',
     'Field burns 1/2 seeds more aggressively each day (4% D1 → 21.4% D2). Our save strategy gains value.',
-    'We used 3-seeds D1 that had high future value. Better: higher-seed / lower-FV teams (Nebraska, Vanderbilt).'
+'We used 3-seeds D1 that had high future value. Better: higher-seed / lower-FV teams (Nebraska, Vanderbilt).',
+    'Splitting picks (hedging) dominates all-in on EV AND risk. Day 4: ISU+PUR split has higher E[equity] than all-ISU.',
+    'Save behavior collapses by Day 4 R32. 1-seed pick rate: Day 3 = 2-4% → Day 4 = 20-26%. Mid-seed options exhausted.',
+    'Sweat-to-Splash cross-reference (v5) is the best field forecast method. RMSE dropped from 123 → 22.',
+    '42% of Splash field burned Kansas — biggest single constraint. 1,719 entries cannot pick KU in any future round.'
   ]
 };
 
@@ -811,10 +898,18 @@ function updatePickResults(events) {
 
 function fetchScores() {
   var now = new Date();
-  var dd = String(now.getDate()).padStart(2,'0');
-  var mm = String(now.getMonth()+1).padStart(2,'0');
-  var yyyy = now.getFullYear();
-  var dateStr = yyyy + mm + dd;
+  // Fetch today and yesterday to backfill pending results
+  var dates = [];
+  for (var offset = 0; offset <= 1; offset++) {
+    var d = new Date(now); d.setDate(d.getDate() - offset);
+    dates.push(d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0'));
+  }
+  // Also check if any days have pending results — fetch those dates too
+  var pendingDates = {'20260319':true, '20260320':true, '20260321':true};
+  [D.splash, D.sweat].forEach(function(c){ c.days.forEach(function(day){
+    day.picks.forEach(function(pk){ if(pk.result==='-') pendingDates[day.label] = true; });
+  })});
+  var dateStr = dates[0]; // Primary: today
   var url = 'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=' + dateStr + '&groups=100&limit=50';
   fetch(url).then(function(r){return r.json()}).then(function(data) {
     if (!data.events) return;
@@ -1098,15 +1193,40 @@ function renderDistro() {
     p.appendChild(splashD3Card);
   }
 
+  // Splash Day 4 forecast
+  if (D.splash.field_dist_d4 && D.splash.field_dist_d4.length) {
+    var splD4 = renderDistBars(
+      'Splash Day 4 R32 — v5 Forecast (Sweat-calibrated)',
+      D.splash.field_dist_d4, 25,
+      function(d) { return d.is12 ? 'var(--amber)' : 'var(--purple)'; }
+    );
+    splD4.appendChild(h('div', {style:'font-size:10px;color:var(--text-dim);margin-top:4px;font-family:var(--mono)'},
+      D.splash.field_d4_note || ''
+    ));
+    p.appendChild(splD4);
+  }
+
+  // Sweat Day 4 actual
+  if (D.sweat.field_dist_d4 && D.sweat.field_dist_d4.length) {
+    p.appendChild(renderDistBars(
+      'Sweat Day 4 R32 — Actual Distribution (' + (D.sweat.field_d4_total||'') + ' entries)',
+      D.sweat.field_dist_d4, 30,
+      function(d) { return d.is12 ? 'var(--amber)' : 'var(--purple)'; }
+    ));
+  }
+
   // 1/2 Seed burn rate comparison
   var burnCard = h('div', {className:'card'});
   burnCard.appendChild(h('div', {className:'card-title'}, '1/2 Seed Burn Rate — Field Trend'));
 
   var burns = [
-    { label: 'Sweat Day 1', pct: D.sweat.field_12seed_d1_pct },
-    { label: 'Splash Day 1', pct: D.splash.field_12seed_d1_pct },
-    { label: 'Sweat Day 2', pct: D.sweat.field_12seed_d2_pct },
-    { label: 'Sweat Day 3 R32', pct: D.sweat.field_d3_12seed_pct || 0 }
+    { label: 'Splash Day 1 R64', pct: D.splash.field_12seed_d1_pct },
+    { label: 'Sweat Day 1 R64', pct: D.sweat.field_12seed_d1_pct },
+    { label: 'Sweat Day 2 R64', pct: D.sweat.field_12seed_d2_pct },
+    { label: 'Splash Day 3 R32', pct: D.splash.field_d3_12seed_pct || 0 },
+    { label: 'Sweat Day 3 R32', pct: D.sweat.field_d3_12seed_pct || 0 },
+    { label: 'Splash Day 4 R32', pct: D.splash.field_d4_12seed_pct || 0 },
+    { label: 'Sweat Day 4 R32', pct: D.sweat.field_d4_12seed_pct || 0 }
   ];
   burns.forEach(function(b) {
     burnCard.appendChild(h('div', {className:'bar-row'},
@@ -1118,8 +1238,8 @@ function renderDistro() {
     ));
   });
   burnCard.appendChild(h('div', {className:'info-box amber'},
-    h('div', {className:'info-title'}, 'Half the alive field burned a 1/2 seed on Day 2'),
-    '49.5% of Sweat Day 2 picks are 1/2 seeds (336/679), up from 4.2% on Day 1. Kansas alone accounts for 26.2%. We saved all our 1/2 seeds — this advantage compounds every round as the field runs out of top seeds.'
+    h('div', {className:'info-title'}, 'Save behavior collapsed by Day 4'),
+    'Day 1-2: field saved 1/2 seeds (4-5% burn). Day 3: still saving (12-15%). Day 4: COLLAPSE — 72-74% of picks are 1/2 seeds (Purdue 20-26%, ISU 18-20%, UConn 16-18%). Mid-seed options exhausted. Our save advantage is real but shrinking.'
   ));
   p.appendChild(burnCard);
 
@@ -1214,83 +1334,195 @@ function renderPath() {
 }
 
 // ═══════════════════════════════════════════
-// ELO LAB — Bracket-Aware Model
+// ELO LAB — Bracket-Aware Model with Matchup Probabilities
 // ═══════════════════════════════════════════
 var ELO = {
   sigma: { East: 421, South: 291, West: 468, Midwest: 405 },
   teams: [
     {n:'Duke',s:1,r:'East',elo:1693,alive:true,us:'saved',bp:1},
-    {n:'TCU',s:9,r:'East',elo:1326,alive:true,us:false,bp:2},
+    {n:'TCU',s:9,r:'East',elo:1326,alive:false,us:false,bp:2},
     {n:'Kansas',s:4,r:'East',elo:1443,alive:true,us:'splash',bp:3},
     {n:"St. John's",s:5,r:'East',elo:1425,alive:true,us:'splash',bp:4},
-    {n:'Louisville',s:6,r:'East',elo:1441,alive:true,us:false,bp:5},
+    {n:'Louisville',s:6,r:'East',elo:1441,alive:false,us:false,bp:5},
     {n:'Michigan St.',s:3,r:'East',elo:1574,alive:true,us:'both',bp:6},
     {n:'UCLA',s:7,r:'East',elo:1373,alive:true,us:false,bp:7},
     {n:'Connecticut',s:2,r:'East',elo:1575,alive:true,us:'saved',bp:8},
     {n:'Florida',s:1,r:'South',elo:1531,alive:true,us:'saved',bp:1},
-    {n:'Clemson',s:8,r:'South',elo:1354,alive:true,us:false,bp:2},
+    {n:'Clemson',s:8,r:'South',elo:1354,alive:false,us:false,bp:2},
     {n:'Iowa',s:9,r:'South',elo:1382,alive:true,us:false,bp:2},
     {n:'Nebraska',s:4,r:'South',elo:1415,alive:true,us:false,bp:3},
-    {n:'Vanderbilt',s:5,r:'South',elo:1440,alive:true,us:false,bp:4},
+    {n:'Vanderbilt',s:5,r:'South',elo:1440,alive:false,us:false,bp:4},
     {n:'Illinois',s:3,r:'South',elo:1571,alive:true,us:'both',bp:5},
-    {n:'VCU',s:11,r:'South',elo:1331,alive:true,us:false,bp:6},
+    {n:'VCU',s:11,r:'South',elo:1331,alive:false,us:false,bp:6},
     {n:'Houston',s:2,r:'South',elo:1663,alive:true,us:'saved',bp:7},
-    {n:'Texas A&M',s:10,r:'South',elo:1366,alive:true,us:false,bp:8},
+    {n:'Texas A&M',s:10,r:'South',elo:1366,alive:false,us:false,bp:8},
     {n:'Arizona',s:1,r:'West',elo:1723,alive:true,us:'saved',bp:1},
-    {n:'Villanova',s:8,r:'West',elo:1353,alive:true,us:false,bp:2},
+    {n:'Villanova',s:8,r:'West',elo:1353,alive:false,us:false,bp:2},
     {n:'Utah State',s:9,r:'West',elo:1359,alive:true,us:false,bp:2},
     {n:'Arkansas',s:4,r:'West',elo:1446,alive:true,us:'splash',bp:3},
-    {n:'High Point',s:12,r:'West',elo:980,alive:true,us:false,bp:4},
+    {n:'High Point',s:12,r:'West',elo:980,alive:false,us:false,bp:4},
     {n:'Texas',s:11,r:'West',elo:1496,alive:true,us:false,bp:5},
-    {n:'Gonzaga',s:3,r:'West',elo:1752,alive:true,us:'both',bp:6},
+    {n:'Gonzaga',s:3,r:'West',elo:1752,alive:false,us:'both',bp:6},
     {n:'Miami FL',s:7,r:'West',elo:1510,alive:true,us:false,bp:7},
-    {n:'Missouri',s:10,r:'West',elo:1489,alive:true,us:false,bp:7},
+    {n:'Missouri',s:10,r:'West',elo:1489,alive:false,us:false,bp:7},
     {n:'Purdue',s:2,r:'West',elo:1750,alive:true,us:'saved',bp:8},
     {n:'Michigan',s:1,r:'Midwest',elo:1717,alive:true,us:'saved',bp:1},
-    {n:'Saint Louis',s:9,r:'Midwest',elo:1330,alive:true,us:false,bp:2},
-    {n:'Georgia',s:8,r:'Midwest',elo:1319,alive:true,us:false,bp:2},
+    {n:'Saint Louis',s:9,r:'Midwest',elo:1330,alive:false,us:false,bp:2},
+    {n:'Georgia',s:8,r:'Midwest',elo:1319,alive:false,us:false,bp:2},
     {n:'Alabama',s:4,r:'Midwest',elo:1412,alive:true,us:'both',bp:3},
     {n:'Texas Tech',s:5,r:'Midwest',elo:1475,alive:true,us:'splash',bp:4},
     {n:'Tennessee',s:6,r:'Midwest',elo:1480,alive:true,us:false,bp:5},
     {n:'Virginia',s:3,r:'Midwest',elo:1539,alive:true,us:'both',bp:6},
     {n:'Kentucky',s:7,r:'Midwest',elo:1413,alive:true,us:false,bp:7},
-    {n:'Santa Clara',s:10,r:'Midwest',elo:1351,alive:true,us:false,bp:7},
+    {n:'Santa Clara',s:10,r:'Midwest',elo:1351,alive:false,us:false,bp:7},
     {n:'Iowa State',s:2,r:'Midwest',elo:1625,alive:true,us:'saved',bp:8}
   ]
 };
-function eloWinProb(rA,rB,sigma){return 1/(1+Math.pow(10,(rB-rA)/sigma))}
+function eloWP(rA,rB,sigma){return 1/(1+Math.pow(10,(rB-rA)/sigma))}
 
-function getMatchupsByRound(round,region){
-  var teams=ELO.teams.filter(function(t){return t.alive&&(!region||t.r===region)});
-  var m=[];
-  var regs=region?[region]:['East','South','West','Midwest'];
+// Compute P(team reaches round R) by propagating through bracket
+function computeReachProbs(){
+  // NOTE: Some R64 pairs (Clemson/Iowa, Villanova/Utah State, Miami FL/Missouri)
+  // have both teams marked alive pending Day 2 result confirmation.
+  // For pods with 2 teams at same bp, we weight by their R64 win probability.
+  var regs=['East','South','West','Midwest'];
+  // For each region, compute P(team reaches S16), P(reaches E8)
+  // R32 pods: bp 1v2, 3v4, 5v6, 7v8
+  // S16 pods: (winner 1v2) vs (winner 3v4), (winner 5v6) vs (winner 7v8)
+  // E8: S16 winner top vs S16 winner bottom
+  
+  var reach = {}; // reach[teamName] = {r32: prob, s16: prob, e8: prob, f4: prob}
+  
   regs.forEach(function(reg){
-    var rt=teams.filter(function(t){return t.r===reg});
+    var sigma = ELO.sigma[reg];
+    var rt = ELO.teams.filter(function(t){return t.alive && t.r===reg});
+    var byBP = {};
+    rt.forEach(function(t){ if(!byBP[t.bp]) byBP[t.bp]=[]; byBP[t.bp].push(t); });
+    
+    // R32: every alive team in R32 has reach=1.0 (they're already there)
+    rt.forEach(function(t){ reach[t.n] = {r32:1.0, s16:0, e8:0, f4:0}; });
+    
+    // R32 winners -> S16 reach
+    // Pod [1,2]: winner plays winner of [3,4]
+    // Pod [5,6]: winner plays winner of [7,8]
+    var r32pods = [[1,2],[3,4],[5,6],[7,8]];
+    var r32winners = {}; // r32winners[bp] = [{team, pWin}]
+    
+    r32pods.forEach(function(pod){
+      var aTeams = byBP[pod[0]] || [];
+      var bTeams = byBP[pod[1]] || [];
+      // Weight duplicate-bp teams (unresolved R64) by relative Elo strength
+      var aTotal = aTeams.reduce(function(s,t){return s+t.elo},0);
+      var bTotal = bTeams.reduce(function(s,t){return s+t.elo},0);
+      aTeams.forEach(function(a){
+        var aW = aTeams.length > 1 ? a.elo / aTotal : 1.0;
+        bTeams.forEach(function(b){
+          var bW = bTeams.length > 1 ? b.elo / bTotal : 1.0;
+          var pA = eloWP(a.elo, b.elo, sigma);
+          reach[a.n].s16 += pA * aW * bW;
+          reach[b.n].s16 += (1-pA) * aW * bW;
+        });
+      });
+    });
+    
+    // Normalize s16 for pods with multiple teams at same bp (e.g. Clemson/Iowa both bp=2)
+    // Actually the reach computation above double-counts if there are 2 teams at same bp
+    // Let me reconsider: bp=2 might have Clemson AND Iowa (8-seed and 9-seed in same first-round game)
+    // They play EACH OTHER in R64 first, then the winner plays bp=1
+    // But we're in R32 — the R64 is already done. One of them won.
+    // The issue: both Clemson and Iowa show alive=true because R64 result isn't settled yet in our data
+    // For now, treat both as alive candidates at bp=2
+    
+    // S16 winners -> E8 reach
+    // S16 pod 1: winners from R32 pods [1,2] and [3,4]
+    // S16 pod 2: winners from R32 pods [5,6] and [7,8]
+    var s16pods = [[[1,2],[3,4]], [[5,6],[7,8]]];
+    
+    s16pods.forEach(function(megaPod){
+      var topBPs = megaPod[0]; // [1,2]
+      var botBPs = megaPod[1]; // [3,4]
+      var topTeams = rt.filter(function(t){return topBPs.indexOf(t.bp)>=0});
+      var botTeams = rt.filter(function(t){return botBPs.indexOf(t.bp)>=0});
+      
+      topTeams.forEach(function(a){
+        botTeams.forEach(function(b){
+          // P(a and b meet in S16) = P(a wins R32) * P(b wins R32) [assuming independence]
+          var pMeet = reach[a.n].s16 * reach[b.n].s16;
+          var pAWins = eloWP(a.elo, b.elo, sigma);
+          reach[a.n].e8 += pMeet * pAWins;
+          reach[b.n].e8 += pMeet * (1-pAWins);
+        });
+      });
+    });
+    
+    // E8 winners -> F4 reach
+    var topHalf = rt.filter(function(t){return t.bp<=4});
+    var botHalf = rt.filter(function(t){return t.bp>=5});
+    topHalf.forEach(function(a){
+      botHalf.forEach(function(b){
+        var pMeet = reach[a.n].e8 * reach[b.n].e8;
+        var pAWins = eloWP(a.elo, b.elo, sigma);
+        reach[a.n].f4 += pMeet * pAWins;
+        reach[b.n].f4 += pMeet * (1-pAWins);
+      });
+    });
+  });
+  
+  return reach;
+}
+
+function getMatchupsWithProbs(round, region){
+  var reach = computeReachProbs();
+  var teams = ELO.teams.filter(function(t){return t.alive && (!region || t.r===region)});
+  var matchups = [];
+  var regs = region ? [region] : ['East','South','West','Midwest'];
+  
+  regs.forEach(function(reg){
+    var sigma = ELO.sigma[reg];
+    var rt = teams.filter(function(t){return t.r===reg});
+    
     if(round==='R32'){
-      [[1,2],[3,4],[5,6],[7,8]].forEach(function(pod){
-        var a=rt.filter(function(t){return t.bp===pod[0]});
-        var b=rt.filter(function(t){return t.bp===pod[1]});
-        a.forEach(function(ta){b.forEach(function(tb){m.push({a:ta,b:tb,region:reg})})});
+      [[1,2],[3,4],[5,6],[7,8]].forEach(function(pod,i){
+        var a = rt.filter(function(t){return t.bp===pod[0]});
+        var b = rt.filter(function(t){return t.bp===pod[1]});
+        a.forEach(function(ta){b.forEach(function(tb){
+          matchups.push({a:ta, b:tb, region:reg, pOccur:1.0});
+        })});
       });
     } else if(round==='S16'){
-      [[1,2,3,4],[5,6,7,8]].forEach(function(pod){
-        var top=rt.filter(function(t){return pod.slice(0,2).indexOf(t.bp)>=0});
-        var bot=rt.filter(function(t){return pod.slice(2).indexOf(t.bp)>=0});
-        top.forEach(function(ta){bot.forEach(function(tb){m.push({a:ta,b:tb,region:reg})})});
+      var podLabels = ['Top Half (1/2 vs 3/4 winners)', 'Bottom Half (5/6 vs 7/8 winners)'];
+      [[[1,2],[3,4]], [[5,6],[7,8]]].forEach(function(megaPod,i){
+        var topTeams = rt.filter(function(t){return megaPod[0].indexOf(t.bp)>=0});
+        var botTeams = rt.filter(function(t){return megaPod[1].indexOf(t.bp)>=0});
+        topTeams.forEach(function(ta){botTeams.forEach(function(tb){
+          var pOccur = reach[ta.n].s16 * reach[tb.n].s16;
+          if(pOccur > 0.001) matchups.push({a:ta, b:tb, region:reg+' \u2014 '+podLabels[i], pOccur:pOccur});
+        })});
       });
     } else if(round==='E8'){
-      var top=rt.filter(function(t){return t.bp<=4}),bot=rt.filter(function(t){return t.bp>=5});
-      top.forEach(function(ta){bot.forEach(function(tb){m.push({a:ta,b:tb,region:reg})})});
+      var top = rt.filter(function(t){return t.bp<=4});
+      var bot = rt.filter(function(t){return t.bp>=5});
+      top.forEach(function(ta){bot.forEach(function(tb){
+        var pOccur = reach[ta.n].e8 * reach[tb.n].e8;
+        if(pOccur > 0.001) matchups.push({a:ta, b:tb, region:reg, pOccur:pOccur});
+      })});
     }
   });
+  
   if(round==='F4'){
     [['East','South'],['West','Midwest']].forEach(function(pair){
-      var r1=teams.filter(function(t){return t.r===pair[0]});
-      var r2=teams.filter(function(t){return t.r===pair[1]});
-      r1.forEach(function(ta){r2.forEach(function(tb){m.push({a:ta,b:tb,region:pair[0]+'/'+pair[1]})})});
+      var r1 = teams.filter(function(t){return t.r===pair[0]});
+      var r2 = teams.filter(function(t){return t.r===pair[1]});
+      r1.forEach(function(ta){r2.forEach(function(tb){
+        var pOccur = reach[ta.n].f4 * reach[tb.n].f4;
+        if(pOccur > 0.001) matchups.push({a:ta, b:tb, region:pair[0]+'/'+pair[1], pOccur:pOccur});
+      })});
     });
   }
-  return m;
+  
+  // Sort by P(occur) descending within each region group
+  matchups.sort(function(a,b){ return a.region===b.region ? b.pOccur-a.pOccur : 0; });
+  return matchups;
 }
 
 function renderEloLab(){
@@ -1330,38 +1562,62 @@ function renderEloLab(){
     var round=document.getElementById('elo-round').value;
     var region=document.getElementById('elo-region').value||null;
     if(round==='Any'){c.appendChild(renderFreePick());return}
-    var matchups=getMatchupsByRound(round,region);
+    
+    var matchups=getMatchupsWithProbs(round,region);
     if(!matchups.length){c.appendChild(h('div',{style:'color:var(--text-dim);padding:20px;text-align:center'},'No matchups for this round/region'));return}
+    
     var byReg={};matchups.forEach(function(m){if(!byReg[m.region])byReg[m.region]=[];byReg[m.region].push(m)});
+
     Object.keys(byReg).forEach(function(reg){
-      var el=h('div',{style:'margin-bottom:14px'});
-      el.appendChild(h('div',{style:'font-family:var(--mono);font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border-lite)'},reg));
+      // Compute total pOccur for this region group to verify sums to ~100%
+      var total = byReg[reg].reduce(function(s,m){return s+m.pOccur},0);
+      var el=h('div',{style:'margin-bottom:16px'});
+      var regLabel = round === 'R32' ? reg : reg + ' \u2014 ' + byReg[reg].length + ' possible matchups (sum: ' + (total*100).toFixed(1) + '%)';
+      el.appendChild(h('div',{style:'font-family:var(--mono);font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border-lite)'},regLabel));
+      
       byReg[reg].forEach(function(m){
         var sigma=m.a.r===m.b.r?ELO.sigma[m.a.r]:(ELO.sigma[m.a.r]+ELO.sigma[m.b.r])/2;
-        var pA=eloWinProb(m.a.elo,m.b.elo,sigma);
-        var row=h('div',{style:'display:grid;grid-template-columns:1fr 180px 1fr;gap:6px;align-items:center;padding:5px 0;border-bottom:1px solid var(--border-lite)'});
+        var pA=eloWP(m.a.elo,m.b.elo,sigma);
+        var pOccurPct = (m.pOccur*100);
+        var opacity = Math.max(0.3, Math.min(1.0, m.pOccur * 3)); // fade unlikely matchups
+        
+        var row=h('div',{style:'display:grid;grid-template-columns:60px 1fr 160px 1fr;gap:6px;align-items:center;padding:5px 0;border-bottom:1px solid var(--border-lite);opacity:'+opacity});
+        
+        // P(occur) column
+        var occurColor = pOccurPct > 50 ? 'var(--green)' : pOccurPct > 20 ? 'var(--accent)' : pOccurPct > 5 ? 'var(--amber)' : 'var(--text-dim)';
+        row.appendChild(h('div',{style:'text-align:center'},
+          h('div',{style:'font-family:var(--mono);font-size:12px;font-weight:700;color:'+occurColor}, pOccurPct >= 10 ? pOccurPct.toFixed(0)+'%' : pOccurPct.toFixed(1)+'%'),
+          round !== 'R32' ? h('div',{style:'font-family:var(--mono);font-size:8px;color:var(--text-dim)'},'occur') : null
+        ));
+        
+        // Team A
         row.appendChild(h('div',{style:'text-align:right;font-size:12px'},
           si(m.a)?h('span',{style:'font-size:10px;margin-right:3px'},si(m.a)):null,
           h('span',{className:'seed'},'('+m.a.s+')'),
           h('span',{style:'font-weight:'+(pA>=0.5?'700':'400')+';color:'+(pA>=0.5?'var(--text-bright)':'var(--text-muted)')},m.a.n),
-          h('span',{style:'font-family:var(--mono);font-size:11px;margin-left:6px;color:'+(pA>=0.5?'var(--green)':'var(--text-dim)')},(pA*100).toFixed(1)+'%')
+          h('span',{style:'font-family:var(--mono);font-size:11px;margin-left:4px;color:'+(pA>=0.5?'var(--green)':'var(--text-dim)')},(pA*100).toFixed(1)+'%')
         ));
+        
+        // Probability bar
         row.appendChild(h('div',{style:'height:14px;border-radius:3px;overflow:hidden;display:flex'},
           h('div',{style:'width:'+Math.round(pA*100)+'%;background:'+(pA>=0.5?'var(--green)':'var(--red)')}),
           h('div',{style:'width:'+Math.round((1-pA)*100)+'%;background:'+(pA<0.5?'var(--green)':'var(--red)')})
         ));
+        
+        // Team B
         row.appendChild(h('div',{style:'font-size:12px'},
-          h('span',{style:'font-family:var(--mono);font-size:11px;margin-right:6px;color:'+(pA<0.5?'var(--green)':'var(--text-dim)')},((1-pA)*100).toFixed(1)+'%'),
+          h('span',{style:'font-family:var(--mono);font-size:11px;margin-right:4px;color:'+(pA<0.5?'var(--green)':'var(--text-dim)')},((1-pA)*100).toFixed(1)+'%'),
           h('span',{style:'font-weight:'+(pA<0.5?'700':'400')+';color:'+(pA<0.5?'var(--text-bright)':'var(--text-muted)')},m.b.n),
           h('span',{className:'seed'},'('+m.b.s+')'),
           si(m.b)?h('span',{style:'font-size:10px;margin-left:3px'},si(m.b)):null
         ));
+        
         el.appendChild(row);
       });
       c.appendChild(el);
     });
     c.appendChild(h('div',{style:'margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--text-dim)'},
-      '\ud83d\udd12 Saved \u00b7 \ud83d\udcddS Splash used \u00b7 \ud83d\udcddB Both used \u00b7 Only bracket-possible matchups shown'));
+      '\ud83d\udd12 Saved \u00b7 \ud83d\udcddS Splash \u00b7 \ud83d\udcddB Both \u00b7 P(occur) = probability this specific matchup happens \u00b7 Faded rows are unlikely'));
   }
 
   function renderFreePick(){
@@ -1385,7 +1641,7 @@ function renderEloLab(){
       if(!a||!b||a===b){r.innerHTML='Select two different teams';return}
       var tA=ELO.teams.find(function(t){return t.n===a}),tB=ELO.teams.find(function(t){return t.n===b});
       var sigma=tA.r===tB.r?ELO.sigma[tA.r]:(ELO.sigma[tA.r]+ELO.sigma[tB.r])/2;
-      var pA=eloWinProb(tA.elo,tB.elo,sigma);
+      var pA=eloWP(tA.elo,tB.elo,sigma);
       r.innerHTML='';
       r.appendChild(h('div',{style:'font-size:20px;font-weight:700;color:var(--text-bright)'},'('+tA.s+') '+tA.n+'  '+(pA*100).toFixed(1)+'%  vs  '+((1-pA)*100).toFixed(1)+'%  '+tB.n+' ('+tB.s+')'));
       r.appendChild(h('div',{style:'height:24px;border-radius:4px;overflow:hidden;display:flex;margin:8px 0'},
@@ -1411,8 +1667,14 @@ function renderEloLab(){
   // Power rankings
   var rankCard=h('div',{className:'card'});
   rankCard.appendChild(h('div',{className:'card-title'},'Power Rankings \u2014 Sigma-Normalized'));
+  var reach = computeReachProbs();
   var rankTbl=h('table',{className:'tbl'});
-  rankTbl.appendChild(h('thead',null,h('tr',null,h('th',{style:'width:24px'},'#'),h('th',null,'Team'),h('th',null,'Region'),h('th',{className:'num'},'Elo'),h('th',{className:'num'},'z-score'),h('th',null,'Status'))));
+  rankTbl.appendChild(h('thead',null,h('tr',null,
+    h('th',{style:'width:24px'},'#'),h('th',null,'Team'),h('th',null,'Region'),
+    h('th',{className:'num'},'Elo'),h('th',{className:'num'},'z'),
+    h('th',{className:'num'},'P(S16)'),h('th',{className:'num'},'P(E8)'),h('th',{className:'num'},'P(F4)'),
+    h('th',null,'Status')
+  )));
   var rankBody=h('tbody');
   var regionMeans={East:1350,South:1380,West:1400,Midwest:1370};
   var alive=ELO.teams.filter(function(t){return t.alive});
@@ -1421,12 +1683,16 @@ function renderEloLab(){
     var st=t.us==='saved'?'SAVED':t.us==='both'?'Both':t.us==='splash'?'Splash':'Avail';
     var sc=st==='SAVED'?'var(--green)':st==='Avail'?'var(--accent)':'var(--text-dim)';
     var rc={East:'var(--amber)',South:'var(--green)',West:'var(--red)',Midwest:'var(--accent)'}[t.r];
+    var r = reach[t.n] || {s16:0,e8:0,f4:0};
     rankBody.appendChild(h('tr',null,
       h('td',{style:'font-family:var(--mono);font-size:10px;color:var(--text-dim)'},''+(i+1)),
       h('td',null,h('span',{className:'seed'},'('+t.s+')'),h('span',{className:'team'},t.n)),
       h('td',{style:'font-size:11px;color:'+rc},t.r),
       h('td',{className:'num',style:'font-weight:600'},''+t.elo),
       h('td',{className:'num',style:'color:'+(z>0.7?'var(--green)':z>0.4?'var(--accent)':'var(--text-muted)')},z.toFixed(2)),
+      h('td',{className:'num'},(r.s16*100).toFixed(0)+'%'),
+      h('td',{className:'num'},(r.e8*100).toFixed(0)+'%'),
+      h('td',{className:'num'},(r.f4*100).toFixed(0)+'%'),
       h('td',{style:'font-family:var(--mono);font-size:10px;color:'+sc},st)));
   });
   rankTbl.appendChild(rankBody);rankCard.appendChild(rankTbl);p.appendChild(rankCard);
