@@ -1313,7 +1313,7 @@ function renderPlayers() {
   // Competitive insights
   p.appendChild(h('div', {className:'info-box accent', style:'margin-top:12px'},
     h('div', {className:'info-title'}, 'Competitive Position'),
-    'princehal leads at 100% survival (no Wisconsin exposure). We rank 3rd at 82%. poopbutt2 and daviesloveiii took heavier hits. Key: princehal already burned Houston on Day 1 — they have fewer saves for late rounds.'
+    'princehal may have lost up to 33 entries on Gonzaga Day 3 (they burned GONZ Day 1 — so those entries couldn\'t pick GONZ, but may have picked a team that lost). Need fresh scrape. poopbutt2 burned GONZ Day 1 too — up to 40 lost on whatever they picked Day 3. Key: princehal burned Houston Day 1 — can\'t use HOU in E8.'
   ));
 
   return p;
@@ -1352,8 +1352,8 @@ function renderPath() {
 
   // Model warning
   p.appendChild(h('div', {className:'info-box red', style:'margin-top:12px'},
-    h('div', {className:'info-title'}, 'Critical Model Insight'),
-    'Nebraska is the UNDERDOG vs Vanderbilt (45.8%) in R32. Alabama is the UNDERDOG vs Texas Tech (42.4%). Conditional head-to-head probabilities differ significantly from seed-based estimates. Path plan will need recalculation after Day 2 results.'
+    h('div', {className:'info-title'}, 'Schedule Alert — Corrected'),
+    'Thursday = South+West (our ARIZ pick at 7:45 PM MT). Friday = East+Midwest (DUKE pick). Previous plan had Duke on Thursday — WRONG. Intra-day optimization: PUR vs TEX and NEB vs IOWA results known before our ARIZ pick locks.'
   ));
 
   return p;
@@ -1437,6 +1437,18 @@ function computeReachProbs(){
     r32pods.forEach(function(pod){
       var aTeams = byBP[pod[0]] || [];
       var bTeams = byBP[pod[1]] || [];
+      
+      // If one side of the pod is empty, the surviving team already won R32
+      if (aTeams.length > 0 && bTeams.length === 0) {
+        aTeams.forEach(function(a){ reach[a.n].s16 = 1.0; });
+        return;
+      }
+      if (bTeams.length > 0 && aTeams.length === 0) {
+        bTeams.forEach(function(b){ reach[b.n].s16 = 1.0; });
+        return;
+      }
+      if (aTeams.length === 0 && bTeams.length === 0) return;
+      
       // Weight duplicate-bp teams (unresolved R64) by relative Elo strength
       var aTotal = aTeams.reduce(function(s,t){return s+t.elo},0);
       var bTotal = bTeams.reduce(function(s,t){return s+t.elo},0);
@@ -1567,8 +1579,8 @@ function renderEloLab(){
 
   var filterRow=h('div',{style:'display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap'});
   var roundSel=h('select',{id:'elo-round',style:'padding:8px 12px;background:var(--surface);color:var(--text-bright);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:11px'});
-  ['R32','S16','E8','F4','Any'].forEach(function(r){
-    var lbl={R32:'R32 \u2014 Round of 32',S16:'S16 \u2014 Sweet 16',E8:'E8 \u2014 Elite 8',F4:'F4 \u2014 Final Four',Any:'Free pick (any vs any)'}[r];
+  ['S16','E8','F4','Any'].forEach(function(r){
+    var lbl={S16:'S16 \u2014 Sweet 16 (current)',E8:'E8 \u2014 Elite 8',F4:'F4 \u2014 Final Four',Any:'Free pick (any vs any)'}[r];
     roundSel.appendChild(h('option',{value:r},lbl));
   });
   var regionSel=h('select',{id:'elo-region',style:'padding:8px 12px;background:var(--surface);color:var(--text-bright);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:11px'});
