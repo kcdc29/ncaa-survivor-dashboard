@@ -167,10 +167,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 // ═══════════════════════════════════════════
 var D = {
   meta: {
-    day: 5,
-    dayLabel: 'Day 5',
-    round: 'Sweet 16',
-    date: 'Thursday, March 26',
+    day: 7,
+    dayLabel: 'Day 7',
+    round: 'Elite 8',
+    date: 'Saturday, March 28',
     updated: new Date().toISOString()
   },
 
@@ -180,10 +180,10 @@ var D = {
     entry_fee: 25,
     our_entries: 100,
     field_size: 6503,
-    alive_field: 3271,
-    alive_ours: 62,
-    dead_entries: 38,
-    dead_from: 'Wisconsin(18) + Gonzaga(20)',
+    alive_field: 924,
+    alive_ours: 41,
+    dead_entries: 59,
+    dead_from: 'Wisconsin(18) + Gonzaga(20) + Houston(21)',
     prize_pool: 142335,
     vig: 0.10,
     username: 'ASTRO1227',
@@ -229,19 +229,36 @@ var D = {
       {
         day: 5, round: 'S16', label: 'Thursday Mar 26',
         picks: [
-          { team: 'Arizona', seed: 1, entries: 62, result: '-', score: null, opp: 'Arkansas', field_pct: null }
+          { team: 'Arizona', seed: 1, entries: 21, result: 'W', score: '82-68', opp: 'Arkansas', field_pct: null },
+          { team: 'Houston', seed: 2, entries: 21, result: 'L', score: '67-72', opp: 'Illinois', field_pct: null },
+          { team: 'Iowa', seed: 9, entries: 20, result: 'W', score: '78-65', opp: 'Nebraska', field_pct: null }
+        ]
+      },
+      {
+        day: 6, round: 'S16', label: 'Friday Mar 27',
+        picks: [
+          { team: 'Duke', seed: 1, entries: 16, result: 'W', score: null, opp: 'St. Johns', field_pct: 10.3 },
+          { team: 'Tennessee', seed: 6, entries: 5, result: 'W', score: null, opp: 'Iowa State', field_pct: 5.5 },
+          { team: 'Michigan', seed: 1, entries: 20, result: 'W', score: null, opp: 'Alabama', field_pct: 14.7 }
+        ]
+      },
+      {
+        day: 7, round: 'E8', label: 'Saturday Mar 28',
+        picks: [
+          { team: 'Arizona', seed: 1, entries: 21, result: '-', score: null, opp: 'Purdue', field_pct: null },
+          { team: 'Iowa', seed: 9, entries: 20, result: '-', score: null, opp: 'Illinois', field_pct: null }
         ]
       }
     ],
 
     teams_used: ['Illinois','Gonzaga','Michigan St','Arkansas','Wisconsin','Virginia','Kansas','Alabama','St. Johns','Texas Tech','Illinois','Arkansas','Gonzaga','Iowa State','Purdue'],
     teams_saved: {
-      'Duke': {seed:1, assigned:1, note:'Day 6 S16 Fri'},
-      'Michigan': {seed:1, assigned:1, note:'Day 8 E8 Sun'},
-      'Houston': {seed:2, assigned:2, note:'Day 7 E8 Sat'},
-      'Arizona': {seed:1, assigned:1, note:'Day 5 S16 Thu — OUR PICK TODAY'},
+      'Duke': {seed:1, assigned:1, note:'Day 6 S16 W · Day 8 E8 Sun (Sweat)'},
+      'Michigan': {seed:1, assigned:1, note:'Day 6 S16 W · Day 8 E8 Sun'},
+      'Houston': {seed:2, assigned:2, note:'ELIMINATED (upset by Illinois S16)'},
+      'Arizona': {seed:1, assigned:1, note:'Day 5 S16 W + Day 7 E8 (today)'},
       'Florida': {seed:1, assigned:1, note:'ELIMINATED (upset by Iowa Day 4)'},
-      'UConn': {seed:2, assigned:2, note:'Day 10 Championship'},
+      'UConn': {seed:2, assigned:2, note:'Day 6 S16 W (Sweat) · Day 10 Champ'},
       'Iowa State': {seed:2, assigned:2, note:'BURNED Day 4 (42 entries)'},
       'Purdue': {seed:2, assigned:2, note:'BURNED Day 4 (20 entries)'}
     },
@@ -345,6 +362,19 @@ var D = {
     field_d4_12seed_pct: 72.0,
     field_d4_eliminated: 818,
 
+    field_dist_d6: [
+      { team: 'Iowa State', seed: 2, pct: 43.3, count: 883, lost: true, is12: true },
+      { team: 'Michigan', seed: 1, pct: 14.7, count: 301, lost: false, is12: true },
+      { team: 'UConn', seed: 2, pct: 14.7, count: 300, lost: false, is12: true },
+      { team: 'Duke', seed: 1, pct: 10.3, count: 211, lost: false, is12: true },
+      { team: 'Michigan St', seed: 3, pct: 9.3, count: 189, lost: true },
+      { team: 'Tennessee', seed: 6, pct: 5.5, count: 112, lost: false },
+      { team: 'St. Johns', seed: 5, pct: 1.6, count: 32, lost: true },
+      { team: 'Alabama', seed: 4, pct: 0.4, count: 8, lost: true }
+    ],
+    field_d6_eliminated: 1112,
+    field_d6_12seed_pct: 82.9,
+
     portfolio_players: [
       { name: 'princehal', entries: 100, alive: 100, pct: 100, picks: 'NEB(37) GONZ(33) ARK(20) ILL(5) HOU(5)', note: 'Burned Houston D1' },
       { name: 'steaktacos', entries: 100, alive: 92, pct: 92, picks: 'NEB(28) GONZ(22) MSU(16) ARK(14) WIS(8) ILL(6) VAN(6)', note: '8 on Wisconsin' },
@@ -361,8 +391,8 @@ var D = {
     entry_fee: 100,
     our_entries: 10,
     field_size: 867,
-    alive_field: 480,
-    alive_ours: 8,
+    alive_field: 140,
+    alive_ours: 6,
     prize_pool: 73170,
     vig: 0.00,
     investment: 1000,
@@ -406,15 +436,33 @@ var D = {
       {
         day: 5, round: 'S16', label: 'Thursday Mar 26',
         picks: [
-          { team: 'Arizona', seed: 1, entries: 8, result: '-', score: null, opp: 'Arkansas', field_pct: null }
+          { team: 'Purdue', seed: 2, entries: 3, result: 'W', score: '86-67', opp: 'Texas', field_pct: null },
+          { team: 'Arizona', seed: 1, entries: 3, result: 'W', score: '82-68', opp: 'Arkansas', field_pct: null },
+          { team: 'Houston', seed: 2, entries: 2, result: 'L', score: '67-72', opp: 'Illinois', field_pct: null }
+        ]
+      },
+      {
+        day: 6, round: 'S16', label: 'Friday Mar 27',
+        picks: [
+          { team: 'UConn', seed: 2, entries: 3, result: 'W', score: null, opp: 'Michigan St.', field_pct: null },
+          { team: 'Michigan', seed: 1, entries: 3, result: 'W', score: null, opp: 'Alabama', field_pct: null }
+        ]
+      },
+      {
+        day: 7, round: 'E8', label: 'Sat + Sun Mar 28-29 (combined slate)',
+        picks: [
+          { team: 'Duke + Michigan', seed: 1, entries: 2, result: '-', score: null, opp: 'CONN + TENN', field_pct: null },
+          { team: 'Duke + Tennessee', seed: 1, entries: 1, result: '-', score: null, opp: 'CONN + MICH', field_pct: null },
+          { team: 'UConn + Iowa', seed: 2, entries: 2, result: '-', score: null, opp: 'DUKE + ILL', field_pct: null },
+          { team: 'UConn + Tennessee', seed: 2, entries: 1, result: '-', score: null, opp: 'DUKE + MICH', field_pct: null }
         ]
       }
     ],
 
     teams_used: ['Illinois','Gonzaga','Michigan St','Virginia','Kansas','Alabama','Illinois','Arkansas','Iowa State','Purdue','Florida'],
     teams_saved_note: "8/10 alive. Lost Entry 9 + Entry 10 on Florida upset Day 4. Hasn't used Arkansas, St. Johns, Texas Tech.",
-    dead_entries: 2,
-    dead_from: 'Florida upset Day 4 (entries 9-10)',
+    dead_entries: 4,
+    dead_from: 'Florida(2) Day 4 + Houston(2) Day 5',
 
     field_dist_d1: [
       { team: 'Nebraska', seed: 4, pct: 22.49, count: 195, lost: false },
@@ -506,7 +554,18 @@ var D = {
       { team: 'UCLA', seed: 7, pct: 0.2, count: 1, lost: false }
     ],
     field_d4_12seed_pct: 73.5,
-    field_d4_total: 576
+    field_d4_total: 576,
+
+    field_dist_e8: [
+      { team: 'Arizona', seed: 1, pct: 56.4, count: 79, lost: false, is12: true },
+      { team: 'Duke', seed: 1, pct: 46.4, count: 65, lost: false, is12: true },
+      { team: 'Illinois', seed: 3, pct: 37.1, count: 52, lost: false },
+      { team: 'Michigan', seed: 1, pct: 33.6, count: 47, lost: false, is12: true },
+      { team: 'Tennessee', seed: 6, pct: 13.6, count: 19, lost: false },
+      { team: 'Iowa', seed: 9, pct: 6.4, count: 9, lost: false },
+      { team: 'UConn', seed: 2, pct: 5.7, count: 8, lost: false, is12: true }
+    ],
+    field_e8_note: 'Probabilistic model — each entry makes 2 picks from combined E8 slate (140 entries × 2 picks = 280 total picks)'
   },
 
   path: [
@@ -532,41 +591,39 @@ var D = {
       result: 'Splash 62/62 survived! Sweat lost 2 on Florida upset. ISU+PUR both won.',
       prob: 'ISU 74.0% · PUR 78.3% · FLA 77.7%',
       tag: 'burn', tagLabel: 'BURN ISU + PUR' },
-    { day: 5, round: 'S16', status: 'active', label: 'Day 5 — S16 Thu 3/26 (South+West)',
-      splash: 'ARIZONA vs (4) Arkansas — all 62 entries',
-      sweat: 'ARIZONA — all 8 entries',
-      result: 'Thursday 7:45 PM MT tip — our entries lock late window',
-      prob: 'ARIZ 79.8% (blend) — also: PUR vs TEX 76.6%, NEB vs IOWA 55.9%, HOU vs ILL 68.5%',
-      tag: 'save', tagLabel: 'DEPLOY 1-SEED' },
-    { day: 6, round: 'S16', status: 'future', label: 'Day 6 — S16 Fri 3/27 (East+Midwest)',
-      splash: 'DUKE vs (5) St. Johns — all entries',
-      sweat: 'DUKE — all entries',
-      result: null,
-      prob: 'DUKE 82.7% — also: MICH vs ALA 79.0%, CONN vs MSU 58.1%, ISU vs TENN 67.7%',
-      tag: 'save', tagLabel: 'DEPLOY 1-SEED' },
-    { day: 7, round: 'E8', status: 'future', label: 'Day 7 — E8 Sat 3/28 (South+West)',
-      splash: 'HOUSTON vs NEB/IOWA winner',
-      sweat: 'HOUSTON + (2nd pick from E8 combined slate)',
-      result: null,
-      prob: 'HOU ~68.5% S16 → then E8 ~75-89% depending on opponent',
-      tag: 'save', tagLabel: 'DEPLOY 2-SEED' },
+    { day: 5, round: 'S16', status: 'done', label: 'Day 5 — S16 Thu 3/26',
+      splash: 'ARIZ(21 W) + HOU(21 L) + IOWA(20 W) — lost 21 on Houston upset',
+      sweat: 'ARIZ(2 W) + HOU(3 L) + PUR(3 W)',
+      result: 'Houston upset by Illinois. Lost 21 Splash + 2 Sweat entries.',
+      prob: null },
+    { day: 6, round: 'S16', status: 'done', label: 'Day 6 — S16 Fri 3/27',
+      splash: 'DUKE(16 W) + TENN(5 W) + MICH(20 W) — CLEAN SWEEP',
+      sweat: 'CONN(3 W) + MICH(3 W)',
+      result: 'ISU upset by Tennessee (43% of field dead). All 41 Splash survived! Contrarian TENN pick validated.',
+      prob: null },
+    { day: 7, round: 'E8', status: 'active', label: 'Day 7 — E8 Sat 3/28 (South+West)',
+      splash: 'ARIZ(21) vs Purdue + IOWA(20) vs Illinois',
+      sweat: 'Combined E8 slate: DUKE+MICH(2), DUKE+TENN(1), CONN+IOWA(2), CONN+TENN(1)',
+      result: 'Games: ILL vs IOWA 4:09 PM MT, ARIZ vs PUR 6:49 PM MT',
+      prob: 'ARIZ 72% vs PUR · IOWA 28% vs ILL — contrarian IOWA on 20 entries',
+      tag: 'save', tagLabel: 'ARIZ + CONTRARIAN IOWA' },
     { day: 8, round: 'E8', status: 'future', label: 'Day 8 — E8 Sun 3/29 (East+Midwest)',
-      splash: 'MICHIGAN vs ISU/TENN winner',
-      sweat: 'MICHIGAN (combined E8 slate — 2 picks from all 4 E8 games)',
+      splash: 'Group A: MICH or CONN (21 entries) · Group C: DUKE or CONN (20 entries)',
+      sweat: 'Combined with Day 7 slate (already submitted)',
       result: null,
-      prob: 'MICH ~79.0% S16 → then E8 ~63-79% depending on opponent',
-      tag: 'save', tagLabel: 'DEPLOY 1-SEED' },
+      prob: 'DUKE 68% vs CONN · MICH 73% vs TENN',
+      tag: 'save', tagLabel: 'TBD AFTER DAY 7' },
     { day: 9, round: 'F4', status: 'future', label: 'Day 9 — F4 Sat 4/4',
-      splash: 'PUR (Groups A+B, 42 entries) / ISU (Group C, 20 entries)',
-      sweat: 'PUR (entries 1-5) / ISU (entries 6-8)',
+      splash: 'TBD — depends on E8 survivors from our saves',
+      sweat: 'TBD',
       result: null,
-      prob: 'Non-save split — both teams must survive to E8 first',
-      tag: 'burn', tagLabel: 'NON-SAVE SPLIT' },
+      prob: 'Path depends on E8 outcomes',
+      tag: null, tagLabel: null },
     { day: 10, round: 'Champ', status: 'future', label: 'Day 10 — Championship Mon 4/6',
-      splash: 'UCONN',
-      sweat: 'UCONN',
+      splash: 'UCONN (last save)',
+      sweat: 'TBD',
       result: null,
-      prob: 'CONN ~58.1% S16 → path depends on bracket survival',
+      prob: null,
       tag: 'save', tagLabel: 'LAST SAVE' }
   ],
 
@@ -589,7 +646,10 @@ var D = {
     'Splitting picks (hedging) dominates all-in on EV AND risk. Day 4: ISU+PUR split has higher E[equity] than all-ISU.',
     'Save behavior collapses by Day 4 R32. 1-seed pick rate: Day 3 = 2-4% → Day 4 = 20-26%. Mid-seed options exhausted.',
     'Sweat-to-Splash cross-reference (v5) is the best field forecast method. RMSE dropped from 123 → 22.',
-    '42% of Splash field burned Kansas — biggest single constraint. 1,719 entries cannot pick KU in any future round.'
+    '42% of Splash field burned Kansas — biggest single constraint. 1,719 entries cannot pick KU in any future round.',
+    'Contrarian Tennessee Day 6: 5 entries at 5.5% field overlap survived while 43.3% of field died on ISU. E[payout] optimization > E[survivors].',
+    'Iowa W scenario on Day 7 = +$6,545 equity swing. 20 entries on 28% IOWA is the biggest contrarian bet of the tournament.',
+    'E[payout] optimization > E[survivors]: with a portfolio, the right objective is maximizing (our_correct / field_correct) × prize across all scenarios, not maximizing expected survivors.'
   ]
 };
 
@@ -1241,18 +1301,43 @@ function renderDistro() {
     ));
   }
 
+  // Splash Day 6 actual — the contrarian validation day
+  if (D.splash.field_dist_d6 && D.splash.field_dist_d6.length) {
+    var d6Card = renderDistBars(
+      'Splash Day 6 S16 Fri — ACTUAL (the contrarian day)',
+      D.splash.field_dist_d6, 50,
+      function(d) { return d.lost ? 'var(--red)' : d.is12 ? 'var(--amber)' : 'var(--green)'; }
+    );
+    d6Card.appendChild(h('div', {className:'info-box green', style:'margin-top:8px'},
+      h('div', {className:'info-title'}, 'Contrarian thesis validated in real-time'),
+      'Iowa State at 43.3% was the mega-herd — and LOST to Tennessee. Our 5 Tennessee entries (5.5% field overlap) survived while 54.6% of the field died. This is the exact scenario the payout optimization framework predicted: low-ownership picks create massive equity swings when they hit.'
+    ));
+    p.appendChild(d6Card);
+  }
+
+  // Sweat E8 combined slate distribution
+  if (D.sweat.field_dist_e8 && D.sweat.field_dist_e8.length) {
+    var e8Card = renderDistBars(
+      'Sweat E8 Combined Slate — Field Model (140 entries × 2 picks)',
+      D.sweat.field_dist_e8, 60,
+      function(d) { return d.is12 ? 'var(--accent)' : 'var(--purple)'; }
+    );
+    e8Card.appendChild(h('div', {style:'font-size:10px;color:var(--text-dim);margin-top:4px;font-family:var(--mono)'},
+      'ARIZ 56% + ILL 37% = mega-chalk. Our picks: DUKE+MICH(2), DUKE+TENN(1), CONN+IOWA(2), CONN+TENN(1) — avoiding the herd.'
+    ));
+    p.appendChild(e8Card);
+  }
+
   // 1/2 Seed burn rate comparison
   var burnCard = h('div', {className:'card'});
   burnCard.appendChild(h('div', {className:'card-title'}, '1/2 Seed Burn Rate — Field Trend'));
 
   var burns = [
-    { label: 'Splash Day 1 R64', pct: D.splash.field_12seed_d1_pct },
-    { label: 'Sweat Day 1 R64', pct: D.sweat.field_12seed_d1_pct },
-    { label: 'Sweat Day 2 R64', pct: D.sweat.field_12seed_d2_pct },
-    { label: 'Splash Day 3 R32', pct: D.splash.field_d3_12seed_pct || 0 },
-    { label: 'Sweat Day 3 R32', pct: D.sweat.field_d3_12seed_pct || 0 },
-    { label: 'Splash Day 4 R32', pct: D.splash.field_d4_12seed_pct || 0 },
-    { label: 'Sweat Day 4 R32', pct: D.sweat.field_d4_12seed_pct || 0 }
+    { label: 'Day 1 R64', pct: D.splash.field_12seed_d1_pct },
+    { label: 'Day 2 R64', pct: D.sweat.field_12seed_d2_pct },
+    { label: 'Day 3 R32', pct: D.splash.field_d3_12seed_pct || 0 },
+    { label: 'Day 4 R32', pct: D.splash.field_d4_12seed_pct || 0 },
+    { label: 'Day 6 S16', pct: D.splash.field_d6_12seed_pct || 0 }
   ];
   burns.forEach(function(b) {
     burnCard.appendChild(h('div', {className:'bar-row'},
@@ -1264,8 +1349,8 @@ function renderDistro() {
     ));
   });
   burnCard.appendChild(h('div', {className:'info-box amber'},
-    h('div', {className:'info-title'}, 'Save behavior collapsed by Day 4'),
-    'Day 1-2: field saved 1/2 seeds (4-5% burn). Day 3: still saving (12-15%). Day 4: COLLAPSE — 72-74% of picks are 1/2 seeds (Purdue 20-26%, ISU 18-20%, UConn 16-18%). Mid-seed options exhausted. Our save advantage is real but shrinking.'
+    h('div', {className:'info-title'}, '1/2 seed burn rate trajectory'),
+    'Day 1: 4% → Day 2: 5% → Day 3: 13% → Day 4: 72% → Day 6: 83%. Save behavior collapsed by Day 4 as the field exhausted mid-seed options. By Day 6, 83% of picks were 1/2 seeds. Our save advantage was real through Day 5 but diminished as everyone burned top seeds.'
   ));
   p.appendChild(burnCard);
 
@@ -1311,9 +1396,39 @@ function renderPlayers() {
   p.appendChild(card);
 
   // Competitive insights
-  p.appendChild(h('div', {className:'info-box accent', style:'margin-top:12px'},
+  // Day 7 scenario table
+  if (D.meta.day === 7) {
+    var scCard = h('div', {className:'card', style:'margin-bottom:14px;border:1px solid var(--amber)'});
+    scCard.appendChild(h('div', {className:'card-title'}, 'Day 7 E8 Scenarios — Splash ', h('span', {className:'badge badge-amber'}, 'LIVE')));
+    var scTbl = h('table', {className:'tbl'});
+    scTbl.appendChild(h('thead', null, h('tr', null,
+      h('th', null, 'Scenario'), h('th', {className:'num'}, 'Prob'), h('th', {className:'num'}, 'Our Alive'), h('th', {className:'num'}, 'Equity')
+    )));
+    var scenarios = [
+      {s: 'ARIZ W + ILL W', p: '51.8%', a: '21', eq: '$3,496', c: 'var(--text-muted)'},
+      {s: 'ARIZ W + IOWA W', p: '20.2%', a: '41', eq: '$8,049', c: 'var(--green)'},
+      {s: 'PUR W + IOWA W', p: '7.8%', a: '20', eq: '$11,667', c: 'var(--green)'},
+      {s: 'PUR W + ILL W', p: '20.2%', a: '0', eq: '$0', c: 'var(--red)'}
+    ];
+    var scBody = h('tbody');
+    scenarios.forEach(function(sc) {
+      scBody.appendChild(h('tr', null,
+        h('td', null, sc.s),
+        h('td', {className:'num'}, sc.p),
+        h('td', {className:'num', style:'font-weight:700;color:'+sc.c}, sc.a),
+        h('td', {className:'num', style:'font-weight:700;color:'+sc.c}, sc.eq)
+      ));
+    });
+    scTbl.appendChild(scBody);
+    scCard.appendChild(scTbl);
+    scCard.appendChild(h('div', {style:'font-size:10px;color:var(--text-dim);margin-top:6px;font-family:var(--mono)'},
+      'E[equity]: $4,350 · Iowa W swing: +$6,545 · 20 contrarian IOWA entries = biggest bet of tournament'));
+    p.appendChild(scCard);
+  }
+
+      p.appendChild(h('div', {className:'info-box accent', style:'margin-top:12px'},
     h('div', {className:'info-title'}, 'Competitive Position'),
-    'princehal may have lost up to 33 entries on Gonzaga Day 3 (they burned GONZ Day 1 — so those entries couldn\'t pick GONZ, but may have picked a team that lost). Need fresh scrape. poopbutt2 burned GONZ Day 1 too — up to 40 lost on whatever they picked Day 3. Key: princehal burned Houston Day 1 — can\'t use HOU in E8.'
+    'Field decimated: 6,500 → 924 alive. Our 41 entries = 4.4% share (was 1.3% Day 1). princehal burned Houston Day 1 (they burned GONZ Day 1 — so those entries couldn\'t pick GONZ, but may have picked a team that lost). Need fresh scrape. poopbutt2 burned GONZ Day 1 too — up to 40 lost on whatever they picked Day 3. Key: princehal burned Houston Day 1 — can\'t use HOU in E8.'
   ));
 
   return p;
@@ -1353,7 +1468,7 @@ function renderPath() {
   // Model warning
   p.appendChild(h('div', {className:'info-box red', style:'margin-top:12px'},
     h('div', {className:'info-title'}, 'Schedule Alert — Corrected'),
-    'Thursday = South+West (our ARIZ pick at 7:45 PM MT). Friday = East+Midwest (DUKE pick). Previous plan had Duke on Thursday — WRONG. Intra-day optimization: PUR vs TEX and NEB vs IOWA results known before our ARIZ pick locks.'
+    'Day 7 E8: ARIZ(21) + contrarian IOWA(20). Iowa at 28% vs Illinois is our biggest leverage play. If Iowa wins, equity jumps to $8-11K. Sunday E8: Group A needs MICH or CONN, Group C needs DUKE or CONN.'
   ));
 
   return p;
@@ -1368,26 +1483,26 @@ var ELO = {
     {n:'Duke',s:1,r:'East',elo:1693,alive:true,us:'saved',bp:1},
     {n:'TCU',s:9,r:'East',elo:1326,alive:false,us:false,bp:2},
     {n:'Kansas',s:4,r:'East',elo:1443,alive:false,us:'splash',bp:3},
-    {n:"St. John's",s:5,r:'East',elo:1425,alive:true,us:'splash',bp:4},
+    {n:"St. John's",s:5,r:'East',elo:1425,alive:false,us:'splash',bp:4},
     {n:'Louisville',s:6,r:'East',elo:1441,alive:false,us:false,bp:5},
-    {n:'Michigan St.',s:3,r:'East',elo:1574,alive:true,us:'both',bp:6},
+    {n:'Michigan St.',s:3,r:'East',elo:1574,alive:false,us:'both',bp:6},
     {n:'UCLA',s:7,r:'East',elo:1373,alive:false,us:false,bp:7},
     {n:'Connecticut',s:2,r:'East',elo:1575,alive:true,us:'saved',bp:8},
     {n:'Florida',s:1,r:'South',elo:1531,alive:false,us:'saved',bp:1},
     {n:'Clemson',s:8,r:'South',elo:1354,alive:false,us:false,bp:2},
     {n:'Iowa',s:9,r:'South',elo:1382,alive:true,us:false,bp:2},
-    {n:'Nebraska',s:4,r:'South',elo:1415,alive:true,us:false,bp:3},
+    {n:'Nebraska',s:4,r:'South',elo:1415,alive:false,us:false,bp:3},
     {n:'Vanderbilt',s:5,r:'South',elo:1440,alive:false,us:false,bp:4},
     {n:'Illinois',s:3,r:'South',elo:1571,alive:true,us:'both',bp:5},
     {n:'VCU',s:11,r:'South',elo:1331,alive:false,us:false,bp:6},
-    {n:'Houston',s:2,r:'South',elo:1663,alive:true,us:'saved',bp:7},
+    {n:'Houston',s:2,r:'South',elo:1663,alive:false,us:'saved',bp:7},
     {n:'Texas A&M',s:10,r:'South',elo:1366,alive:false,us:false,bp:8},
     {n:'Arizona',s:1,r:'West',elo:1723,alive:true,us:'saved',bp:1},
     {n:'Villanova',s:8,r:'West',elo:1353,alive:false,us:false,bp:2},
     {n:'Utah State',s:9,r:'West',elo:1359,alive:false,us:false,bp:2},
-    {n:'Arkansas',s:4,r:'West',elo:1446,alive:true,us:'splash',bp:3},
+    {n:'Arkansas',s:4,r:'West',elo:1446,alive:false,us:'splash',bp:3},
     {n:'High Point',s:12,r:'West',elo:980,alive:false,us:false,bp:4},
-    {n:'Texas',s:11,r:'West',elo:1496,alive:true,us:false,bp:5},
+    {n:'Texas',s:11,r:'West',elo:1496,alive:false,us:false,bp:5},
     {n:'Gonzaga',s:3,r:'West',elo:1752,alive:false,us:'both',bp:6},
     {n:'Miami FL',s:7,r:'West',elo:1510,alive:false,us:false,bp:7},
     {n:'Missouri',s:10,r:'West',elo:1489,alive:false,us:false,bp:7},
@@ -1395,13 +1510,13 @@ var ELO = {
     {n:'Michigan',s:1,r:'Midwest',elo:1717,alive:true,us:'saved',bp:1},
     {n:'Saint Louis',s:9,r:'Midwest',elo:1330,alive:false,us:false,bp:2},
     {n:'Georgia',s:8,r:'Midwest',elo:1319,alive:false,us:false,bp:2},
-    {n:'Alabama',s:4,r:'Midwest',elo:1412,alive:true,us:'both',bp:3},
+    {n:'Alabama',s:4,r:'Midwest',elo:1412,alive:false,us:'both',bp:3},
     {n:'Texas Tech',s:5,r:'Midwest',elo:1475,alive:false,us:'splash',bp:4},
     {n:'Tennessee',s:6,r:'Midwest',elo:1480,alive:true,us:false,bp:5},
     {n:'Virginia',s:3,r:'Midwest',elo:1539,alive:false,us:'both',bp:6},
     {n:'Kentucky',s:7,r:'Midwest',elo:1413,alive:false,us:false,bp:7},
     {n:'Santa Clara',s:10,r:'Midwest',elo:1351,alive:false,us:false,bp:7},
-    {n:'Iowa State',s:2,r:'Midwest',elo:1625,alive:true,us:'saved',bp:8}
+    {n:'Iowa State',s:2,r:'Midwest',elo:1625,alive:false,us:'saved',bp:8}
   ]
 };
 function eloWP(rA,rB,sigma){return 1/(1+Math.pow(10,(rB-rA)/sigma))}
@@ -1477,14 +1592,24 @@ function computeReachProbs(){
     var s16pods = [[[1,2],[3,4]], [[5,6],[7,8]]];
     
     s16pods.forEach(function(megaPod){
-      var topBPs = megaPod[0]; // [1,2]
-      var botBPs = megaPod[1]; // [3,4]
-      var topTeams = rt.filter(function(t){return topBPs.indexOf(t.bp)>=0});
-      var botTeams = rt.filter(function(t){return botBPs.indexOf(t.bp)>=0});
+      var topBPs = megaPod[0];
+      var botBPs = megaPod[1];
+      var topTeams = rt.filter(function(t){return topBPs.indexOf(t.bp)>=0 && reach[t.n].s16 > 0});
+      var botTeams = rt.filter(function(t){return botBPs.indexOf(t.bp)>=0 && reach[t.n].s16 > 0});
+      
+      // If one side is empty, survivors on the other side already won S16
+      if (topTeams.length > 0 && botTeams.length === 0) {
+        topTeams.forEach(function(a){ reach[a.n].e8 = reach[a.n].s16; });
+        return;
+      }
+      if (botTeams.length > 0 && topTeams.length === 0) {
+        botTeams.forEach(function(b){ reach[b.n].e8 = reach[b.n].s16; });
+        return;
+      }
+      if (topTeams.length === 0 && botTeams.length === 0) return;
       
       topTeams.forEach(function(a){
         botTeams.forEach(function(b){
-          // P(a and b meet in S16) = P(a wins R32) * P(b wins R32) [assuming independence]
           var pMeet = reach[a.n].s16 * reach[b.n].s16;
           var pAWins = eloWP(a.elo, b.elo, sigma);
           reach[a.n].e8 += pMeet * pAWins;
@@ -1494,16 +1619,22 @@ function computeReachProbs(){
     });
     
     // E8 winners -> F4 reach
-    var topHalf = rt.filter(function(t){return t.bp<=4});
-    var botHalf = rt.filter(function(t){return t.bp>=5});
-    topHalf.forEach(function(a){
-      botHalf.forEach(function(b){
-        var pMeet = reach[a.n].e8 * reach[b.n].e8;
-        var pAWins = eloWP(a.elo, b.elo, sigma);
-        reach[a.n].f4 += pMeet * pAWins;
-        reach[b.n].f4 += pMeet * (1-pAWins);
+    var topHalf = rt.filter(function(t){return t.bp<=4 && reach[t.n].e8 > 0});
+    var botHalf = rt.filter(function(t){return t.bp>=5 && reach[t.n].e8 > 0});
+    if (topHalf.length > 0 && botHalf.length === 0) {
+      topHalf.forEach(function(a){ reach[a.n].f4 = reach[a.n].e8; });
+    } else if (botHalf.length > 0 && topHalf.length === 0) {
+      botHalf.forEach(function(b){ reach[b.n].f4 = reach[b.n].e8; });
+    } else {
+      topHalf.forEach(function(a){
+        botHalf.forEach(function(b){
+          var pMeet = reach[a.n].e8 * reach[b.n].e8;
+          var pAWins = eloWP(a.elo, b.elo, sigma);
+          reach[a.n].f4 += pMeet * pAWins;
+          reach[b.n].f4 += pMeet * (1-pAWins);
+        });
       });
-    });
+    }
   });
   
   return reach;
@@ -1558,6 +1689,16 @@ function getMatchupsWithProbs(round, region){
     });
   }
   
+  if(round==='Champ'){
+    // Championship: East/South winner vs West/Midwest winner
+    var es = teams.filter(function(t){return t.r==='East'||t.r==='South'});
+    var wm = teams.filter(function(t){return t.r==='West'||t.r==='Midwest'});
+    es.forEach(function(ta){wm.forEach(function(tb){
+      var pOccur = reach[ta.n].f4 * reach[tb.n].f4;
+      if(pOccur > 0.001) matchups.push({a:ta, b:tb, region:'Championship', pOccur:pOccur});
+    })});
+  }
+  
   // Sort by P(occur) descending within each region group
   matchups.sort(function(a,b){ return a.region===b.region ? b.pOccur-a.pOccur : 0; });
   return matchups;
@@ -1579,8 +1720,8 @@ function renderEloLab(){
 
   var filterRow=h('div',{style:'display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap'});
   var roundSel=h('select',{id:'elo-round',style:'padding:8px 12px;background:var(--surface);color:var(--text-bright);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:11px'});
-  ['S16','E8','F4','Any'].forEach(function(r){
-    var lbl={S16:'S16 \u2014 Sweet 16 (current)',E8:'E8 \u2014 Elite 8',F4:'F4 \u2014 Final Four',Any:'Free pick (any vs any)'}[r];
+  ['E8','F4','Champ','Any'].forEach(function(r){
+    var lbl={E8:'E8 \u2014 Elite 8 (current)',F4:'F4 \u2014 Final Four',Champ:'Championship',Any:'Free pick (any vs any)'}[r];
     roundSel.appendChild(h('option',{value:r},lbl));
   });
   var regionSel=h('select',{id:'elo-region',style:'padding:8px 12px;background:var(--surface);color:var(--text-bright);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:11px'});
