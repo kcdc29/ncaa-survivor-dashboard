@@ -148,6 +148,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .sc-status{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:right;min-width:60px;flex-shrink:0}
 .sc-status.live{color:var(--green)}.sc-status.final{color:var(--text-dim)}.sc-status.upcoming{color:var(--text-muted)}
 
+/* Journey chart */
+.journey-bar:hover{opacity:.8}
+
 /* Footer */
 .footer{margin-top:24px;padding-top:12px;border-top:1px solid var(--border-lite);font-family:var(--mono);font-size:9px;color:var(--text-dim);text-align:center;letter-spacing:.5px}
 
@@ -627,6 +630,17 @@ var D = {
       tag: 'save', tagLabel: 'LAST SAVE' }
   ],
 
+  equity_history: [
+    {day:0, splash_eq:2500, sweat_eq:1000, label:'Start'},
+    {day:1, splash_eq:2196, sweat_eq:1078, label:'D1 R64 -WIS'},
+    {day:2, splash_eq:2349, sweat_eq:1078, label:'D2 R64'},
+    {day:3, splash_eq:2157, sweat_eq:1261, label:'D3 R32 -GONZ'},
+    {day:4, splash_eq:2697, sweat_eq:1219, label:'D4 R32 -FLA(sweat)'},
+    {day:5, splash_eq:2860, sweat_eq:1525, label:'D5 S16 -HOU'},
+    {day:6, splash_eq:6312, sweat_eq:3136, label:'D6 S16 ISU herd dies'},
+    {day:7, splash_eq:6312, sweat_eq:3136, label:'D7 E8 in progress'}
+  ],
+
   model: {
     version: 'Calibrated v2',
     random_baseline_roi: -9.61,
@@ -796,7 +810,7 @@ function renderOverview() {
     ),
     h('div', {className:'info-box green', style:'margin-top:8px'},
       h('div', {className:'info-title'}, '0% Effective Vig'),
-      '73x leverage on $1K investment. Smaller field + zero vig = best EV per dollar.'
+      'Zero vig = best EV per dollar. 6 entries in 140-entry field = 4.3% share.'
     )
   );
   topGrid.appendChild(sw);
@@ -816,33 +830,81 @@ function renderOverview() {
     h('div', {className:'metric-val sm'}, money(totalInv)),
     h('div', {className:'metric-sub'}, '50/50 split with partner')
   ));
+  var activeSaves = Object.keys(D.splash.teams_saved).filter(function(k) {
+    var note = D.splash.teams_saved[k].note;
+    return note.indexOf('ELIMINATED') === -1 && note.indexOf('BURNED') === -1;
+  });
   combGrid.appendChild(h('div', {className:'card card-dark'},
-    h('div', {className:'card-title'}, 'Teams saved'),
-    h('div', {className:'metric-val sm accent'}, Object.keys(D.splash.teams_saved).length),
-    h('div', {className:'metric-sub'}, 'Duke, Michigan, Houston, Arizona, FL, UConn, ISU, Purdue')
+    h('div', {className:'card-title'}, 'Active saves'),
+    h('div', {className:'metric-val sm accent'}, activeSaves.length),
+    h('div', {className:'metric-sub'}, activeSaves.join(', '))
   ));
+  var latestBurn = D.splash.field_d6_12seed_pct || D.splash.field_d4_12seed_pct || D.sweat.field_12seed_d2_pct;
   combGrid.appendChild(h('div', {className:'card card-dark'},
-    h('div', {className:'card-title'}, 'Field 1/2 seed burn rate'),
-    h('div', {className:'metric-val sm amber'}, D.sweat.field_12seed_d2_pct + '%'),
-    h('div', {className:'metric-sub'}, 'D1: ' + D.sweat.field_12seed_d1_pct + '% → D2: ' + D.sweat.field_12seed_d2_pct + '% (Sweat)')
+    h('div', {className:'card-title'}, '1/2 seed burn rate'),
+    h('div', {className:'metric-val sm amber'}, latestBurn + '%'),
+    h('div', {className:'metric-sub'}, 'D1: 4% → D4: 72% → D6: 83%')
   ));
   p.appendChild(combGrid);
 
-  // Today's picks at a glance
+  // ─── Field attrition + equity journey ───
+  var journeyCard = h('div', {className:'card', style:'margin-top:14px'});
+  journeyCard.appendChild(h('div', {className:'card-title'}, 'Tournament Journey'));
+  var journey = [
+    {day:'Start', field:6503, ours:100, dead:'-', key:''},
+    {day:'D1', field:5315, ours:82, dead:'WIS(18)', key:'R64 Thu'},
+    {day:'D2', field:4974, ours:82, dead:'-', key:'R64 Fri'},
+    {day:'D3', field:4089, ours:62, dead:'GONZ(20)', key:'R32 Sat'},
+    {day:'D4', field:3271, ours:62, dead:'-', key:'R32 Sun'},
+    {day:'D5', field:2041, ours:41, dead:'HOU(21)', key:'S16 Thu'},
+    {day:'D6', field:924, ours:41, dead:'-', key:'S16 Fri'},
+    {day:'D7', field:'?', ours:'?', dead:'?', key:'E8 Sat'}
+  ];
+  var jRow = h('div', {style:'display:flex;align-items:flex-end;gap:2px;height:100px;margin-bottom:8px'});
+  var maxField = 6503;
+  journey.slice(0,7).forEach(function(j, i) {
+    var pct = j.field / maxField;
+    var ourPct = j.ours / 100;
+    var col = h('div', {style:'flex:1;display:flex;flex-direction:column;align-items:center;gap:1px'});
+    // Our share indicator
+    col.appendChild(h('div', {style:'font-family:var(--mono);font-size:8px;color:'+(j.dead!=='-'?'var(--red)':'var(--green)')+';margin-bottom:2px'}, j.ours));
+    // Field bar
+    col.appendChild(h('div', {style:'width:100%;height:'+(pct*70)+'px;background:var(--border);border-radius:2px 2px 0 0;position:relative'},
+      h('div', {style:'position:absolute;bottom:0;width:100%;height:'+(ourPct/pct*100)+'%;background:var(--accent);border-radius:2px 2px 0 0;min-height:2px'})
+    ));
+    col.appendChild(h('div', {style:'font-family:var(--mono);font-size:7px;color:var(--text-dim);margin-top:2px'}, j.day));
+    jRow.appendChild(col);
+  });
+  journeyCard.appendChild(jRow);
+  // Stats row
+  var shareNow = (D.splash.alive_ours / D.splash.alive_field * 100).toFixed(1);
+  var shareStart = (100 / 6503 * 100).toFixed(1);
+  journeyCard.appendChild(h('div', {style:'display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--text-muted)'},
+    h('span', null, 'Field: 6,503 → ' + D.splash.alive_field.toLocaleString()),
+    h('span', null, 'Our share: ' + shareStart + '% → ', h('span', {style:'color:var(--green);font-weight:700'}, shareNow + '%')),
+    h('span', null, 'Dead: ' + (D.splash.our_entries - D.splash.alive_ours) + '/' + D.splash.our_entries)
+  ));
+  p.appendChild(journeyCard);
+
+  // ─── Today's picks (DYNAMIC — shows latest day) ───
+  var latestSplash = D.splash.days[D.splash.days.length - 1];
+  var latestSweat = D.sweat.days[D.sweat.days.length - 1];
+  var hasPending = latestSplash.picks.some(function(pk){return pk.result==='-'});
+  var todayLabel = 'Day ' + latestSplash.day + ' ' + latestSplash.round + (hasPending ? ' — IN PROGRESS' : ' — COMPLETE');
+
   var today = h('div', {className:'section'});
-  today.appendChild(h('div', {className:'section-title'}, 'Day 2 Picks — In Progress'));
+  today.appendChild(h('div', {className:'section-title'}, todayLabel));
   var pickGrid = h('div', {className:'grid g2'});
 
-  // Splash Day 2
-  var sd2 = D.splash.days[1];
+  // Splash latest day
   var sCard = h('div', {className:'card'});
-  sCard.appendChild(h('div', {className:'card-title'}, 'Splash Day 2'));
+  sCard.appendChild(h('div', {className:'card-title'}, 'Splash Day ' + latestSplash.day + ' ' + latestSplash.round));
   var sTbl = h('table', {className:'tbl'});
   sTbl.appendChild(h('thead', null, h('tr', null,
     h('th', null, 'Team'), h('th', {className:'num'}, 'Entries'), h('th', {className:'num'}, 'Result')
   )));
   var sTbody = h('tbody');
-  sd2.picks.forEach(function(pk) {
+  latestSplash.picks.forEach(function(pk) {
     var cls = pk.result === 'W' ? 'win' : pk.result === 'L' ? 'loss' : 'pending';
     sTbody.appendChild(h('tr', null,
       h('td', null, h('span', {className:'seed'}, '(' + pk.seed + ')'), h('span', {className:'team'}, pk.team), ' vs ', pk.opp),
@@ -854,16 +916,15 @@ function renderOverview() {
   sCard.appendChild(sTbl);
   pickGrid.appendChild(sCard);
 
-  // Sweat Day 2
-  var wd2 = D.sweat.days[1];
+  // Sweat latest day
   var wCard = h('div', {className:'card'});
-  wCard.appendChild(h('div', {className:'card-title'}, 'Sweat Day 2'));
+  wCard.appendChild(h('div', {className:'card-title'}, 'Sweat Day ' + latestSweat.day + ' ' + latestSweat.round));
   var wTbl = h('table', {className:'tbl'});
   wTbl.appendChild(h('thead', null, h('tr', null,
     h('th', null, 'Team'), h('th', {className:'num'}, 'Entries'), h('th', {className:'num'}, 'Result')
   )));
   var wTbody = h('tbody');
-  wd2.picks.forEach(function(pk) {
+  latestSweat.picks.forEach(function(pk) {
     var cls = pk.result === 'W' ? 'win' : pk.result === 'L' ? 'loss' : 'pending';
     wTbody.appendChild(h('tr', null,
       h('td', null, h('span', {className:'seed'}, '(' + pk.seed + ')'), h('span', {className:'team'}, pk.team), ' vs ', pk.opp),
@@ -877,6 +938,32 @@ function renderOverview() {
 
   today.appendChild(pickGrid);
   p.appendChild(today);
+
+  // ─── Day-by-day W/L record ───
+  var recordCard = h('div', {className:'card', style:'margin-top:12px'});
+  recordCard.appendChild(h('div', {className:'card-title'}, 'Pick Record — All Days'));
+  var recordRow = h('div', {style:'display:flex;gap:3px;flex-wrap:wrap;margin-bottom:6px'});
+  var wins = 0, losses = 0;
+  D.splash.days.forEach(function(day) {
+    day.picks.forEach(function(pk) {
+      if (pk.result === 'W' || pk.result === 'L') {
+        var isW = pk.result === 'W';
+        if (isW) wins++; else losses++;
+        recordRow.appendChild(h('div', {style:'width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:3px;font-family:var(--mono);font-size:9px;font-weight:700;background:'+(isW?'var(--green-bg)':'var(--red-bg)')+';color:'+(isW?'var(--green)':'var(--red)')+';border:1px solid '+(isW?'var(--green-dim)':'var(--red-dim)')},
+          isW ? 'W' : 'L'
+        ));
+      } else if (pk.result === '-') {
+        recordRow.appendChild(h('div', {style:'width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:3px;font-family:var(--mono);font-size:9px;background:var(--surface);color:var(--text-dim);border:1px solid var(--border-lite)'},
+          '?'
+        ));
+      }
+    });
+  });
+  recordCard.appendChild(recordRow);
+  recordCard.appendChild(h('div', {style:'font-family:var(--mono);font-size:10px;color:var(--text-muted)'},
+    wins + 'W-' + losses + 'L across ' + D.splash.days.length + ' days (' + (losses > 0 ? 'Losses: WIS D1, GONZ D3, HOU D5' : 'Perfect') + ')'
+  ));
+  p.appendChild(recordCard);
 
   return p;
 }
@@ -1428,7 +1515,7 @@ function renderPlayers() {
 
       p.appendChild(h('div', {className:'info-box accent', style:'margin-top:12px'},
     h('div', {className:'info-title'}, 'Competitive Position'),
-    'Field decimated: 6,500 → 924 alive. Our 41 entries = 4.4% share (was 1.3% Day 1). princehal burned Houston Day 1 (they burned GONZ Day 1 — so those entries couldn\'t pick GONZ, but may have picked a team that lost). Need fresh scrape. poopbutt2 burned GONZ Day 1 too — up to 40 lost on whatever they picked Day 3. Key: princehal burned Houston Day 1 — can\'t use HOU in E8.'
+    '6,500 → 924 alive. Our 41 entries = 4.4% share (was 1.5% Day 1). princehal burned Houston Day 1 (they burned GONZ Day 1 — so those entries couldn\'t pick GONZ, but may have picked a team that lost). Need fresh scrape. poopbutt2 burned GONZ Day 1 too — up to 40 lost on whatever they picked Day 3. Key: princehal burned Houston Day 1 — can\'t use HOU in E8.'
   ));
 
   return p;
